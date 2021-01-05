@@ -1,0 +1,21 @@
+<div>Gameid: {{lobbyService.id}}</div>
+<div (mouseover)="showPass=true" (mouseout)="showPass=false">
+  <span *ngIf="!showPass">*****</span>
+  <span *ngIf="showPass">{{this.lobbyPass}}</span>
+</div><div>
+  <p>You</p>
+  <input (change)="onChangeName($event)" type="text" value="{{lobbyService.me.name}}">
+  <input (change)="onChangeColor($event)" type="color" value="{{lobbyService.me.color}}">
+</div>
+
+<div>
+  Playerlist
+  <div *ngFor="let p of this.lobbyService.player">
+    <input readonly type="text" value="{{p.name}}">
+    <input disabled type="color" value="{{p.color}}">
+  </div>
+</div>
+
+<div (click)="startGame()">
+  Play {{this.lobbyService.id}}!
+</div>

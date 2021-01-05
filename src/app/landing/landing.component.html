@@ -1,0 +1,18 @@
+<div class="navContainer" (click)="create()">
+  Create Game
+</div>
+<label>
+  Id for joining or spectating
+  <input type="number" (change)="changeId($event)" value="{{this.gameId}}">
+</label>
+<label>
+  Passcode for joining or spectating
+  <input type="password" (change)="changePass($event)" value="{{this.passcode}}">
+</label>
+<div class="navContainer" (click)="join()">
+  Join Game
+</div>
+<div class="navContainer" (click)="spectate()">
+  Spectate Game
+</div>
+

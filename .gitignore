@@ -1,0 +1,7 @@
+.idea
+node_modules
+e2e
+src/environments/environment.prod.ts
+src/environments/environment.ts
+.editorconfig
+.browserslistrc

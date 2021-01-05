@@ -1,0 +1,36 @@
+<div class="grid">
+  <div>
+    Max amount of each resource
+  </div>
+  <input type="number" (change)="changeBankResourceAmount($event)" value="{{bankResourceAmount}}">
+  <div>
+    Amount of Knight-cards
+  </div>
+  <input type="number" (change)="changeDevelopmentcards($event,'Knight')" value="{{knightCardAmount}}">
+  <div>
+    Amount of Monopoly-cards
+  </div>
+  <input type="number" (change)="changeDevelopmentcards($event,'Monopoly')" value="{{monopolyCardAmount}}">
+  <div>
+    Amount of Roadbuilding-cards
+  </div>
+  <input type="number" (change)="changeDevelopmentcards($event,'Roadbuilding')" value="{{roadbuildingCardAmount}}">
+  <div>
+    Amount of Victorypoint-cards
+  </div>
+  <input type="number" (change)="changeDevelopmentcards($event,'Victorypoint')" value="{{victorypointCardAmount}}">
+  <div>
+    Amount of Year-of-pleanty-cards
+  </div>
+  <input type="number" (change)="changeDevelopmentcards($event,'YearOfPlenty')" value="{{yearOfPlentyCardAmount}}">
+  <div>
+    Necessary Victorypoints to win
+  </div>
+  <input type="number" (change)="changeVictorypoints($event)" value="{{necessaryVictoryPoints}}">
+</div>
+<div class="nav-but" (click)="back()">
+  back
+</div>
+<div class="nav-but" (click)="continue()">
+  Continue
+</div>

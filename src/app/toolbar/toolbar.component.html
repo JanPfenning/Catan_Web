@@ -1,0 +1,15 @@
+<div>
+  <ul>
+    <li (click)="home()"><a>Home</a></li>
+    <li *ngIf="loggedIn; else Login" (click)="logout()">
+      <a>Logout</a>
+    </li>
+    <ng-template #Login>
+      <li (click)="login()">
+        <a>Login</a>
+      </li>
+    </ng-template>
+    <li class="right"><a>About</a></li>
+  </ul>
+
+</div>

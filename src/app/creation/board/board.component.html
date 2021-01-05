@@ -1,0 +1,73 @@
+<div class="grid">
+  <div>
+    Boardheight
+  </div>
+  <input type="number" (change)="changeHeight($event)" value="{{boardHeight}}">
+  <div>
+    Boardwidth
+  </div>
+  <input type="number" (change)="changeWidth($event)" value="{{boardWidth}}">
+</div>
+<div>
+  <div>
+    Board generation method
+  </div>
+  <button (click)="randomBoardToggle()">{{randomBoard ? 'Random board' : 'Custom board'}}</button>
+</div>
+<div *ngIf="randomBoard">
+  <div>
+    <label>
+      Balance amount of fields for each resource
+      <input type="checkbox" (change)="balanceFields()" value="{{balancedFields}}" checked>
+    </label>
+  </div>
+  <div class="grid" [style.display]="balancedFields ? 'grid' : 'none'">
+    <div>
+      Standart resource fields
+    </div>
+    <input type="number" (change)="changeResourceFields($event)" value="{{brickFields}}"/>
+  </div>
+  <div class="grid" [style.display]="balancedFields ? 'none' : 'grid'">
+    <div>
+      Brickfields
+    </div>
+    <input type="number" (change)="changeBrickfields($event)" value="{{brickFields}}">
+    <div>
+      Lumberfields
+    </div>
+    <input type="number" (change)="changeLumberfields($event)" value="{{lumberFields}}">
+    <div>
+      Woolfields
+    </div>
+    <input type="number" (change)="changeWoolfields($event)" value="{{woolFields}}">
+    <div>
+      Grainfields
+    </div>
+    <input type="number" (change)="changeGrainfields($event)" value="{{grainFields}}">
+    <div>
+      Orefields
+    </div>
+    <input type="number" (change)="changeOrefields($event)" value="{{oreFields}}">
+  </div>
+  <div class="grid">
+    <div>
+      Goldfields
+    </div>
+    <input type="number" (change)="changeGoldfields($event)" value="{{goldFields}}">
+    <div>
+      Waterfields
+    </div>
+    <input readonly value="{{waterFields}}">
+  </div>
+</div>
+<div *ngIf="!randomBoard">
+  <div>
+    <h5>custom board designer: to be implemented</h5>
+  </div>
+</div>
+<div class="nav-but" (click)="back()">
+  back
+</div>
+<div class="nav-but" (click)="publishGame()">
+  Publish game
+</div>
