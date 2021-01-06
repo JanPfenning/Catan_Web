@@ -15,4 +15,8 @@
 <div class="navContainer" (click)="spectate()">
   Spectate Game
 </div>
-
+<!-- TODO move to game comp -->
+<canvas id="hexgrid" width="500" height="400"></canvas>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="hexgrid">
+  <g ng-repeat="hex in hexes" hexNum="hex"></g>
+</svg>
