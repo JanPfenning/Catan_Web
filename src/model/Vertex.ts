@@ -1,9 +1,9 @@
-import { Structure } from './Structure';
+import { Structure } from '../model/Structure';
 
-export class Edge{
-  x: number
-  y: number
-  building: null|Structure.Ship|Structure.Road
+export class Vertex{
+  x: number;
+  y: number;
+  building: null|Structure.Settlement|Structure.City
   owner_id: null|string
 
   constructor(x: number, y: number) {

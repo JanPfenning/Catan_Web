@@ -2,31 +2,31 @@
   <div>
     Max amount of each resource
   </div>
-  <input type="number" (change)="changeBankResourceAmount($event)" value="{{bankResourceAmount}}">
+  <input type="number" (change)="updateMaxRes($event)" value="{{this.creationService.max_res}}">
   <div>
     Amount of Knight-cards
   </div>
-  <input type="number" (change)="changeDevelopmentcards($event,'Knight')" value="{{knightCardAmount}}">
+  <input type="number" (change)="updateKnights($event)" value="{{this.creationService.max_dev.knight}}">
   <div>
     Amount of Monopoly-cards
   </div>
-  <input type="number" (change)="changeDevelopmentcards($event,'Monopoly')" value="{{monopolyCardAmount}}">
+  <input type="number" (change)="updateMonopoly($event)" [attr.value]="this.creationService.max_dev.monopoly">
   <div>
     Amount of Roadbuilding-cards
   </div>
-  <input type="number" (change)="changeDevelopmentcards($event,'Roadbuilding')" value="{{roadbuildingCardAmount}}">
+  <input type="number" (change)="updateRoadbuilding($event)" value="{{this.creationService.max_dev.roadbuilding}}">
   <div>
     Amount of Victorypoint-cards
   </div>
-  <input type="number" (change)="changeDevelopmentcards($event,'Victorypoint')" value="{{victorypointCardAmount}}">
+  <input type="number" (change)="updateVictorypoint($event)" value="{{this.creationService.max_dev.victorypoint}}">
   <div>
     Amount of Year-of-pleanty-cards
   </div>
-  <input type="number" (change)="changeDevelopmentcards($event,'YearOfPlenty')" value="{{yearOfPlentyCardAmount}}">
+  <input type="number" (change)="updateYop($event)" value="{{this.creationService.max_dev.yop}}">
   <div>
     Necessary Victorypoints to win
   </div>
-  <input type="number" (change)="changeVictorypoints($event)" value="{{necessaryVictoryPoints}}">
+  <input type="number" (change)="updatePointsToWin($event)" [attr.value]="this.creationService.pointsToWin">
 </div>
 <div class="nav-but" (click)="back()">
   back

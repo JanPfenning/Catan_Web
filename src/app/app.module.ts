@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { AuthModule, AuthHttpInterceptor} from '@auth0/auth0-angular';
 import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -16,6 +16,10 @@ import { LandingComponent } from './landing/landing.component';
 import {LoginActivate} from './LoginActivate';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import {environment} from '../environments/environment';
+import {SvgPolygonModule} from 'angular-svg';
+import {HexSvgComponent} from './game/hex-svg/hex-svg.component';
+import {HexComponent} from './game/hex-svg/hex/hex.component';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,11 +29,13 @@ import {environment} from '../environments/environment';
     LandingComponent,
     AccessDeniedComponent,
   ],
+  // Needed modules
   imports: [
     BrowserModule,
     CreationModule,
     LobbyModule,
     GameModule,
+    SharedModule,
     HttpClientModule,
     AuthModule.forRoot({
       domain: `${environment.AUTH_DOMAIN}`,
@@ -51,9 +57,12 @@ import {environment} from '../environments/environment';
       },
     }),
     AppRoutingModule,
+    SvgPolygonModule,
   ],
+  // schemas: [NO_ERRORS_SCHEMA],
+  // Needed Services
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     CreationService, LobbyService, GameService, LoginActivate],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

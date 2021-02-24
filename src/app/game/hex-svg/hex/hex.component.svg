@@ -1,0 +1,12 @@
+<svg:g (click)="onClickFun()">
+  <svg:polygon class="hex" [attr.points]=points [attr.fill]="fillColor"></svg:polygon>
+  <svg:polygon [attr.display]="this.ne_points != null" [attr.points]=ne_points [attr.fill]="ne_harbour_colour"></svg:polygon>
+  <svg:polygon [attr.display]="this.e_points != null" [attr.points]=e_points [attr.fill]="e_harbour_colour"></svg:polygon>
+  <svg:polygon [attr.display]="this.se_points != null" [attr.points]=se_points [attr.fill]="se_harbour_colour"></svg:polygon>
+  <svg:polygon [attr.display]="this.sw_points != null" [attr.points]=sw_points [attr.fill]="sw_harbour_colour"></svg:polygon>
+  <svg:polygon [attr.display]="this.w_points != null" [attr.points]=w_points [attr.fill]="w_harbour_colour"></svg:polygon>
+  <svg:polygon [attr.display]="this.nw_points != null" [attr.points]=nw_points [attr.fill]="nw_harbour_colour"></svg:polygon>
+  <svg:text alignment-baseline="central" text-anchor="middle" [attr.x]="x_center" [attr.y]="y_center">
+    {{cood}}
+  </svg:text>
+</svg:g>

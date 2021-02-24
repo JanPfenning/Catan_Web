@@ -1,53 +1,40 @@
-import {Vertice} from './Vertice';
+import {Vertex} from './Vertex';
 import {Hex} from './Hex';
 import {Edge} from './Edge';
+import {Harbour} from './Harbour';
 
 export class CatanMap{
   private hexes: Hex[][] = [];
-  private vertices: Vertice[][] = [];
+  private vertices: Vertex[][] = [];
   private edges: Edge[][] = [];
+  private harbours: Harbour[] = [];
   readonly height: number;
   readonly width: number;
 
-  constructor(height: number, width: number) {
-    this.height = height;
-    this.width = width;
-
-    for (let i = 0; i < height; i++) {
-      this.hexes[i] = [];
-      for (let j = 0; j < width; j++) {
-        this.hexes[i][j] = new Hex(i, j);
-      }
-    }
-
-    for (let i = 0; i <= 2 * height; i++) {
-      this.vertices[i] = [];
-      for (let j = 0; j <= 2 * width; j++) {
-        this.vertices[i][j] = new Vertice(i, j);
-      }
-    }
-
-    for (let i = 0; i <= 2 * height ; i++) {
-      this.edges[i] = [];
-      for (let j = 0; j < 4 * width + 2; j++) {
-        this.edges[i][j] = new Edge(i, j);
-      }
-    }
-
-    console.log(this.hexes);
-    console.log(this.hexes[2][1].toVertices(this.vertices));
-    console.log(this.hexes[2][1].toEdges(this.edges));
+  constructor(str: string) {
+    const json = JSON.parse(str);
+    this.width = json.hexes[0].length;
+    this.height = json.hexes.length;
+    this.hexes = json.hexes;
+    this.edges = json.edges;
+    this.harbours = json.harbours;
+    this.vertices = json.vertices;
+    // console.log(this.getHexes());
   }
 
   getHexes(): Hex[][]{
     return this.hexes;
   }
 
-  getVertices(): Vertice[][] {
+  getVertices(): Vertex[][] {
     return this.vertices;
   }
 
   getEdges(): Edge[][]{
     return this.edges;
+  }
+
+  getHarbours(): Harbour[]{
+    return this.harbours;
   }
 }

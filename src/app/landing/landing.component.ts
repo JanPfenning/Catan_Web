@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {LobbyService} from '../lobby/lobby.service';
 import {CatanMap} from '../../model/CatanMap';
+import {GameService} from '../game/game.service';
 
 @Component({
   selector: 'app-landing',
@@ -14,48 +15,18 @@ export class LandingComponent implements OnInit {
   gameId = 0;
   passcode = '';
   lobbyService: LobbyService;
-  map: CatanMap;
+  gameService: GameService;
 
   constructor(router: Router,
-              lobbyService: LobbyService) {
+              lobbyService: LobbyService,
+              gameService: GameService) {
     this.router = router;
     this.lobbyService = lobbyService;
+    this.gameService = gameService;
   }
 
   // TODO move to game comp
-  // TODO replace canvas with SVG
   ngOnInit(): void {
-    this.map = new CatanMap(10, 10);
-    const canvasElement = document.getElementById('hexgrid');
-    // @ts-ignore
-    const ctx = canvasElement.getContext('2d');
-    ctx.font = '10px Arial';
-    for (const line of this.map.getHexes()) {
-      for (const hex of line){
-        this.drawHex(hex, ctx);
-      }
-    }
-  }
-
-  // TODO move to game comp
-  drawHex(hex: any, ctx: any): void{
-    const canv_padding = 20;
-    // Pushing even rows half a hex to right
-    const Xcenter = hex.y % 2 === 0 ? hex.x * hex.width + canv_padding + hex.inCircRad : hex.x * hex.width + canv_padding;
-    const Ycenter = hex.y * (hex.width - hex.side / 4) + canv_padding;
-    const size = hex.side;
-    ctx.fillText(`(${hex.x}, ${hex.y})`, Xcenter - hex.side / 2, Ycenter);
-    ctx.beginPath();
-    ctx.moveTo(Xcenter +  size * Math.cos(Math.PI / 180 * -30), Ycenter +  size *  Math.sin(Math.PI / 180 *  -30));
-    for (let i = 1; i <= 6; i ++) {
-      ctx.lineTo (
-        Xcenter + size * Math.cos(Math.PI / 180 * (60 * i - 30)),
-        Ycenter + size * Math.sin(Math.PI / 180 * (60 * i - 30))
-      );
-    }
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.stroke();
   }
 
   create(): void{

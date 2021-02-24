@@ -2,11 +2,11 @@
   <div>
     Boardheight
   </div>
-  <input type="number" (change)="changeHeight($event)" value="{{boardHeight}}">
+  <input type="number" (change)="updateHeight($event)" value="{{this.creationService.boardHeight}}">
   <div>
     Boardwidth
   </div>
-  <input type="number" (change)="changeWidth($event)" value="{{boardWidth}}">
+  <input type="number" (change)="updateWidth($event)"  value="{{this.creationService.boardWidth}}">
 </div>
 <div>
   <div>
@@ -15,10 +15,12 @@
   <button (click)="randomBoardToggle()">{{randomBoard ? 'Random board' : 'Custom board'}}</button>
 </div>
 <div *ngIf="randomBoard">
+  <div>To be implemented</div>
+  <!--
   <div>
     <label>
       Balance amount of fields for each resource
-      <input type="checkbox" (change)="balanceFields()" value="{{balancedFields}}" checked>
+      <input type="checkbox" value="{{balancedFields}}" checked>
     </label>
   </div>
   <div class="grid" [style.display]="balancedFields ? 'grid' : 'none'">
@@ -54,16 +56,82 @@
       Goldfields
     </div>
     <input type="number" (change)="changeGoldfields($event)" value="{{goldFields}}">
-    <div>
-      Waterfields
-    </div>
-    <input readonly value="{{waterFields}}">
   </div>
+  -->
 </div>
 <div *ngIf="!randomBoard">
-  <div>
-    <h5>custom board designer: to be implemented</h5>
+  <form (change)="toggleUI()" [formGroup]="uiChoose">
+    <label>
+      <input type="radio" value="resources" formControlName="ui">
+      <span>Resources</span>
+    </label>
+    <label>
+      <input type="radio" value="harbours" formControlName="ui">
+      <span>Harbours</span>
+    </label>
+    <label>
+      <input type="radio" value="numbers" formControlName="ui">
+      <span>Numbers</span>
+    </label>
+  </form>
+  <div *ngIf="ui == 'resources'">
+    <form (change)="updateHexType()" [formGroup]="hexTypeChoose">
+      <label>
+        <input type="radio" value="{{brick}}" formControlName="hextype">
+        <span>Brick</span>
+      </label>
+      <label>
+        <input type="radio" value="{{lumber}}" formControlName="hextype">
+        <span>Lumber</span>
+      </label>
+      <label>
+        <input type="radio" value="{{wool}}" formControlName="hextype">
+        <span>Wool</span>
+      </label>
+      <label>
+        <input type="radio" value="{{grain}}" formControlName="hextype">
+        <span>Grain</span>
+      </label>
+      <label>
+        <input type="radio" value="{{ore}}" formControlName="hextype">
+        <span>Ore</span>
+      </label>
+      <label>
+        <input type="radio" value="{{gold}}" formControlName="hextype">
+        <span>Gold</span>
+      </label>
+      <label>
+        <input type="radio" value="{{water}}" formControlName="hextype">
+        <span>Water</span>
+      </label>
+    </form>
   </div>
+  <div *ngIf="ui == 'harbours'">
+    <form (change)="updateHarbour()" [formGroup]="harbourChoose">
+      <label>
+        <input type="radio" value="{{brick}}" formControlName="harbourtype">
+        <span>Brick</span>
+      </label>
+      <label>
+        <input type="radio" value="{{lumber}}" formControlName="harbourtype">
+        <span>Lumber</span>
+      </label>
+      <label>
+        <input type="radio" value="{{wool}}" formControlName="harbourtype">
+        <span>Wool</span>
+      </label>
+      <label>
+        <input type="radio" value="{{grain}}" formControlName="harbourtype">
+        <span>Grain</span>
+      </label>
+      <label>
+        <input type="radio" value="{{ore}}" formControlName="harbourtype">
+        <span>Ore</span>
+      </label>
+    </form>
+    <p>Display harbour selection</p>
+  </div>
+  <app-hex-svg [onHexClickFun]="onHexClick" (click)="placeHarbour($event)" [hex]="this.creationService.hexes"></app-hex-svg>
 </div>
 <div class="nav-but" (click)="back()">
   back

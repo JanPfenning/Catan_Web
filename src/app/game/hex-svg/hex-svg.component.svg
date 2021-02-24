@@ -1,0 +1,12 @@
+<svg [attr.width]="width * 5 * hex.length" [attr.height]="width * 3 * hex[0].length">
+  <g *ngFor="let line of hex">
+    <g *ngFor="let hex of line">
+      <g app-hex [onClickFun]="onHexClickFun" [hex]="hex" [harbours]="harbours"></g>
+    </g>
+  </g>
+  <g *ngFor="let line of vertices">
+    <g *ngFor="let vertex of line">
+      <g app-vertex [vertex]="vertex"></g>
+    </g>
+  </g>
+</svg>

@@ -5,6 +5,7 @@ import {MqttClient} from 'mqtt';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {GameService} from '../game/game.service';
 const mqtt = require('mqtt');
 
 @Injectable({
@@ -12,17 +13,22 @@ const mqtt = require('mqtt');
 })
 export class LobbyService {
 
-  lobbyOwner: string;
   id: number;
   player: {name: string, color: string}[] = [];
   me: {id: string, name: string, color: string};
   httpClient: HttpClient;
   authService: AuthService;
   mqttClient: MqttClient;
+  route: ActivatedRoute;
+  router: Router;
+  gameService: GameService;
 
-  constructor(httpClient: HttpClient, authService: AuthService, router: Router, route: ActivatedRoute) {
+  constructor(httpClient: HttpClient, authService: AuthService, gameService: GameService, router: Router, route: ActivatedRoute) {
     this.httpClient = httpClient;
     this.authService = authService;
+    this.gameService = gameService;
+    this.router = router;
+    this.route = route;
 
     this.connectMqtt();
   }
@@ -33,9 +39,9 @@ export class LobbyService {
 
   // TODO leave lobby
 
-  start(): void{
+  start(): Observable<any>{
     // this.authService.user$.subscribe(val => console.log(val.sub));
-    this.httpClient.post<any>(`${environment.NEST_HOST}/game/${this.id}`, this.me);
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/creation/game/${this.id}`, this.me);
   }
 
   // TODO: handle password for lobby elsewise
@@ -48,7 +54,7 @@ export class LobbyService {
   }
 
   connectMqtt(): void {
-    this.mqttClient = mqtt.connect(`${environment.MQTT_HOST}`, {
+    this.mqttClient = mqtt.connect(environment.MQTT_HOST, {
       port: environment.MQTT_PORT,
       username: environment.MQTT_USER,
       password: environment.MQTT_PASSWORD,
@@ -60,8 +66,17 @@ export class LobbyService {
     });
     this.mqttClient.on('message', (topic, msg, packet) => {
       // @ts-ignore
-      this.player = JSON.parse(packet.payload.toString('utf-8'));
-      console.log(this.player);
+      const jsonResponse = JSON.parse(packet.payload.toString('utf-8'));
+      // console.log(jsonResponse);
+      if (jsonResponse.started === true){
+        this.gameService.GID = this.id;
+        this.gameService.connectMqtt();
+        this.router.navigate(['game']);
+        // TODO if host started the game -> all others should be navigated
+      }else{
+        this.player = jsonResponse;
+      }
+      // console.log(this.player);
     });
     this.mqttClient.on('error', (error) => {
       console.log(`Lobbyservice: ${error}`);
