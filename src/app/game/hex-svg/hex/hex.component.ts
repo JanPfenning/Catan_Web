@@ -7,6 +7,7 @@ import {CreationService} from '../../../creation/creation.service';
 import {HexType} from '../../../../model/HexType';
 import {Resource} from '../../../../model/Resource';
 import {Harbour} from '../../../../model/Harbour';
+import {HarbourType} from '../../../../model/HarbourType';
 
 
 @Component({
@@ -60,13 +61,14 @@ export class HexComponent implements OnInit {
     }
   }
 
-  getColor(choosenHarbour: Resource): string {
+  getColor(choosenHarbour: HarbourType): string {
     switch (+choosenHarbour){
-      case Resource.Brick: return `rgb(255, 200, 0)`;
-      case Resource.Lumber: return `rgb(50, 170, 60)`;
-      case Resource.Wool: return `rgb(190, 255, 190)`;
-      case Resource.Grain: return `rgb(255, 255, 100)`;
-      case Resource.Ore: return `rgb(110, 110, 110)`;
+      case HarbourType.Brick: return `rgb(255, 200, 0)`;
+      case HarbourType.Lumber: return `rgb(50, 170, 60)`;
+      case HarbourType.Wool: return `rgb(190, 255, 190)`;
+      case HarbourType.Grain: return `rgb(255, 255, 100)`;
+      case HarbourType.Ore: return `rgb(110, 110, 110)`;
+      case HarbourType.TTO: return `rgb(250,250,250)`;
       default: return `rgb(255, 0, 0)`;
     }
   }
@@ -213,7 +215,7 @@ export class HexComponent implements OnInit {
     this.creationService = creationService;
   }
 
-  drawNeHarbour(res: Resource): void{
+  drawNeHarbour(res: HarbourType): void{
     this.harbour.ne = res;
     this.ne_points = `${this.x_center},${this.y_center - Hex.side} \
                       ${this.x_center + (Math.sqrt(3) / 2) * Hex.side},${this.y_center - Hex.side / 2} \
@@ -221,7 +223,7 @@ export class HexComponent implements OnInit {
     this.ne_harbour_colour = this.getColor(this.harbour.ne);
   }
 
-  drawEHarbour(res: Resource): void{
+  drawEHarbour(res: HarbourType): void{
     this.harbour.e = res;
     this.e_points = `${this.x_center + (Math.sqrt(3) / 2) * Hex.side},${this.y_center - Hex.side / 2} \
                       ${this.x_center + (Math.sqrt(3) / 2) * Hex.side},${this.y_center + Hex.side / 2} \
@@ -229,7 +231,7 @@ export class HexComponent implements OnInit {
     this.e_harbour_colour = this.getColor(this.harbour.e);
   }
 
-  drawSeHarbour(res: Resource): void{
+  drawSeHarbour(res: HarbourType): void{
     this.harbour.se = res;
     this.se_points = `${this.x_center + (Math.sqrt(3) / 2) * Hex.side},${this.y_center + Hex.side / 2} \
                       ${this.x_center},${this.y_center + Hex.side} \
@@ -237,7 +239,7 @@ export class HexComponent implements OnInit {
     this.se_harbour_colour = this.getColor(this.harbour.se);
   }
 
-  drawSwHarbour(res: Resource): void{
+  drawSwHarbour(res: HarbourType): void{
     this.harbour.sw = res;
     this.sw_points = `${this.x_center},${this.y_center + Hex.side} \
                         ${this.x_center - (Math.sqrt(3) / 2) * Hex.side},${this.y_center + Hex.side / 2} \
@@ -245,7 +247,7 @@ export class HexComponent implements OnInit {
     this.sw_harbour_colour = this.getColor(this.harbour.sw);
   }
 
-  drawWHarbour(res: Resource): void{
+  drawWHarbour(res: HarbourType): void{
     this.harbour.w = res;
     this.w_points = `${this.x_center - (Math.sqrt(3) / 2) * Hex.side},${this.y_center + Hex.side / 2} \
                       ${this.x_center - (Math.sqrt(3) / 2) * Hex.side},${this.y_center - Hex.side / 2} \
@@ -253,7 +255,7 @@ export class HexComponent implements OnInit {
     this.w_harbour_colour = this.getColor(this.harbour.w);
   }
 
-  drawNwHarbour(res: Resource): void{
+  drawNwHarbour(res: HarbourType): void{
     this.harbour.nw = res;
     this.nw_points = `${this.x_center},${this.y_center - Hex.side}\
                         ${this.x_center - (Math.sqrt(3) / 2) * Hex.side},${this.y_center - Hex.side / 2} \

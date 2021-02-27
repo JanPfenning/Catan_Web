@@ -109,23 +109,27 @@
   <div *ngIf="ui == 'harbours'">
     <form (change)="updateHarbour()" [formGroup]="harbourChoose">
       <label>
-        <input type="radio" value="{{brick}}" formControlName="harbourtype">
+        <input type="radio" value="{{TTO}}" formControlName="harbourtype">
+        <span>3-1</span>
+      </label>
+      <label>
+        <input type="radio" value="{{brick_harbour}}" formControlName="harbourtype">
         <span>Brick</span>
       </label>
       <label>
-        <input type="radio" value="{{lumber}}" formControlName="harbourtype">
+        <input type="radio" value="{{lumber_harbour}}" formControlName="harbourtype">
         <span>Lumber</span>
       </label>
       <label>
-        <input type="radio" value="{{wool}}" formControlName="harbourtype">
+        <input type="radio" value="{{wool_harbour}}" formControlName="harbourtype">
         <span>Wool</span>
       </label>
       <label>
-        <input type="radio" value="{{grain}}" formControlName="harbourtype">
+        <input type="radio" value="{{grain_harbour}}" formControlName="harbourtype">
         <span>Grain</span>
       </label>
       <label>
-        <input type="radio" value="{{ore}}" formControlName="harbourtype">
+        <input type="radio" value="{{ore_harbour}}" formControlName="harbourtype">
         <span>Ore</span>
       </label>
     </form>

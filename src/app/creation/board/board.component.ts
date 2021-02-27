@@ -6,7 +6,7 @@ import {Hex} from '../../../model/Hex';
 import {HexType} from '../../../model/HexType';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {hexToAdjEdges, hexToAdjHexes, pointInTriangle} from '../../translator';
-import {Resource} from '../../../model/Resource';
+import {HarbourType} from '../../../model/HarbourType';
 
 @Component({
   selector: 'app-board',
@@ -35,6 +35,13 @@ export class BoardComponent implements OnInit {
   gold = HexType.Gold;
   water = HexType.Water;
 
+  brick_harbour = HarbourType.Brick;
+  lumber_harbour = HarbourType.Lumber;
+  wool_harbour = HarbourType.Wool;
+  grain_harbour = HarbourType.Grain;
+  ore_harbour = HarbourType.Ore;
+  TTO = HarbourType.TTO;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -45,13 +52,19 @@ export class BoardComponent implements OnInit {
     this.lobbyService = lobbyService;
     this.creationService = creationService;
 
-    this.hexTypeChoose = fb.group({hextype: ['', Validators.required]});
     this.uiChoose = fb.group({ui: ['', Validators.required]});
+    this.uiChoose.get('ui').setValue('resources');
+    this.hexTypeChoose = fb.group({hextype: ['', Validators.required]});
+    this.hexTypeChoose.get('hextype').patchValue(this.brick.toString());
     this.harbourChoose = fb.group({harbourtype: ['', Validators.required]});
+    this.harbourChoose.get('harbourtype').patchValue(this.TTO.toString());
+    this.toggleUI();
+    this.updateHarbour();
+    this.updateHexType();
   }
 
   ngOnInit(): void {
-    this.ui = 'resource';
+    this.ui = 'resources';
     this.creationService.hexes = [];
     for (let i = 0; i < this.creationService.boardWidth; i++) {
       this.creationService.hexes[i] = [];
@@ -73,7 +86,7 @@ export class BoardComponent implements OnInit {
     this.hex.type = this.creationService.choosenHexType;
     // @ts-ignore
     this.changeColor();
-    // TODO if changed to water, check if harbours have to be deleted
+    // TODO if changed, check if harbours have to be deleted
   }
 
   // Higher order function to be provided in hex svg
@@ -238,11 +251,12 @@ export class BoardComponent implements OnInit {
     console.log(`value of radio: ${this.harbourChoose.get('harbourtype').value}`);
     this.creationService.choosenHarbour = this.harbourChoose.get('harbourtype').value;
     switch (this.harbourChoose.get('harbourtype').value){
-      case(0): this.creationService.choosenHarbour = Resource.Brick; break;
-      case(1): this.creationService.choosenHarbour = Resource.Lumber; break;
-      case(2): this.creationService.choosenHarbour = Resource.Wool; break;
-      case(3): this.creationService.choosenHarbour = Resource.Grain; break;
-      case(4): this.creationService.choosenHarbour = Resource.Ore; break;
+      case(HarbourType.Brick): this.creationService.choosenHarbour = HarbourType.Brick; break;
+      case(HarbourType.Lumber): this.creationService.choosenHarbour = HarbourType.Lumber; break;
+      case(HarbourType.Wool): this.creationService.choosenHarbour = HarbourType.Wool; break;
+      case(HarbourType.Grain): this.creationService.choosenHarbour = HarbourType.Grain; break;
+      case(HarbourType.Ore): this.creationService.choosenHarbour = HarbourType.Ore; break;
+      case(HarbourType.TTO): this.creationService.choosenHarbour = HarbourType.TTO; break;
     }
   }
 

@@ -7,6 +7,7 @@ import {Harbour} from '../../model/Harbour';
 import {HexType} from '../../model/HexType';
 import {HexComponent} from '../game/hex-svg/hex/hex.component';
 import {Resource} from '../../model/Resource';
+import {HarbourType} from '../../model/HarbourType';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CreationService {
 
   choosenHexType: HexType;
   choosenNumber: 1|2|3|4|5|6|8|9|10|11|12;
-  choosenHarbour: Resource;
+  choosenHarbour: HarbourType;
 
   boardHeight = 10;
   boardWidth = 10;
