@@ -5,7 +5,7 @@ import {LobbyService} from '../../lobby/lobby.service';
 import {Hex} from '../../../model/Hex';
 import {HexType} from '../../../model/HexType';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {hexToAdjEdges, hexToAdjHexes} from '../../translator';
+import {hexToAdjEdges, hexToAdjHexes, pointInTriangle} from '../../translator';
 import {Resource} from '../../../model/Resource';
 
 @Component({
@@ -91,33 +91,13 @@ export class BoardComponent implements OnInit {
     // @ts-ignore
     this.creationService.cur_hex_comp = this;
   }
-  sign(p1: {x: number, y: number}, p2: {x: number, y: number}, p3: {x: number, y: number}): number {
-    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-  }
-
-  pointInTriangle(pt: {x: number, y: number}, v1: {x: number, y: number}, v2: {x: number, y: number}, v3: {x: number, y: number}): boolean{
-    let d1: number;
-    let d2: number;
-    let d3: number;
-    let has_neg: boolean;
-    let has_pos: boolean;
-
-    d1 = this.sign(pt, v1, v2);
-    d2 = this.sign(pt, v2, v3);
-    d3 = this.sign(pt, v3, v1);
-
-    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-
-    return !(has_neg && has_pos);
-  }
 
   /**
    * Dont know why but this works: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
    * @param $event magic value of angular click
    */
   placeHarbour($event): void{
-    if (this.ui === 'harbours' && this.creationService.cur_hex_comp.hex.type === HexType.Water){
+    if (this.creationService.cur_hex_comp.hex.type === HexType.Water){
       const rcx = $event.offsetX - this.creationService.cur_hex_comp.x_center;
       const rcy = this.creationService.cur_hex_comp.y_center - $event.offsetY;
       const rc = {x: rcx, y: rcy};
@@ -131,22 +111,22 @@ export class BoardComponent implements OnInit {
 
       const adj_edges = hexToAdjEdges(this.creationService.cur_hex_comp.hex);
       const adj_hexes = hexToAdjHexes(this.creationService.cur_hex_comp.hex);
-      if (this.pointInTriangle(rc, center, n, ne) && this.creationService.hexes[adj_hexes[0][0]][adj_hexes[0][1]].type !== HexType.Water){
+      if (pointInTriangle(rc, center, n, ne) && this.creationService.hexes[adj_hexes[0][0]][adj_hexes[0][1]].type !== HexType.Water){
         console.log('ne harbour');
         this.creationService.cur_hex_comp.changeHarbours('ne', adj_edges[0][0], adj_edges[0][1]);
-      }else if (this.pointInTriangle(rc, center, ne, se) && this.creationService.hexes[adj_hexes[1][0]][adj_hexes[1][1]].type !== HexType.Water){
+      }else if (pointInTriangle(rc, center, ne, se) && this.creationService.hexes[adj_hexes[1][0]][adj_hexes[1][1]].type !== HexType.Water){
         console.log('e harbour');
         this.creationService.cur_hex_comp.changeHarbours('e', adj_edges[1][0], adj_edges[1][1]);
-      }else if (this.pointInTriangle(rc, center, se, s) && this.creationService.hexes[adj_hexes[2][0]][adj_hexes[2][1]].type !== HexType.Water){
+      }else if (pointInTriangle(rc, center, se, s) && this.creationService.hexes[adj_hexes[2][0]][adj_hexes[2][1]].type !== HexType.Water){
         console.log('se harbour');
         this.creationService.cur_hex_comp.changeHarbours('se', adj_edges[2][0], adj_edges[2][1]);
-      }else if (this.pointInTriangle(rc, center, s, sw) && this.creationService.hexes[adj_hexes[3][0]][adj_hexes[3][1]].type !== HexType.Water){
+      }else if (pointInTriangle(rc, center, s, sw) && this.creationService.hexes[adj_hexes[3][0]][adj_hexes[3][1]].type !== HexType.Water){
         console.log('sw harbour');
         this.creationService.cur_hex_comp.changeHarbours('sw', adj_edges[3][0], adj_edges[3][1]);
-      }else if (this.pointInTriangle(rc, center, sw, nw) && this.creationService.hexes[adj_hexes[4][0]][adj_hexes[4][1]].type !== HexType.Water) {
+      }else if (pointInTriangle(rc, center, sw, nw) && this.creationService.hexes[adj_hexes[4][0]][adj_hexes[4][1]].type !== HexType.Water){
         console.log('w harbour');
         this.creationService.cur_hex_comp.changeHarbours('w', adj_edges[4][0], adj_edges[4][1]);
-      }else if (this.pointInTriangle(rc, center, nw, n) && this.creationService.hexes[adj_hexes[5][0]][adj_hexes[5][1]].type !== HexType.Water){
+      }else if (pointInTriangle(rc, center, nw, n) && this.creationService.hexes[adj_hexes[5][0]][adj_hexes[5][1]].type !== HexType.Water){
         console.log('nw harbour');
         this.creationService.cur_hex_comp.changeHarbours('nw', adj_edges[5][0], adj_edges[5][1]);
       }else{
@@ -274,6 +254,12 @@ export class BoardComponent implements OnInit {
       case('harbours'): this.onHexClick = this.getHexPosition; break;
       case('numbers'): this.onHexClick = this.changeNumber; break;
       default: break;
+    }
+  }
+
+  interact($event: MouseEvent): void {
+    if (this.ui === 'harbours'){
+      this.placeHarbour($event);
     }
   }
 }

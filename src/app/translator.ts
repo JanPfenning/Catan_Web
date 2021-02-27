@@ -2,7 +2,49 @@ import {Vertex} from '../model/Vertex';
 import {Hex} from '../model/Hex';
 import {Edge} from '../model/Edge';
 
+export function sign(p1: {x: number, y: number}, p2: {x: number, y: number}, p3: {x: number, y: number}): number {
+  return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
 
+export function pointInTriangle(pt: {x: number, y: number},
+                                v1: {x: number, y: number},
+                                v2: {x: number, y: number},
+                                v3: {x: number, y: number}): boolean{
+  let d1: number;
+  let d2: number;
+  let d3: number;
+  let has_neg: boolean;
+  let has_pos: boolean;
+
+  d1 = sign(pt, v1, v2);
+  d2 = sign(pt, v2, v3);
+  d3 = sign(pt, v3, v1);
+
+  has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+  has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+  return !(has_neg && has_pos);
+}
+
+export function hexToRgb(hex: string): {r: number, g: number, b: number} | null {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+    return r + r + g + g + b + b;
+  });
+
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+export function getHighContrast(hex: string): string{
+  const{r, g, b} = hexToRgb(hex);
+  return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#ffffff';
+}
 /////////////////////////////////////////////////////////
 //
 //  Hex to adjacent
@@ -14,7 +56,7 @@ import {Edge} from '../model/Edge';
  * @returns List of adjacent Hexes
  */
 export function hexToAdjHexes(h: Hex): [ne: [x: number, y: number], e: [x: number, y: number], se: [x: number, y: number],
-                                 sw: [x: number, y: number], w: [x: number, y: number], nw: [x: number, y: number]] {
+                                        sw: [x: number, y: number], w: [x: number, y: number], nw: [x: number, y: number]] {
   if (h.y % 2 !== 0) {
     return [[h.x, h.y - 1], [h.x + 1, h.y], [h.x, h.y + 1], [h.x - 1, h.y + 1], [h.x - 1, h.y], [h.x - 1, h.y - 1]];
   }else{
@@ -27,8 +69,15 @@ export function hexToAdjHexes(h: Hex): [ne: [x: number, y: number], e: [x: numbe
  * @param h Hex which adjacent Vertices are to be determined
  * @returns List of adjacent Edges
  */
-function hexToAdjVertices(h: Hex): [n: Vertex, ne: Vertex, se: Vertex, s: Vertex, sw: Vertex, nw: Vertex] {
-  return null;
+export function hexToAdjVertices(h: Hex): [n: [x: number, y: number], ne: [x: number, y: number], se: [x: number, y: number],
+                                           s: [x: number, y: number], sw: [x: number, y: number], nw: [x: number, y: number]] {
+  if (h.y % 2 !== 0) {
+    return [[2 * h.x + 1, 2 * h.y], [2 * h.x + 2, 2 * h.y + 1], [2 * h.x + 2, 2 * h.y + 2],
+            [2 * h.x + 1, 2 * h.y + 3], [2 * h.x, 2 * h.y + 2], [2 * h.x, 2 * h.y + 1]];
+  }else{
+    return [[2 * h.x + 2, 2 * h.y], [2 * h.x + 3, 2 * h.y + 1], [2 * h.x + 3, 2 * h.y + 2],
+            [2 * h.x + 2, 2 * h.y + 3], [2 * h.x + 1, 2 * h.y + 2], [2 * h.x + 1, 2 * h.y + 1]];
+  }
 }
 
 /**
@@ -66,7 +115,7 @@ function edgeToAdjHexes(e: Edge): [lefthand: Hex, righthand: Hex] {
  * @param e Edge which adjacent Vertices are to be determined
  * @returns List of adjacent Edges
  */
-function edgeToAdjVertices(e: Edge): [upper: Vertex, lower: Vertex] {
+function edgeToAdjVertices(e: Edge): [upper: [x: number, y: number], lower: [x: number, y: number]] {
   return null;
 }
 
@@ -89,8 +138,34 @@ function edgeToAdjEdges(e: Edge): [clockwise1: Edge, clockwise2: Edge, clockwise
  * @param v Vertex which adjacent Hexes are to be determined
  * @returns List of adjacent Hexes
  */
-function VertexToAdjHexes(v: Vertex): [west: Hex, east: Hex, vertical: Hex] {
-  return null;
+export function vertexToAdjHexes(v: Vertex): [west: [x: number, y: number],
+                                              east: [x: number, y: number],
+                                          vertical: [x: number, y: number]] {
+  if (v.y % 2 !== 0){
+    if (v.x % 2 !== 0){
+      // Odd x Odd y
+      return [[Math.floor(v.x / 2) - 1, Math.floor(v.y / 2)],
+              [Math.floor(v.x / 2), Math.floor(v.y / 2)],
+              [Math.floor(v.x / 2), Math.floor(v.y / 2) - 1]];
+    }else{
+      // Even x Odd y
+      return [[v.x / 2 - 1, Math.floor(v.y / 2)],
+              [v.x / 2, Math.floor(v.y / 2)],
+              [v.x / 2 - 1, Math.floor(v.y / 2) - 1]];
+    }
+  }else{
+    if (v.x % 2 !== 0){
+      // Odd x Even y
+      return [[Math.floor(v.x / 2) - 1, v.y / 2 - 1],
+              [Math.floor(v.x / 2), v.y / 2 - 1],
+              [Math.floor(v.x / 2), v.y / 2]];
+    }else{
+      // Even x Even y
+      return [[v.x / 2 - 1, v.y / 2 - 1],
+              [v.x / 2, v.y / 2 - 1],
+              [v.x / 2 - 1, v.y / 2]];
+    }
+  }
 }
 
 /**

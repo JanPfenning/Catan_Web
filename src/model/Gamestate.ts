@@ -1,0 +1,3 @@
+export enum Gamestate{
+  LOBBY, PREPARATION, DICE, TURN, AWAIT_TRADE, INITIAL_PLACE
+}

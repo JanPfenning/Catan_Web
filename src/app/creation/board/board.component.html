@@ -131,7 +131,7 @@
     </form>
     <p>Display harbour selection</p>
   </div>
-  <app-hex-svg [onHexClickFun]="onHexClick" (click)="placeHarbour($event)" [hex]="this.creationService.hexes"></app-hex-svg>
+  <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes"></app-hex-svg>
 </div>
 <div class="nav-but" (click)="back()">
   back
