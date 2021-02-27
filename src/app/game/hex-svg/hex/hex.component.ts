@@ -173,6 +173,9 @@ export class HexComponent implements OnInit {
                       ${this.x_center - (Math.sqrt(3) / 2) * Hex.side},${this.y_center + Hex.side / 2}`;
       this.cood = `(${this.hex.x},${this.hex.y})`;
       this.changeColor();
+      if (this.gameService && this.gameService.hex_comps){
+        this.gameService.hex_comps[this.hex.x][this.hex.y] = this;
+      }
     }
     // Draw Harbours on hex
     const adj_edges = hexToAdjEdges(this.hex);

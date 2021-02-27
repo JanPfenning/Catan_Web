@@ -1,1 +1,3 @@
-<p>vertex works!</p>
+<svg:g>
+  <svg:circle class="vertex" [attr.r]="2" [attr.cx]=this.cx [attr.cy]="this.cy"></svg:circle>
+</svg:g>

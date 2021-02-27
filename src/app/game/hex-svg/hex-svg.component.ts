@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Hex} from '../../../model/Hex';
 import {Harbour} from '../../../model/Harbour';
+import {Vertex} from '../../../model/Vertex';
 
 @Component({
   selector: 'app-hex-svg[hex]',
@@ -16,7 +17,7 @@ export class HexSvgComponent implements OnInit{
   @Input()
   harbours: Harbour[];
   @Input()
-  vertices;
+  vertices: Vertex[][];
   @Input()
   edges;
   width: number;
