@@ -25,7 +25,6 @@ export class LandingComponent implements OnInit {
     this.gameService = gameService;
   }
 
-  // TODO move to game comp
   ngOnInit(): void {
   }
 
@@ -46,12 +45,13 @@ export class LandingComponent implements OnInit {
         this.router.navigate(['join']);
       }
       else{
-        // TODO
-        console.log('wrong passcode');
+        alert(`Wrong Lobby or Password`);
       }
     });
   }
   spectate(): void{
-    // TODO
+    alert(`This is not implemented yet`);
+    // TODO implement spectate function
+    // maybe QR code to scan or simple URL to call without entering lobbyid
   }
 }

@@ -25,8 +25,6 @@ export class VertexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.vertex);
-    // TODO get ne Hex, if exists draw point lower right or down
     const adj_hexes = vertexToAdjHexes(this.vertex);
     console.log(this.gameService.hex_comps);
     console.log(adj_hexes);

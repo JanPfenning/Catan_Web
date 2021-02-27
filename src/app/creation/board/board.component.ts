@@ -166,7 +166,7 @@ export class BoardComponent implements OnInit {
     }else{
       this.shrinkW(dif);
     }
-    this.creationService.boardWidth = $event.target.value;
+    this.creationService.boardWidth = +$event.target.value;
     console.log(`new width: ${this.creationService.boardWidth}`);
   }
 
@@ -177,23 +177,20 @@ export class BoardComponent implements OnInit {
     }else{
       this.shrinkH(dif);
     }
-    this.creationService.boardHeight = $event.target.value;
+    this.creationService.boardHeight = +$event.target.value;
     console.log(`new height: ${this.creationService.boardHeight}`);
   }
 
-  // TODO fix
+  // TODO auto re-render
   shrinkW(dif: number): void{
     console.log(`${dif} columns -> shrink`);
-    for (let x = 0; x < this.creationService.boardWidth ; x++) {
+    for (let x = this.creationService.boardWidth + dif; x > this.creationService.boardWidth ; x--) {
       for (let y = 0; y < this.creationService.boardHeight; y++) {
-        if (x >= this.creationService.boardWidth + dif){
-          this.creationService.hexes[x][y] = null;
-        }
+        this.creationService.hexes[x][y] = null;
       }
     }
   }
 
-  // TODO fix
   expandW(dif: number): void{
     console.log(`${dif} columns -> expand`);
     for (let x = this.creationService.boardWidth; x < this.creationService.boardWidth + dif; x++) {
@@ -204,23 +201,21 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  // TODO fix
+  // TODO auto re-render
   shrinkH(dif: number): void{
     console.log(`${dif} rows -> shrink`);
     for (let x = 0; x < this.creationService.boardWidth ; x++) {
-      for (let y = 0; y < this.creationService.boardHeight; y++) {
-        if (y >= this.creationService.boardHeight + dif){
-          this.creationService.hexes[x][y] = null;
-        }
+      for (let y = this.creationService.boardHeight + dif; y > this.creationService.boardHeight; y--) {
+        this.creationService.hexes[x][y] = null;
       }
     }
   }
 
-  // TODO fix
   expandH(dif: number): void{
     console.log(`${dif} columns -> expand`);
-    console.log(this.creationService.hexes);
+    console.log(this.creationService.hexes[0].length);
     for (let x = 0; x < this.creationService.boardWidth ; x++) {
+      console.log(`cur: ${this.creationService.boardHeight} to:${this.creationService.boardHeight + dif} (dif: ${dif})`);
       for (let y = this.creationService.boardHeight; y < this.creationService.boardHeight + dif; y++) {
         try{
           this.creationService.hexes[x][y] = new Hex(x, y, 7, HexType.Water);
@@ -230,6 +225,7 @@ export class BoardComponent implements OnInit {
         }
       }
     }
+    console.log(this.creationService.hexes[0].length);
   }
 
   updateHexType(): void {

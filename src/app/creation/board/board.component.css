@@ -1,0 +1,14 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 1fr;
+  grid-template-rows: 1fr 3fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". header header ."
+    ". left right ."
+    ". footer footer .";
+}
+.header { grid-area: header; }
+.left { grid-area: left; }
+.right { grid-area: right; }
+.footer { grid-area: footer; }

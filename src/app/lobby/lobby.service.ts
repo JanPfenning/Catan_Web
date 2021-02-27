@@ -67,16 +67,13 @@ export class LobbyService {
     this.mqttClient.on('message', (topic, msg, packet) => {
       // @ts-ignore
       const jsonResponse = JSON.parse(packet.payload.toString('utf-8'));
-      // console.log(jsonResponse);
       if (jsonResponse.started === true){
         this.gameService.GID = this.id;
         this.gameService.connectMqtt();
         this.router.navigate(['game']);
-        // TODO if host started the game -> all others should be navigated
       }else{
         this.player = jsonResponse;
       }
-      // console.log(this.player);
     });
     this.mqttClient.on('error', (error) => {
       console.log(`Lobbyservice: ${error}`);

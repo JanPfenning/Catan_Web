@@ -42,7 +42,6 @@ export class GameService {
       console.log(`Gameservice: ${error}`);
       process.exit(2);
     });
-    // TODO
     this.mqttClient.on('message', (topic, msg, packet) => {
       // @ts-ignore
       this.interpretBoard(packet.payload.toString('utf-8'));
