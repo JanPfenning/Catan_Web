@@ -173,8 +173,19 @@ export function vertexToAdjHexes(v: Vertex): [west: [x: number, y: number],
  * @param v Vertex which adjacent Vertices are to be determined
  * @returns List of adjacent Vertices
  */
-function VertexToAdjVertices(v: Vertex): [west: Hex, east: Hex, vertical: Hex] {
-  return null;
+export function vertexToAdjVertices(v: Vertex): [west: [x: number, y: number],
+                                                 east: [x: number, y: number],
+                                                 vertical: [x: number, y: number]] {
+  // TODO also take even odd x into account
+  if (v.y % 2 !== 0){
+    return [[v.x - 1, v.y - 1],
+            [v.x + 1, v.y - 1],
+            [v.x    , v.y + 1]];
+  }else{
+    return [[v.x - 1, v.y + 1],
+            [v.x + 1, v.y + 1],
+            [v.x    , v.y - 1]];
+  }
 }
 
 /**
@@ -182,6 +193,9 @@ function VertexToAdjVertices(v: Vertex): [west: Hex, east: Hex, vertical: Hex] {
  * @param v Vertex which adjacent Edges are to be determined
  * @returns List of adjacent Edges
  */
-function VertexToAdjEdges(v: Vertex): [west: Hex, east: Hex, vertical: Hex] {
+export function vertexToAdjEdges(v: Vertex): [west: [x: number, y: number],
+                                              east: [x: number, y: number],
+                                              vertical: [x: number, y: number]] {
+  // TODO implement vertex to adj edges
   return null;
 }

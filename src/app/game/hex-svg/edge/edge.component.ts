@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Edge} from '../../../../model/Edge';
 
 @Component({
   selector: 'app-edge',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edge.component.css']
 })
 export class EdgeComponent implements OnInit {
+
+  @Input()
+  edge: Edge;
 
   constructor() { }
 

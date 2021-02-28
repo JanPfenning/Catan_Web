@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Hex} from '../../../../model/Hex';
 import {vertexToAdjHexes} from '../../../translator';
 import {GameService} from '../../game.service';
@@ -9,9 +9,9 @@ import {executionAsyncResource} from 'async_hooks';
   // tslint:disable-next-line:component-selector
   selector: '[app-vertex]',
   templateUrl: './vertex.component.svg',
-  styleUrls: ['./vertex.component.css']
+  styleUrls: ['./vertex.component.css'],
 })
-export class VertexComponent implements OnInit {
+export class VertexComponent implements OnInit{
 
   @Input()
   vertex;
@@ -19,15 +19,15 @@ export class VertexComponent implements OnInit {
   cy = 0;
   cx = 0;
   gameService: GameService;
+  color = `rgb(0, 0, 0)`;
+  r = 0;
 
-  constructor(gameService: GameService) {
+  constructor(gameService: GameService, public ref: ChangeDetectorRef) {
     this.gameService = gameService;
   }
 
   ngOnInit(): void {
     const adj_hexes = vertexToAdjHexes(this.vertex);
-    console.log(this.gameService.hex_comps);
-    console.log(adj_hexes);
     let west_hex;
     try{
       west_hex = this.gameService.hex_comps[adj_hexes[0][0]][adj_hexes[0][1]];
@@ -73,12 +73,23 @@ export class VertexComponent implements OnInit {
         }
       }else if ((this.vertex.y + 2) % 4 === 0){
         if (west_hex) {
-          this.placeSW(west_hex);
+          this.placeSE(west_hex);
         }else if (east_hex) {
-          this.placeSE(east_hex);
+          this.placeSW(east_hex);
         }
       }
     }
+    if (this.vertex.owner_id !== null){
+      console.log(this);
+    }
+    this.gameService.vert_comps[this.vertex.x][this.vertex.y] = this;
+    this.gameService.gameObject.players.forEach(player => {
+      // console.log(player);
+      if (player.PID === this.vertex.owner_id){
+        this.color = player.colour;
+        this.r = 2;
+      }
+    });
   }
 
   placeN(ref_hex_comp: HexComponent): void{

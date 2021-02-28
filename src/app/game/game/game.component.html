@@ -8,8 +8,8 @@
 <div>
   <ng-template [ngIf]="this.gameService.board">
     <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)"
-                 [hex]="this.gameService.board.getHexes()" [vertices]="this.gameService.board.getVertices()"
-                 [harbours]="this.gameService.board.getHarbours()" [edges]="this.gameService.board.getEdges()"></app-hex-svg>
+                 [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"
+                 [harbours]="this.gameService.board.harbours" [edges]="this.gameService.board.edges"></app-hex-svg>
   </ng-template>
 </div>
 <div>
@@ -19,3 +19,6 @@
 </div>
 <button *ngIf="this.gameService.gameObject.state === 1" (click)="this.gameService.determineOrder().subscribe()">Determine Order</button>
 <button *ngIf="this.gameService.gameObject.state === 2 && this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">Roll Dice</button>
+<button *ngIf="this.gameService.gameObject.state === 5 &&
+               this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID &&
+               this.gameService.vert_blueprint" (click)="this.submitBuilding()">Submit Blueprint</button>

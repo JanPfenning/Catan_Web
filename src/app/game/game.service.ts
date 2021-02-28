@@ -4,8 +4,9 @@ import {Observable} from 'rxjs';
 import {MqttClient} from 'mqtt';
 import {environment} from '../../environments/environment';
 import {CatanMap} from '../../model/CatanMap';
-import {max} from 'rxjs/operators';
 import {HexComponent} from './hex-svg/hex/hex.component';
+import {VertexComponent} from './hex-svg/vertex/vertex.component';
+import {EdgeComponent} from './hex-svg/edge/edge.component';
 const mqtt = require('mqtt');
 
 @Injectable({
@@ -22,6 +23,10 @@ export class GameService {
   public playerObject: any;
   public cur_hex_comp: any;
   hex_comps: HexComponent[][];
+  vert_comps: VertexComponent[][];
+  vert_blueprint: VertexComponent = null;
+  edge_comps: EdgeComponent[][];
+  edge_blueprint: EdgeComponent = null;
 
   constructor(httpClient: HttpClient) {
     this.httpClient = httpClient;
@@ -52,12 +57,15 @@ export class GameService {
         console.log(JSON.parse(ret));
         this.playerObject = JSON.parse(ret);
       });
+      // TODO redraw map
     });
   }
 
   interpretBoard(json: string): void{
     // console.log(json);
     this.board = new CatanMap(json);
+    console.log('Board: ');
+    console.log(this.board);
     this.hex_comps = [];
     for (let i = 0; i < this.board.width; i++) {
       this.hex_comps[i] = [];
@@ -65,7 +73,20 @@ export class GameService {
         this.hex_comps[i][j] = null;
       }
     }
-    console.log(this.hex_comps);
+    this.vert_comps = [];
+    for (let i = 0; i <= 2 * (this.board.width) + 1; i++) {
+      this.vert_comps[i] = [];
+      for (let j = 0; j < 2 * (this.board.height) + 1; j++) {
+        this.vert_comps[i][j] = null;
+      }
+    }
+    this.edge_comps = [];
+    for (let i = 0; i < 4 * (this.board.width) + 2; i++) {
+      this.edge_comps[i] = [];
+      for (let j = 0; j < 2 * (this.board.height); j++) {
+        this.edge_comps[i][j] = null;
+      }
+    }
   }
 
   interpretGame(json_str: string): void{
@@ -100,7 +121,7 @@ export class GameService {
   }
 
   build(structure: number, x: number, y: number): Observable<any>{
-    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/build`, {structure, pos: {x, y}});
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/build`, {structure, x, y});
   }
 
   request_trade(offer_res: number[], req_res: number[]): Observable<any>{

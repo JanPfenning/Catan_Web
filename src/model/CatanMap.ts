@@ -4,10 +4,10 @@ import {Edge} from './Edge';
 import {Harbour} from './Harbour';
 
 export class CatanMap{
-  private hexes: Hex[][] = [];
-  private vertices: Vertex[][] = [];
-  private edges: Edge[][] = [];
-  private harbours: Harbour[] = [];
+  hexes: Hex[][] = [];
+  vertices: Vertex[][] = [];
+  edges: Edge[][] = [];
+  harbours: Harbour[] = [];
   readonly height: number;
   readonly width: number;
 
