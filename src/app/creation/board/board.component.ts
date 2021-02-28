@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
   hexTypeChoose: FormGroup;
   uiChoose: FormGroup;
   harbourChoose: FormGroup;
-  ui = 'resources';
+  ui: 'resources'|'harbours'|'numbers' = 'resources';
   onHexClick = this.getHexPosition;
   randomBoard = false;
   balancedFields = true;
@@ -95,8 +95,6 @@ export class BoardComponent implements OnInit {
     console.log(this.hex.nr);
     // @ts-ignore
     this.hex.nr = this.creationService.choosenNumber;
-    // @ts-ignore
-    // this.changeColor();
   }
 
   // Higher order function to be provided in hex svg
@@ -270,6 +268,20 @@ export class BoardComponent implements OnInit {
   interact($event: MouseEvent): void {
     if (this.ui === 'harbours'){
       this.placeHarbour($event);
+    }else if (this.ui === 'numbers'){
+      // TODO place number
     }
+  }
+
+  updateNumber($event: Event): void{
+    // @ts-ignore
+    const val = $event.target.value;
+    if (val !== 7 && val >= 2 && val <= 12){
+      this.creationService.choosenNumber = val;
+    }else{
+      // @ts-ignore
+      $event.target.value = this.creationService.choosenNumber;
+    }
+    console.log(this.creationService.choosenNumber);
   }
 }

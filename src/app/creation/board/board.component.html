@@ -137,6 +137,13 @@
           </label>
         </form>
       </div>
+      <div *ngIf="ui == 'numbers'">
+        <!-- TODO show statistics for placed numbers -->
+        <label>
+          <input (change)="updateNumber($event)" type="number" value="{{this.creationService.choosenNumber}}">
+          <span>Number</span>
+        </label>
+      </div>
       <p>Click the desired position in the right representation to place</p>
     </div>
   </div>
