@@ -1,3 +1,3 @@
 <svg:g>
-  <svg:circle class="vertex" [attr.color]=this.color [attr.r]=this.r [attr.cx]=this.cx [attr.cy]="this.cy"></svg:circle>
+  <svg:circle class="vertex" [attr.fill]=this.color [attr.r]=this.r [attr.cx]=this.cx [attr.cy]="this.cy"></svg:circle>
 </svg:g>

@@ -81,9 +81,9 @@ export class GameService {
       }
     }
     this.edge_comps = [];
-    for (let i = 0; i < 4 * (this.board.width) + 2; i++) {
+    for (let i = 0; i < 4 * (this.board.width + 1) + 2; i++) {
       this.edge_comps[i] = [];
-      for (let j = 0; j < 2 * (this.board.height); j++) {
+      for (let j = 0; j < 2 * (this.board.height + 1); j++) {
         this.edge_comps[i][j] = null;
       }
     }
@@ -124,15 +124,15 @@ export class GameService {
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/build`, {structure, x, y});
   }
 
+  nextTurn(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/nextTurn`, null);
+  }
+
   request_trade(offer_res: number[], req_res: number[]): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_req`, {offer_res, req_res});
   }
 
   accept_trade(): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_accept`, null);
-  }
-
-  nextTurn(): Observable<any>{
-    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/next_turn`, null);
   }
 }

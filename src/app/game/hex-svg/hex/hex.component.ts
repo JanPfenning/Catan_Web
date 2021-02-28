@@ -47,6 +47,9 @@ export class HexComponent implements OnInit {
   sw_harbour_colour = 'rgb(0, 0, 0)';
   nw_harbour_colour = 'rgb(0, 0, 0)';
   w_harbour_colour = 'rgb(0, 0, 0)';
+  col_white = 'rgb(255, 255, 255)';
+  circ_rad = Hex.side / 2;
+  water = HexType.Water;
 
   changeColor(): void {
     switch (+this.hex.type){

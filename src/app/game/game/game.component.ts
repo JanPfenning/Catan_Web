@@ -127,4 +127,8 @@ export class GameComponent implements OnInit {
       this.gameService.edge_blueprint = null;
     });
   }
+
+  nextTurn(): void{
+    this.gameService.nextTurn().subscribe();
+  }
 }

@@ -102,12 +102,47 @@ export function hexToAdjEdges(h: Hex): [ne: [x: number, y: number], e: [x: numbe
 //
 /////////////////////////////////////////////////////////
 /**
+ * used to determine facing
+ * @param e Edge which facing is to be determined
+ * @returns facing
+ */
+export function edgeToFacing(e: Edge): 'vertical'|'negative'|'positive'{
+  if ((e.x + 1) % 4 === 0 && (e.y + 2) % 4 === 0){
+    return 'negative';
+  }else if ((e.x + 3) % 4 === 0 && e.y % 4 === 0){
+    return 'negative';
+  }else if (e.x % 2 === 0){
+    return 'vertical';
+  }else if ((e.x + 1) % 4 === 0 && e.y % 4 === 0){
+    return 'positive';
+  }else if ((e.x + 3) % 4 === 0 && (e.y + 2) % 4 === 0){
+    return 'positive';
+  }
+  return null;
+}
+/**
  * used for e.g. denying streets in water and ships on land
  * @param e Edge which adjacent Hexes are to be determined
  * @returns List of adjacent Hexes
  */
-function edgeToAdjHexes(e: Edge): [lefthand: Hex, righthand: Hex] {
-  return null;
+export function edgeToAdjHexes(e: Edge): [lefthand: [x: number, y: number], righthand: [x: number, y: number]] {
+  if (e.y % 2 === 0){
+    if (e.y % 4 === 0){
+      if ((e.x + 1) % 4 === 0){
+        return [[Math.floor(e.x / 4), (e.y / 2) - 1], [Math.floor(e.x / 4), (e.y / 2)]];
+      }else{
+        return [[Math.floor(e.x / 4) - 1, (e.y / 2)], [Math.floor(e.x / 4), (e.y / 2) - 1]];
+      }
+    }else{
+      if ((e.x + 1) % 4 === 0){
+        return [[Math.floor(e.x / 4), (e.y / 2)], [Math.floor(e.x / 4), (e.y / 2) - 1]];
+      }else{
+        return [[Math.floor(e.x / 4) - 1, (e.y / 2) - 1], [Math.floor(e.x / 4), (e.y / 2)]];
+      }
+    }
+  }else{
+    return [[(e.x / 4) - 1, Math.floor(e.y / 2)], [e.x / 4, Math.floor(e.y / 2)]];
+  }
 }
 
 /**
@@ -176,7 +211,6 @@ export function vertexToAdjHexes(v: Vertex): [west: [x: number, y: number],
 export function vertexToAdjVertices(v: Vertex): [west: [x: number, y: number],
                                                  east: [x: number, y: number],
                                                  vertical: [x: number, y: number]] {
-  // TODO also take even odd x into account
   if (v.y % 2 !== 0){
     return [[v.x - 1, v.y - 1],
             [v.x + 1, v.y - 1],

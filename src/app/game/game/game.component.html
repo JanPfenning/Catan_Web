@@ -22,3 +22,5 @@
 <button *ngIf="this.gameService.gameObject.state === 5 &&
                this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID &&
                this.gameService.vert_blueprint" (click)="this.submitBuilding()">Submit Blueprint</button>
+<!-- TODO only show if turn can be tossed -->
+<button (click)="this.nextTurn()">Next Turn</button>

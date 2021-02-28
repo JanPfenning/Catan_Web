@@ -4,13 +4,17 @@
       <g app-hex [onClickFun]="onHexClickFun" [hex]="hex" [harbours]="harbours"></g>
     </g>
   </g>
+  <g *ngIf="edges">
+    <g *ngFor="let line of this.edges">
+      <g *ngFor="let edge of line">
+        <g app-edge [edge]="edge"></g>
+      </g>
+    </g>
+  </g>
   <g *ngIf="vertices">
     <g *ngFor="let line of this.vertices">
       <g *ngFor="let vertex of line">
-        <!-- Todo !== null -->
-        <g *ngIf="vertex.owner_id !== null || true">
-          <g app-vertex [vertex]="vertex"></g>
-        </g>
+        <g app-vertex [vertex]="vertex"></g>
       </g>
     </g>
   </g>

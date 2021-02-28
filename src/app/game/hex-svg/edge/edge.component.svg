@@ -1,0 +1,5 @@
+<svg:g>
+  <svg:line class="edge" [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2"
+                         [attr.stroke-width]="strokeWidth" [attr.stroke]="fillColor"></svg:line>
+</svg:g>
+
