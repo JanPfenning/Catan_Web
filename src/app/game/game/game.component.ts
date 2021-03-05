@@ -22,6 +22,7 @@ import {VertexComponent} from '../hex-svg/vertex/vertex.component';
 import {Meta} from '../../../model/Player';
 import {Gamestate} from '../../../model/Gamestate';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+import {DevelopmentCard} from '../../../model/DevelopmentCard';
 
 
 @Component({
@@ -530,6 +531,11 @@ export class GameComponent implements OnInit {
 
   buyDev(): void {
     this.gameService.buy_development().subscribe();
+  }
+
+  // TODO use Devcard
+  useDev(card: DevelopmentCard): void {
+    //
   }
 }
 

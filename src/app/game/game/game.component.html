@@ -129,7 +129,8 @@
 <!-- Development Cards -->
 <div>
   <div *ngFor="let card of this.gameService.playerObject.development_cards">
-    <p [style.background-color]="card.used ? 'red' : this.gameService.gameObject.turn < card.bought + 1 ? 'yellow' : 'green' ">{{card.type}}</p>
+    <!-- TODO cardtype to readable name instead of enum code (complex enum probably) -->
+    <p (click)="useDev(card)" [style.background-color]="card.used ? 'red' : this.gameService.gameObject.turn < card.bought + 1 ? 'yellow' : 'green' ">{{card.type}}</p>
   </div>
 </div>
 <!-- Turn -->
