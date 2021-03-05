@@ -32,8 +32,9 @@ export function hexToRgb(hex: string): {r: number, g: number, b: number} | null 
   hex = hex.replace(shorthandRegex, (m, r, g, b) => {
     return r + r + g + g + b + b;
   });
-
+  // console.log(hex);
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  // console.log(result);
   return result ? {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
@@ -141,7 +142,7 @@ export function edgeToAdjHexes(e: Edge): [lefthand: [x: number, y: number], righ
       }
     }
   }else{
-    return [[(e.x / 4) - 1, Math.floor(e.y / 2)], [e.x / 4, Math.floor(e.y / 2)]];
+    return [[Math.floor(e.x / 4) - 1, Math.floor(e.y / 2)], [Math.floor(e.x / 4), Math.floor(e.y / 2)]];
   }
 }
 
@@ -150,17 +151,32 @@ export function edgeToAdjHexes(e: Edge): [lefthand: [x: number, y: number], righ
  * @param e Edge which adjacent Vertices are to be determined
  * @returns List of adjacent Edges
  */
-function edgeToAdjVertices(e: Edge): [upper: [x: number, y: number], lower: [x: number, y: number]] {
-  return null;
+export function edgeToAdjVertices(e: Edge): [upper: [x: number, y: number], lower: [x: number, y: number]] {
+  if (e.y % 2 !== 0 && e.x % 2 === 0){
+    return [[e.x / 2, e.y ], [e.x / 2, e.y + 1]];
+  }else if (((e.y + 2) % 4 === 0) && (e.x + 1) % 4 === 0 || (e.y) % 4 === 0 && (e.x + 3) % 4 === 0){
+      return [[(e.x - 1) / 2, e.y ], [(e.x + 1) / 2, e.y + 1]];
+    }
+  else if (((e.y) % 4 === 0 && (e.x + 1) % 4 === 0) || ((e.y + 2) % 4 === 0 && (e.x + 3) % 4 === 0)){
+    return [[(e.x + 1) / 2, e.y ], [(e.x - 1) / 2, e.y + 1]];
+  }
 }
 
 /**
  * used for e.g. denying street and ships without connection
  * @param e Edge which adjacent Edges are to be determined
- * @returns List of adjacent Edges
+ * @returns List of adjacent Edges (Clockwise 1 is never straight up)
  */
-function edgeToAdjEdges(e: Edge): [clockwise1: Edge, clockwise2: Edge, clockwise3: Edge, clockwise4: Edge] {
-  return null;
+export function edgeToAdjEdges(e: Edge): [clockwise1: [x: number, y: number], clockwise2: [x: number, y: number],
+                                          clockwise3: [x: number, y: number], clockwise4: [x: number, y: number]] {
+  if (e.y % 2 !== 0 && e.x % 2 === 0){
+    return [[e.x + 1, e.y - 1], [e.x + 1, e.y + 1], [e.x - 1, e.y - 1], [e.x - 1, e.y + 1]];
+  }else if (((e.y + 2) % 4 === 0) && (e.x + 1) % 4 === 0 || (e.y) % 4 === 0 && (e.x + 3) % 4 === 0){
+    return [[e.x - 2, e.y], [e.x + 2, e.y], [e.x + 1, e.y + 1], [e.x - 1, e.y - 1]];
+  }
+  else if (((e.y) % 4 === 0 && (e.x + 1) % 4 === 0) || ((e.y + 2) % 4 === 0 && (e.x + 3) % 4 === 0)){
+    return [[e.x - 2, e.y], [e.x + 2, e.y], [e.x - 1, e.y + 1], [e.x + 1, e.y - 1]];
+  }
 }
 
 /////////////////////////////////////////////////////////

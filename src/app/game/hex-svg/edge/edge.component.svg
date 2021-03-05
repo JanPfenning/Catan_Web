@@ -1,5 +1,8 @@
 <svg:g>
-  <svg:line class="edge" [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2"
-                         [attr.stroke-width]="strokeWidth" [attr.stroke]="fillColor"></svg:line>
+  <line *ngIf="street" [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2"
+        [attr.stroke-width]="strokeWidth*2" stroke="black"></line>
+  <line *ngIf="street" [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2"
+                         [attr.stroke-width]="strokeWidth" [attr.stroke]="fillColor"></line>
+  <polygon *ngIf="ship" [attr.points]="ship_points" stroke="black" [attr.fill]="fillColor"></polygon>
 </svg:g>
 

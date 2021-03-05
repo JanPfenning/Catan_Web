@@ -78,36 +78,39 @@
         </label>
       </form>
       <div *ngIf="ui == 'resources'">
-        <form (change)="updateHexType()" [formGroup]="hexTypeChoose">
-          <label>
-            <input type="radio" value="{{brick}}" formControlName="hextype">
-            <span>Brick</span>
-          </label>
-          <label>
-            <input type="radio" value="{{lumber}}" formControlName="hextype">
-            <span>Lumber</span>
-          </label>
-          <label>
-            <input type="radio" value="{{wool}}" formControlName="hextype">
-            <span>Wool</span>
-          </label>
-          <label>
-            <input type="radio" value="{{grain}}" formControlName="hextype">
-            <span>Grain</span>
-          </label>
-          <label>
-            <input type="radio" value="{{ore}}" formControlName="hextype">
-            <span>Ore</span>
-          </label>
-          <label>
-            <input type="radio" value="{{gold}}" formControlName="hextype">
-            <span>Gold</span>
-          </label>
-          <label>
-            <input type="radio" value="{{water}}" formControlName="hextype">
-            <span>Water</span>
-          </label>
-        </form>
+        <div>
+          <form (change)="updateHexType()" [formGroup]="hexTypeChoose">
+            <label>
+              <input type="radio" value="{{brick}}" formControlName="hextype">
+              <span>Brick</span>
+            </label>
+            <label>
+              <input type="radio" value="{{lumber}}" formControlName="hextype">
+              <span>Lumber</span>
+            </label>
+            <label>
+              <input type="radio" value="{{wool}}" formControlName="hextype">
+              <span>Wool</span>
+            </label>
+            <label>
+              <input type="radio" value="{{grain}}" formControlName="hextype">
+              <span>Grain</span>
+            </label>
+            <label>
+              <input type="radio" value="{{ore}}" formControlName="hextype">
+              <span>Ore</span>
+            </label>
+            <label>
+              <input type="radio" value="{{gold}}" formControlName="hextype">
+              <span>Gold</span>
+            </label>
+            <label>
+              <input type="radio" value="{{water}}" formControlName="hextype">
+              <span>Water</span>
+            </label>
+          </form>
+        </div>
+        <button (click)="randomPlaceResources()">Distribute Resources randomly</button>
       </div>
       <div *ngIf="ui == 'harbours'">
         <form (change)="updateHarbour()" [formGroup]="harbourChoose">
@@ -138,16 +141,22 @@
         </form>
       </div>
       <div *ngIf="ui == 'numbers'">
-        <!-- TODO show statistics for placed numbers -->
-        <label>
-          <input (change)="updateNumber($event)" type="number" value="{{this.creationService.choosenNumber}}">
-          <span>Number</span>
-        </label>
+        <div>
+          <label>
+            <input (change)="updateNumber($event)" type="number" value="{{this.creationService.choosenNumber}}">
+            <span>Number</span>
+          </label>
+        </div>
+        <button (click)="randomPlaceNumbers()">Distribute numbers randomly</button>
       </div>
       <p>Click the desired position in the right representation to place</p>
     </div>
   </div>
-  <app-hex-svg class="right" [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes"></app-hex-svg>
+  <div class="right">
+    <app-bar-chart [width]="100" [height]="100" [data]="placedNumbers" [labels]="numberLabels"></app-bar-chart>
+    <app-bar-chart [width]="100" [height]="100" [data]="placedTypes" [labels]="typeLabels"></app-bar-chart>
+    <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes"></app-hex-svg>
+  </div>
   <div class="footer">
     <div class="nav-but" (click)="back()">
       back

@@ -6,7 +6,7 @@
   <svg:polygon [attr.display]="this.sw_points != null" [attr.points]=sw_points [attr.fill]="sw_harbour_colour"></svg:polygon>
   <svg:polygon [attr.display]="this.w_points != null" [attr.points]=w_points [attr.fill]="w_harbour_colour"></svg:polygon>
   <svg:polygon [attr.display]="this.nw_points != null" [attr.points]=nw_points [attr.fill]="nw_harbour_colour"></svg:polygon>
-  <g *ngIf="this.hex.type !== water">
+  <g *ngIf="+this.hex.type !== +water">
     <svg:circle [attr.cx]="x_center" [attr.cy]="y_center" [attr.r]="circ_rad" [attr.fill]="col_white"></svg:circle>
     <svg:text alignment-baseline="central" text-anchor="middle" [attr.font-size]="circ_rad" [attr.x]="x_center" [attr.y]="y_center">
       {{this.hex.nr}}

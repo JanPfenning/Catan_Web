@@ -21,8 +21,14 @@ export class LobbyComponent implements OnInit {
     this.lobbyService = lobbyService;
     this.lobbyService.getLobbyPass().subscribe(val => this.lobbyPass = val);
     this.lobbyService.connectMqtt();
-    this.lobbyService.me = {id: '', name: '', color: '#fff'};
+    const name = 'Player' + Date.now().toString().slice(5, 10);
+    const r = Math.floor(Math.random() * 240) + 1;
+    const g = Math.floor(Math.random() * 240) + 1;
+    const b = Math.floor(Math.random() * 240) + 1;
+    const color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+    this.lobbyService.me = {id: '', name, color};
     this.gameService = gameService;
+    this.lobbyService.onChange().subscribe();
   }
 
   ngOnInit(): void {

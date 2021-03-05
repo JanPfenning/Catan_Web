@@ -16,7 +16,7 @@ export class CreationService {
   private httpClient: HttpClient;
 
   choosenHexType: HexType;
-  choosenNumber: 2|3|4|5|6|8|9|10|11|12;
+  choosenNumber: 2|3|4|5|6|8|9|10|11|12 = 8;
   choosenHarbour: HarbourType;
 
   boardHeight = 10;

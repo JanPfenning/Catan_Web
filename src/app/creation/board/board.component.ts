@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {CreationService} from '../creation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LobbyService} from '../../lobby/lobby.service';
@@ -7,6 +7,7 @@ import {HexType} from '../../../model/HexType';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {hexToAdjEdges, hexToAdjHexes, pointInTriangle} from '../../translator';
 import {HarbourType} from '../../../model/HarbourType';
+import {Resource} from '../../../model/Resource';
 
 @Component({
   selector: 'app-board',
@@ -24,7 +25,7 @@ export class BoardComponent implements OnInit {
   randomBoard = false;
   balancedFields = true;
   creationService: CreationService;
-  hexes: Hex[][] = [];
+  // hexes: Hex[][] = [];
   private lobbyService: LobbyService;
 
   brick = HexType.Brick;
@@ -41,6 +42,11 @@ export class BoardComponent implements OnInit {
   grain_harbour = HarbourType.Grain;
   ore_harbour = HarbourType.Ore;
   TTO = HarbourType.TTO;
+
+  placedNumbers: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  numberLabels: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  placedTypes: number[] = [0, 0, 0, 0, 0];
+  typeLabels: string[] = ['Brick', 'Lumber', 'Wool', 'Grain', 'Ore'];
 
   constructor(
     private router: Router,
@@ -69,9 +75,69 @@ export class BoardComponent implements OnInit {
     for (let i = 0; i < this.creationService.boardWidth; i++) {
       this.creationService.hexes[i] = [];
       for (let j = 0; j < this.creationService.boardHeight; j++) {
-        this.creationService.hexes[i][j] = new Hex(i, j, 7, HexType.Water);
+        this.creationService.hexes[i][j] = new Hex(i, j, 8, HexType.Water);
       }
     }
+  }
+
+  updateTypes(): void{
+    // TODO
+    const types = [];
+    this.creationService.hexes.forEach(line => {
+      line.forEach(hex => {
+        if (+hex.type !== +HexType.Water){
+          types.push(+hex.type);
+        }
+      });
+    });
+    const placedTypes = [];
+    for (let i = 0; i <= 5 ; i++) {
+      placedTypes[i] = types.filter(numb => numb === i).length;
+    }
+    this.placedTypes = placedTypes;
+  }
+
+  updateNumbers(): void{
+    const numbers = [];
+    this.creationService.hexes.forEach(line => {
+      line.forEach(hex => {
+        if (+hex.type !== +HexType.Water){
+          numbers.push(+hex.nr);
+        }
+      });
+    });
+    const placedNumbers = [];
+    for (let i = 0; i <= 12 ; i++) {
+      placedNumbers[i] = numbers.filter(numb => numb === i).length;
+    }
+    this.placedNumbers = placedNumbers;
+  }
+
+  randomPlaceNumbers(): void{
+    const numberSet = [];
+    const hexes = [];
+    this.creationService.hexes.forEach(line => {
+      line.forEach(hex => {
+        if (+hex.type !== +HexType.Water){
+          hexes.push(hex);
+        }
+      });
+    });
+    for (let i = 0; i < Math.ceil(hexes.length / 10); i++) {
+      numberSet.push(2, 3, 4, 5, 6, 8, 9, 10, 11, 12);
+    }
+    let j;
+    let x;
+    for (let i = numberSet.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = numberSet[i];
+      numberSet[i] = numberSet[j];
+      numberSet[j] = x;
+    }
+    hexes.forEach(hex => {
+      hex.nr = numberSet.pop();
+    });
+    this.updateNumbers();
   }
 
   randomBoardToggle(): void {
@@ -81,12 +147,21 @@ export class BoardComponent implements OnInit {
   // Higher order function to be provided in hex svg
   changeType(): void{
     // @ts-ignore
-    console.log(this.hex.type);
-    // @ts-ignore
-    this.hex.type = this.creationService.choosenHexType;
-    // @ts-ignore
-    this.changeColor();
-    // TODO if changed, check if harbours have to be deleted
+    const adj_edges = hexToAdjEdges(this.hex);
+    let harbourClose = false;
+    this.creationService.harbours.forEach(harbour => {
+      for (let i = 0; i <= 5; i++) {
+        if (harbour.x === adj_edges[i][0] && harbour.y === adj_edges[i][1]){
+          harbourClose = true;
+        }
+      }
+    });
+    if (!harbourClose){
+      // @ts-ignore
+      this.hex.type = this.creationService.choosenHexType;
+      // @ts-ignore
+      this.changeColor();
+    }
   }
 
   // Higher order function to be provided in hex svg
@@ -227,7 +302,6 @@ export class BoardComponent implements OnInit {
   }
 
   updateHexType(): void {
-    console.log(`value of radio: ${this.hexTypeChoose.get('hextype').value}`);
     this.creationService.choosenHexType = this.hexTypeChoose.get('hextype').value;
     switch (this.hexTypeChoose.get('hextype').value){
       case(0): this.creationService.choosenHexType = HexType.Brick; break;
@@ -242,7 +316,6 @@ export class BoardComponent implements OnInit {
   }
 
   updateHarbour(): void {
-    console.log(`value of radio: ${this.harbourChoose.get('harbourtype').value}`);
     this.creationService.choosenHarbour = this.harbourChoose.get('harbourtype').value;
     switch (this.harbourChoose.get('harbourtype').value){
       case(HarbourType.Brick): this.creationService.choosenHarbour = HarbourType.Brick; break;
@@ -266,22 +339,53 @@ export class BoardComponent implements OnInit {
   }
 
   interact($event: MouseEvent): void {
+    this.updateNumbers();
+    this.updateTypes();
     if (this.ui === 'harbours'){
       this.placeHarbour($event);
-    }else if (this.ui === 'numbers'){
-      // TODO place number
     }
   }
 
   updateNumber($event: Event): void{
     // @ts-ignore
     const val = $event.target.value;
-    if (val !== 7 && val >= 2 && val <= 12){
+    if (+val !== 7 && +val >= 2 && +val <= 12){
       this.creationService.choosenNumber = val;
     }else{
       // @ts-ignore
       $event.target.value = this.creationService.choosenNumber;
     }
     console.log(this.creationService.choosenNumber);
+  }
+
+  randomPlaceResources(): void {
+    const resourcesSet = [];
+    const hexes = [];
+    this.creationService.hexes.forEach(line => {
+      line.forEach(hex => {
+        if (+hex.type !== +HexType.Water){
+          hexes.push(hex);
+        }
+      });
+    });
+    for (let i = 0; i < Math.ceil(hexes.length / 5); i++) {
+      resourcesSet.push(Resource.Lumber, Resource.Brick, Resource.Wool, Resource.Grain, Resource.Ore);
+    }
+    let j;
+    let x;
+    for (let i = resourcesSet.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = resourcesSet[i];
+      resourcesSet[i] = resourcesSet[j];
+      resourcesSet[j] = x;
+    }
+    hexes.forEach(hex => {
+      hex.type = resourcesSet.pop();
+      console.log(hex);
+    });
+    // TODO REDRAW THE MAP
+    const temp = this.creationService.hexes;
+    this.creationService.hexes = temp;
+    this.updateTypes();
   }
 }

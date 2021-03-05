@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Trade</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Brick</mat-label>
+    <input matInput [(ngModel)]="data.brick">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Lumber</mat-label>
+    <input matInput [(ngModel)]="data.lumber">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Wool</mat-label>
+    <input matInput [(ngModel)]="data.wool">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Grain</mat-label>
+    <input matInput [(ngModel)]="data.grain">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Ore</mat-label>
+    <input matInput [(ngModel)]="data.ore">
+  </mat-form-field>
+</div>
+<button mat-button mat-dialog-close [mat-dialog-close]="false">Cancel</button>
+<button mat-button mat-dialog-close [mat-dialog-close]="data">Submit</button>

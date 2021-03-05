@@ -7,6 +7,8 @@ import {CatanMap} from '../../model/CatanMap';
 import {HexComponent} from './hex-svg/hex/hex.component';
 import {VertexComponent} from './hex-svg/vertex/vertex.component';
 import {EdgeComponent} from './hex-svg/edge/edge.component';
+import {Structure} from '../../model/Structure';
+import {GameComponent} from './game/game.component';
 const mqtt = require('mqtt');
 
 @Injectable({
@@ -27,6 +29,13 @@ export class GameService {
   vert_blueprint: VertexComponent = null;
   edge_comps: EdgeComponent[][];
   edge_blueprint: EdgeComponent = null;
+  buildStructure: Structure;
+  gameComponent: GameComponent;
+
+  mySettles = 0;
+  allSettles = 0;
+  myStreets = 0;
+  allStreets = 0;
 
   constructor(httpClient: HttpClient) {
     this.httpClient = httpClient;
@@ -53,11 +62,11 @@ export class GameService {
       // @ts-ignore
       this.interpretGame(packet.payload.toString('utf-8'));
       this.playerInfo().subscribe(ret => {
-        console.log('Me:');
-        console.log(JSON.parse(ret));
+        // console.log('Me:');
+        // console.log(JSON.parse(ret));
         this.playerObject = JSON.parse(ret);
       });
-      // TODO redraw map
+      this.gameComponent.updateChart();
     });
   }
 
@@ -92,7 +101,7 @@ export class GameService {
   interpretGame(json_str: string): void{
     const json = JSON.parse(json_str);
     this.gameObject = {};
-    const {GID, state, bank_res, max_res, max_dev, players, pointsToWin, roll_history, turn, whos_turn} = json;
+    const {GID, state, bank_res, max_res, max_dev, players, pointsToWin, roll_history, turn, whos_turn, tradeOffer} = json;
     this.gameObject.GID = GID;
     this.gameObject.state = state;
     this.gameObject.players = players;
@@ -103,6 +112,7 @@ export class GameService {
     this.gameObject.rollHistory = roll_history;
     this.gameObject.turn = turn;
     this.gameObject.whos_turn = whos_turn;
+    this.gameObject.tradeOffer = tradeOffer;
     // console.log(json);
     console.log('Game:');
     console.log(this.gameObject);
@@ -128,11 +138,19 @@ export class GameService {
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/nextTurn`, null);
   }
 
-  request_trade(offer_res: number[], req_res: number[]): Observable<any>{
-    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_req`, {offer_res, req_res});
+  request_trade({brick, lumber, wool, grain, ore}): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_req`, {brick, lumber, wool, grain, ore});
   }
 
   accept_trade(): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_accept`, null);
+  }
+
+  cancel_trade(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_cancel`, null);
+  }
+
+  choose_trade_partner(PID: number): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/choose_trade_partner`, {PID});
   }
 }

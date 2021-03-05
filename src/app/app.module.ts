@@ -20,49 +20,61 @@ import {SvgPolygonModule} from 'angular-svg';
 import {HexSvgComponent} from './game/hex-svg/hex-svg.component';
 import {HexComponent} from './game/hex-svg/hex/hex.component';
 import {SharedModule} from './shared/shared.module';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToolbarComponent,
-    PageNotFoundComponent,
-    LandingComponent,
-    AccessDeniedComponent,
-  ],
-  // Needed modules
-  imports: [
-    BrowserModule,
-    CreationModule,
-    LobbyModule,
-    GameModule,
-    SharedModule,
-    HttpClientModule,
-    AuthModule.forRoot({
-      domain: `${environment.AUTH_DOMAIN}`,
-      clientId: `${environment.CLIENT_ID}`,
-      // Request this audience at user authentication time
-      audience: `${environment.AUTH_AUD}`,
-      // Specify configuration for the interceptor
-      httpInterceptor: {
-        allowedList: [
-          {
-            // Match any request that starts 'https://dev-dhbw-weben2.eu.auth0.com/api/v2/' (note the asterisk)
-            uri: `${environment.NEST_HOST}/*`,
-            tokenOptions: {
-              // The attached token should target this audience
-              audience: `${environment.AUTH_AUD}`,
+    declarations: [
+        AppComponent,
+        ToolbarComponent,
+        PageNotFoundComponent,
+        LandingComponent,
+        AccessDeniedComponent,
+    ],
+    // Needed modules
+    imports: [
+        BrowserModule,
+        CreationModule,
+        LobbyModule,
+        GameModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        SharedModule,
+        HttpClientModule,
+        MatDialogModule,
+        AuthModule.forRoot({
+            domain: `${environment.AUTH_DOMAIN}`,
+            clientId: `${environment.CLIENT_ID}`,
+            // Request this audience at user authentication time
+            audience: `${environment.AUTH_AUD}`,
+            // Specify configuration for the interceptor
+            httpInterceptor: {
+                allowedList: [
+                    {
+                        // Match any request that starts 'https://dev-dhbw-weben2.eu.auth0.com/api/v2/' (note the asterisk)
+                        uri: `${environment.NEST_HOST}/*`,
+                        tokenOptions: {
+                            // The attached token should target this audience
+                            audience: `${environment.AUTH_AUD}`,
+                        },
+                    },
+                ],
             },
-          },
-        ],
-      },
-    }),
-    AppRoutingModule,
-    SvgPolygonModule,
-  ],
-  // schemas: [NO_ERRORS_SCHEMA],
-  // Needed Services
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-    CreationService, LobbyService, GameService, LoginActivate],
-  bootstrap: [AppComponent],
+        }),
+        AppRoutingModule,
+        SvgPolygonModule,
+    ],
+    // schemas: [NO_ERRORS_SCHEMA],
+    // Needed Services
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
+        CreationService, LobbyService, GameService, LoginActivate],
+    bootstrap: [AppComponent],
+    exports: [
+        BarChartComponent
+    ]
 })
 export class AppModule { }

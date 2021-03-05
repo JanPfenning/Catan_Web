@@ -1,10 +1,16 @@
-Brick: [{{this.info.max_res.brick}}/{{this.info.cur_res.brick}}]
-Lumber: [{{this.info.max_res.lumber}}/{{this.info.cur_res.lumber}}]
-Wool: [{{this.info.max_res.wool}}/{{this.info.cur_res.wool}}]
-Grain: [{{this.info.max_res.grain}}/{{this.info.cur_res.grain}}]
-Ore: [{{this.info.max_res.ore}}/{{this.info.cur_res.ore}}]
+Brick: [{{this.info.cur_res.brick}}/{{this.info.max_res.brick}}]
+Lumber: [{{this.info.cur_res.lumber}}/{{this.info.max_res.lumber}}]
+Wool: [{{this.info.cur_res.wool}}/{{this.info.max_res.wool}}]
+Grain: [{{this.info.cur_res.grain}}/{{this.info.max_res.grain}}]
+Ore: [{{this.info.cur_res.ore}}/{{this.info.max_res.ore}}]
 
 <div *ngFor="let p of this.info.players">
   <span (mouseenter)="p.detail = true" (mouseleave)="p.detail = false" [style.backgroundColor]="p.colour" [style.color]="getHighContrast(p.colour)">{{p.name}}: {{p.points}}</span>
-  <span *ngIf="p.detail">{{p}}</span>
+  <div *ngIf="p.detail" style="position: absolute;">
+    <p>Structures left to use</p>
+    <p>Settlements: {{p.structures_left.settlement}}</p>
+    <p>Cities: {{p.structures_left.city}}</p>
+    <p>Roads: {{p.structures_left.road}}</p>
+    <p>Ships: {{p.structures_left.ship}}</p>
+  </div>
 </div>

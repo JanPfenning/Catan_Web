@@ -1,3 +1,5 @@
 <svg:g>
-  <svg:circle class="vertex" [attr.fill]=this.color [attr.r]=this.r [attr.cx]=this.cx [attr.cy]="this.cy"></svg:circle>
+  <!--<svg:circle class="vertex" [attr.fill]=this.color [attr.r]=this.r [attr.cx]=this.cx [attr.cy]="this.cy"></svg:circle>-->
+  <polygon *ngIf="city" [attr.points]="cityPoints" stroke="black" [attr.fill]=this.color />
+  <polygon *ngIf="settlement" [attr.points]="settlementPoints" stroke="black" [attr.fill]=this.color />
 </svg:g>

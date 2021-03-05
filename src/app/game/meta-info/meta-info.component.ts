@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {getHighContrast} from '../../translator';
+import {Meta} from '../../../model/Player';
 
 @Component({
   selector: 'app-meta-info',
