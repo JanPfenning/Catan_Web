@@ -101,19 +101,20 @@ export class GameService {
   interpretGame(json_str: string): void{
     const json = JSON.parse(json_str);
     this.gameObject = {};
-    const {GID, state, bank_res, max_res, max_dev, players, pointsToWin, roll_history, turn, whos_turn, tradeOffer} = json;
+    const {GID, state, bank_res, max_res, cur_dev, max_dev, players, pointsToWin, roll_history, turn, whos_turn, tradeOffer} = json;
     this.gameObject.GID = GID;
     this.gameObject.state = state;
     this.gameObject.players = players;
     this.gameObject.max_res = max_res;
     this.gameObject.cur_res = bank_res;
+    this.gameObject.cur_dev = cur_dev;
     this.gameObject.max_dev = max_dev;
     this.gameObject.pointsToWin = pointsToWin;
     this.gameObject.rollHistory = roll_history;
     this.gameObject.turn = turn;
     this.gameObject.whos_turn = whos_turn;
     this.gameObject.tradeOffer = tradeOffer;
-    // console.log(json);
+    console.log(json);
     console.log('Game:');
     console.log(this.gameObject);
   }
@@ -152,5 +153,9 @@ export class GameService {
 
   choose_trade_partner(PID: number): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/choose_trade_partner`, {PID});
+  }
+
+  buy_development(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/buy_dev`, null);
   }
 }

@@ -13,6 +13,7 @@ export class MetaInfoComponent implements OnInit {
   info;
 
   getHighContrast = getHighContrast;
+  detail: boolean;
 
   constructor() { }
 

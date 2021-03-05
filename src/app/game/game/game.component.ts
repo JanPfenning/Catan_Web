@@ -21,7 +21,7 @@ import {EdgeComponent} from '../hex-svg/edge/edge.component';
 import {VertexComponent} from '../hex-svg/vertex/vertex.component';
 import {Meta} from '../../../model/Player';
 import {Gamestate} from '../../../model/Gamestate';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 
 
 @Component({
@@ -527,6 +527,10 @@ export class GameComponent implements OnInit {
   cancelTrade(): void {
     this.gameService.cancel_trade().subscribe();
   }
+
+  buyDev(): void {
+    this.gameService.buy_development().subscribe();
+  }
 }
 
 export interface DialogData {
@@ -542,5 +546,6 @@ export interface DialogData {
   templateUrl: 'dialog-data-example-dialog.html',
 })
 export class DialogDataExampleDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(public dialogRef: MatDialogRef<DialogDataExampleDialog>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }

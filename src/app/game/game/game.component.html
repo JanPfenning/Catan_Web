@@ -50,6 +50,7 @@
       <span>Ship</span>
     </label>
   </form>
+  <button *ngIf="this.gameService.gameObject.state === 3" (click)="buyDev()">Buy Dev</button>
 </div>
 <div *ngIf="(this.gameService.gameObject.state === 3 ||
              this.gameService.gameObject.state === 5 ||
@@ -127,6 +128,9 @@
 </div>
 <!-- Development Cards -->
 <div>
+  <div *ngFor="let card of this.gameService.playerObject.development_cards">
+    <p [style.background-color]="card.used ? 'red' : this.gameService.gameObject.turn < card.bought + 1 ? 'yellow' : 'green' ">{{card.type}}</p>
+  </div>
 </div>
 <!-- Turn -->
 <div>
