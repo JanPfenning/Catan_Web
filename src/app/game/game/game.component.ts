@@ -26,6 +26,7 @@ import {DevelopmentCard, DevelopmentCardType, name} from '../../../model/Develop
 import {Resource} from '../../../model/Resource';
 import {TradeRequestDialogComponent} from '../dialog/trade-request-dialog/trade-request-dialog.component';
 import {YearOfPlentyDialogComponent} from '../dialog/year-of-plenty-dialog/year-of-plenty-dialog.component';
+import {HalfResourcesDialogComponent} from '../dialog/half-resources-dialog/half-resources-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -149,45 +150,54 @@ export class GameComponent implements OnInit {
   interact($event: MouseEvent): void{
     this.getSettlements();
     this.getStreets();
-    if (+this.gameService.buildStructure === +Structure.Ship || +this.gameService.buildStructure === +Structure.Road){
-      if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_FORWARD) {
-        if (this.gameService.myStreets === 0){
-          this.getClickedEdge($event);
-        }else if (this.gameService.myStreets === 1){
-          alert(`You are not allowed to place another free Street/Ship. You already own one.\n Please press next Turn`);
-        }
-      }else if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_BACKWARD) {
-        if (this.gameService.myStreets === 1){
-          this.getClickedEdge($event);
-        }else if (this.gameService.myStreets === 2){
-          alert(`You are not allowed to place another free Street/Ship. You already own two.\n Please press next Turn`);
-        }
-      }else{
-        this.getClickedEdge($event);
+    if (this.gameService.gameObject.state === Gamestate.PLACE_ROBBER){
+      if (this.gameService.knight_blueprint !== null){
+        this.gameService.knight_blueprint.knight = false;
+        this.gameService.knight_blueprint = null;
       }
+      this.gameService.knight_blueprint = this.gameService.cur_hex_comp;
+      this.gameService.knight_blueprint.knight = true;
     }else{
-      if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_FORWARD) {
-        if (this.gameService.mySettles === 0){
-          this.getClickedVertex($event);
-        }else if (this.gameService.mySettles === 1){
+      if (+this.gameService.buildStructure === +Structure.Ship || +this.gameService.buildStructure === +Structure.Road){
+        if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_FORWARD) {
+          if (this.gameService.myStreets === 0){
+            this.getClickedEdge($event);
+          }else if (this.gameService.myStreets === 1){
+            alert(`You are not allowed to place another free Street/Ship. You already own one.\n Please press next Turn`);
+          }
+        }else if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_BACKWARD) {
           if (this.gameService.myStreets === 1){
-            alert(`You are not allowed to place another free Settlement. You already own one.\n Please press next Turn`);
-          }else{
-            alert(`You are not allowed to place another free Settlement. You already own one.\n Please place your Road/Ship`);
+            this.getClickedEdge($event);
+          }else if (this.gameService.myStreets === 2){
+            alert(`You are not allowed to place another free Street/Ship. You already own two.\n Please press next Turn`);
           }
-        }
-      }else if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_BACKWARD) {
-        if (this.gameService.mySettles === 1){
-          this.getClickedVertex($event);
-        }else if (this.gameService.mySettles === 2){
-          if (this.gameService.myStreets === 2){
-            alert(`You are not allowed to place another free Settlement. You already own two.\n Please press next Turn`);
-          }else{
-            alert(`You are not allowed to place another free Settlement. You already own two.\n Please place your Road/Ship`);
-          }
+        }else{
+          this.getClickedEdge($event);
         }
       }else{
-        this.getClickedVertex($event);
+        if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_FORWARD) {
+          if (this.gameService.mySettles === 0){
+            this.getClickedVertex($event);
+          }else if (this.gameService.mySettles === 1){
+            if (this.gameService.myStreets === 1){
+              alert(`You are not allowed to place another free Settlement. You already own one.\n Please press next Turn`);
+            }else{
+              alert(`You are not allowed to place another free Settlement. You already own one.\n Please place your Road/Ship`);
+            }
+          }
+        }else if (this.gameService.gameObject.state === Gamestate.INITIAL_PLACE_BACKWARD) {
+          if (this.gameService.mySettles === 1){
+            this.getClickedVertex($event);
+          }else if (this.gameService.mySettles === 2){
+            if (this.gameService.myStreets === 2){
+              alert(`You are not allowed to place another free Settlement. You already own two.\n Please press next Turn`);
+            }else{
+              alert(`You are not allowed to place another free Settlement. You already own two.\n Please place your Road/Ship`);
+            }
+          }
+        }else{
+          this.getClickedVertex($event);
+        }
       }
     }
   }
@@ -311,6 +321,12 @@ export class GameComponent implements OnInit {
       error => {
         this.cancelBuilding();
       });
+    }
+  }
+
+  submitKnight(): void{
+    if (this.gameService.knight_blueprint !== null){
+      this.gameService.placeRobber(this.gameService.knight_blueprint.hex).subscribe();
     }
   }
 
@@ -580,6 +596,34 @@ export class GameComponent implements OnInit {
       if (result){
         // this.gameService.dev_yop(Resource.Lumber, Resource.Brick).subscribe();
         this.gameService.dev_yop(+result.one, +result.two).subscribe();
+      }
+    });
+  }
+
+  username(pid: number): string {
+    let username = '';
+    this.gameService.gameObject.players.forEach(value => {
+      if (value.PID === pid){
+        username = value.name;
+      }
+    });
+    return username;
+  }
+
+  dumpResources(): void {
+    const dialogRef = this.dialog.open(HalfResourcesDialogComponent, {
+      data: {
+        brick: 0,
+        lumber: 0,
+        wool: 0,
+        grain: 0,
+        ore: 0
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.gameService.halfResources(result).subscribe();
       }
     });
   }

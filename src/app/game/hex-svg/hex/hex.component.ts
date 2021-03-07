@@ -47,9 +47,11 @@ export class HexComponent implements OnInit {
   sw_harbour_colour = 'rgb(0, 0, 0)';
   nw_harbour_colour = 'rgb(0, 0, 0)';
   w_harbour_colour = 'rgb(0, 0, 0)';
-  col_white = 'rgb(255, 255, 255)';
+  white = `rgb(255, 255, 255)`;
+  red = `rgb(255, 50, 0)`;
   circ_rad = Hex.side / 2;
   water = HexType.Water;
+  knight: boolean;
 
   changeColor(): void {
     switch (+this.hex.type){
@@ -166,6 +168,9 @@ export class HexComponent implements OnInit {
       throwError('hex is required attribute');
       this.cood = '';
     } else {
+      if (this.hex.knight === true){
+        this.knight = this.hex.knight;
+      }
       // Draw Hex itself
       this.x_center += this.hex.x * Math.sqrt(3) * Hex.side;
       if (this.hex.y % 2 === 0){ this.x_center += Math.sqrt(3) / 2 * Hex.side; }

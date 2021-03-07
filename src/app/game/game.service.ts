@@ -11,6 +11,7 @@ import {Structure} from '../../model/Structure';
 import {GameComponent} from './game/game.component';
 import {Edge} from '../../model/Edge';
 import {Resource} from '../../model/Resource';
+import {Hex} from '../../model/Hex';
 const mqtt = require('mqtt');
 
 @Injectable({
@@ -33,6 +34,8 @@ export class GameService {
   edge_blueprint: EdgeComponent = null;
   buildStructure: Structure;
   gameComponent: GameComponent;
+
+  knight_blueprint: HexComponent = null;
 
   mySettles = 0;
   allSettles = 0;
@@ -103,7 +106,8 @@ export class GameService {
   interpretGame(json_str: string): void{
     const json = JSON.parse(json_str);
     this.gameObject = {};
-    const {GID, state, bank_res, max_res, cur_dev, max_dev, players, pointsToWin, roll_history, turn, whos_turn, tradeOffer} = json;
+    const {GID, state, bank_res, max_res, cur_dev, max_dev, players,
+           pointsToWin, roll_history, turn, whos_turn, tradeOffer, taxEvaders, possible_victims} = json;
     this.gameObject.GID = GID;
     this.gameObject.state = state;
     this.gameObject.players = players;
@@ -116,6 +120,8 @@ export class GameService {
     this.gameObject.turn = turn;
     this.gameObject.whos_turn = whos_turn;
     this.gameObject.tradeOffer = tradeOffer;
+    this.gameObject.taxEvaders = taxEvaders;
+    this.gameObject.possible_victims = possible_victims;
     // console.log(json);
     console.log('Game:');
     console.log(this.gameObject);
@@ -173,8 +179,19 @@ export class GameService {
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_monopoly`, {resource});
   }
 
-  // TODO implement as API is clear
   dev_knight(): Observable<any>{
-    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_knight`, {});
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_knight`, null);
+  }
+
+  placeRobber(hex: Hex): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/placeRobber`, {hex});
+  }
+
+  chooseVictim(PID: number): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/chooseVictim`, {PID});
+  }
+
+  halfResources({brick, lumber, wool, grain, ore}): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/halfResources`, {brick, lumber, wool, grain, ore});
   }
 }

@@ -12,10 +12,11 @@ import { TradeRequestDialogComponent } from './dialog/trade-request-dialog/trade
 import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
+import { HalfResourcesDialogComponent } from './dialog/half-resources-dialog/half-resources-dialog.component';
 
 @NgModule({
   declarations: [GameComponent, SpectateComponent, MetaInfoComponent, OwnCardsComponent,
-                  YearOfPlentyDialogComponent, TradeRequestDialogComponent],
+                  YearOfPlentyDialogComponent, TradeRequestDialogComponent, HalfResourcesDialogComponent],
   imports: [
     CommonModule,
     SharedModule,

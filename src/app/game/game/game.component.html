@@ -59,6 +59,14 @@
   <button (click)="this.submitBuilding()">Submit Blueprint</button>
   <button (click)="this.cancelBuilding()">Cancel Building</button>
 </div>
+<!-- choose knight victim -->
+<div *ngIf="this.gameService.gameObject.state === 9 &&
+            this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
+  <div *ngFor="let pid of this.gameService.gameObject.possible_victims">
+    <p (click)="this.gameService.chooseVictim(pid).subscribe()">{{username(pid)}}</p>
+    <!-- TODO show how many cards they have-->
+  </div>
+</div>
 <!-- Trading -->
 <div *ngIf="this.gameService.gameObject.state === 3 &&
             this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
@@ -145,5 +153,16 @@
                   this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID"
           (click)="this.nextTurn()">
     Next Turn
+  </button>
+  <button *ngIf="this.gameService.gameObject.state === 8 &&
+                 this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID &&
+                 this.gameService.knight_blueprint !== null"
+          (click)="this.submitKnight()">
+    Submit Knight
+  </button>
+  <button *ngIf="this.gameService.gameObject.state === 7 &&
+                 this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) !== -1"
+          (click)="this.dumpResources()">
+    Choose resources to dump
   </button>
 </div>
