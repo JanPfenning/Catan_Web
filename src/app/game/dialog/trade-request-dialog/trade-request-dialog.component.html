@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Trade</h1>
+<div mat-dialog-content>
+  <div>
+    <button (click)="less(0)">-</button>
+    <span>{{data.brick}}</span>
+    <button (click)="more(0)">+</button>
+  </div>
+  <div>
+    <button (click)="less(1)">-</button>
+    <span>{{data.lumber}}</span>
+    <button (click)="more(1)">+</button>
+  </div>
+  <div>
+    <button (click)="less(2)">-</button>
+    <span>{{data.wool}}</span>
+    <button (click)="more(2)">+</button>
+  </div>
+  <div>
+    <button (click)="less(3)">-</button>
+    <span>{{data.grain}}</span>
+    <button (click)="more(3)">+</button>
+  </div>
+  <div>
+    <button (click)="less(4)">-</button>
+    <span>{{data.ore}}</span>
+    <button (click)="more(4)">+</button>
+  </div>
+</div>
+<button mat-dialog-close [mat-dialog-close]="false">Cancel</button>
+<button mat-dialog-close [mat-dialog-close]="data">Submit</button>

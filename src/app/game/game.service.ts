@@ -9,6 +9,8 @@ import {VertexComponent} from './hex-svg/vertex/vertex.component';
 import {EdgeComponent} from './hex-svg/edge/edge.component';
 import {Structure} from '../../model/Structure';
 import {GameComponent} from './game/game.component';
+import {Edge} from '../../model/Edge';
+import {Resource} from '../../model/Resource';
 const mqtt = require('mqtt');
 
 @Injectable({
@@ -62,8 +64,8 @@ export class GameService {
       // @ts-ignore
       this.interpretGame(packet.payload.toString('utf-8'));
       this.playerInfo().subscribe(ret => {
-        // console.log('Me:');
-        // console.log(JSON.parse(ret));
+        console.log('Me:');
+        console.log(JSON.parse(ret));
         this.playerObject = JSON.parse(ret);
       });
       this.gameComponent.updateChart();
@@ -114,7 +116,7 @@ export class GameService {
     this.gameObject.turn = turn;
     this.gameObject.whos_turn = whos_turn;
     this.gameObject.tradeOffer = tradeOffer;
-    console.log(json);
+    // console.log(json);
     console.log('Game:');
     console.log(this.gameObject);
   }
@@ -157,5 +159,22 @@ export class GameService {
 
   buy_development(): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/buy_dev`, null);
+  }
+
+  dev_road(structure1: Edge, structure2: Edge): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_road`, {structure1, structure2});
+  }
+
+  dev_yop(resource1: Resource, resource2: Resource): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_yop`, {resource1, resource2});
+  }
+
+  dev_monopoly(resource: Resource): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_monopoly`, {resource});
+  }
+
+  // TODO implement as API is clear
+  dev_knight(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_knight`, {});
   }
 }

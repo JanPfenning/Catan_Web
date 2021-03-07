@@ -21,9 +21,11 @@ import {EdgeComponent} from '../hex-svg/edge/edge.component';
 import {VertexComponent} from '../hex-svg/vertex/vertex.component';
 import {Meta} from '../../../model/Player';
 import {Gamestate} from '../../../model/Gamestate';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
-import {DevelopmentCard} from '../../../model/DevelopmentCard';
-
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DevelopmentCard, DevelopmentCardType, name} from '../../../model/DevelopmentCard';
+import {Resource} from '../../../model/Resource';
+import {TradeRequestDialogComponent} from '../dialog/trade-request-dialog/trade-request-dialog.component';
+import {YearOfPlentyDialogComponent} from '../dialog/year-of-plenty-dialog/year-of-plenty-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -476,8 +478,7 @@ export class GameComponent implements OnInit {
 
   // Traderequest amount resources in view of trade issuer
   submitTradeRequest(): void {
-    // TODO open the dialog
-    const dialogRef = this.dialog.open(DialogDataExampleDialog, {
+    const dialogRef = this.dialog.open(TradeRequestDialogComponent, {
       data: {
         brick: 0,
         lumber: 0,
@@ -533,9 +534,54 @@ export class GameComponent implements OnInit {
     this.gameService.buy_development().subscribe();
   }
 
-  // TODO use Devcard
   useDev(card: DevelopmentCard): void {
-    //
+    switch (card.type){
+      case DevelopmentCardType.Knight: this.useKnight(); break;
+      case DevelopmentCardType.Victorypoint: this.useVP(); break;
+      case DevelopmentCardType.Monopoly: this.useMonopoly(); break;
+      case DevelopmentCardType.Roadbuilding: this.useRoadbuilding(); break;
+      case DevelopmentCardType.YearOfPlenty: this.useYOP(); break;
+    }
+  }
+
+  name(type: DevelopmentCardType): string {
+    return name(type);
+  }
+
+  private useKnight(): void {
+    this.gameService.dev_knight().subscribe();
+  }
+
+  private useVP(): void {
+    alert('Victorypoints will be used automatically if you win with them');
+  }
+
+  private useMonopoly(): void {
+    this.gameService.dev_monopoly(Resource.Lumber).subscribe();
+  }
+
+  private useRoadbuilding(): void {
+    const structure1 = new Edge(5, 2);
+    structure1.building = Structure.Ship;
+    const structure2 = new Edge(4, 3);
+    structure2.building = Structure.Road;
+    this.gameService.dev_road(structure1, structure2).subscribe();
+  }
+
+  private useYOP(): void {
+    const dialogRef = this.dialog.open(YearOfPlentyDialogComponent, {
+      data: {
+        one: 0,
+        two: 0
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        // this.gameService.dev_yop(Resource.Lumber, Resource.Brick).subscribe();
+        this.gameService.dev_yop(+result.one, +result.two).subscribe();
+      }
+    });
   }
 }
 
@@ -545,13 +591,4 @@ export interface DialogData {
   wool: number;
   grain: number;
   ore: number;
-}
-
-@Component({
-  selector: 'dialog-data-example-dialog',
-  templateUrl: 'dialog-data-example-dialog.html',
-})
-export class DialogDataExampleDialog {
-  constructor(public dialogRef: MatDialogRef<DialogDataExampleDialog>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }

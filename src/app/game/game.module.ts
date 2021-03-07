@@ -5,18 +5,26 @@ import { SpectateComponent } from './spectate/spectate.component';
 import {SharedModule} from '../shared/shared.module';
 import { MetaInfoComponent } from './meta-info/meta-info.component';
 import { OwnCardsComponent } from './own-cards/own-cards.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ChartsModule} from 'ng2-charts';
-import {AppModule} from '../app.module';
-
+import { YearOfPlentyDialogComponent } from './dialog/year-of-plenty-dialog/year-of-plenty-dialog.component';
+import { TradeRequestDialogComponent } from './dialog/trade-request-dialog/trade-request-dialog.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
-  declarations: [GameComponent, SpectateComponent, MetaInfoComponent, OwnCardsComponent],
+  declarations: [GameComponent, SpectateComponent, MetaInfoComponent, OwnCardsComponent,
+                  YearOfPlentyDialogComponent, TradeRequestDialogComponent],
   imports: [
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
     ChartsModule,
+    MatInputModule,
+    FormsModule,
+    MatDialogModule,
+    MatRadioModule,
   ]
 })
 export class GameModule { }

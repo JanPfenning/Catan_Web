@@ -23,8 +23,10 @@ import {SharedModule} from './shared/shared.module';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {GameComponent} from './game/game/game.component';
+import {TradeRequestDialogComponent} from './game/dialog/trade-request-dialog/trade-request-dialog.component';
 
 @NgModule({
     declarations: [
@@ -68,11 +70,14 @@ import {MatInputModule} from '@angular/material/input';
         AppRoutingModule,
         SvgPolygonModule,
     ],
-    // schemas: [NO_ERRORS_SCHEMA],
     // Needed Services
     providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
-        CreationService, LobbyService, GameService, LoginActivate],
-    bootstrap: [AppComponent],
+                { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+                CreationService, LobbyService, GameService, LoginActivate],
+    bootstrap: [AppComponent, GameComponent],
+    entryComponents: [
+      TradeRequestDialogComponent
+    ],
     exports: [
         BarChartComponent
     ]

@@ -14,7 +14,6 @@ import {Resource} from '../../../model/Resource';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-// TODO generate random map
 export class BoardComponent implements OnInit {
 
   hexTypeChoose: FormGroup;
@@ -81,7 +80,6 @@ export class BoardComponent implements OnInit {
   }
 
   updateTypes(): void{
-    // TODO
     const types = [];
     this.creationService.hexes.forEach(line => {
       line.forEach(hex => {

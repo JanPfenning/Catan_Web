@@ -130,7 +130,6 @@ export class VertexComponent implements OnInit{
     });
   }
 
-  // TODO same for Citypoints
   placeN(ref_hex_comp: HexComponent): void{
     this.cx = ref_hex_comp.x_center;
     this.cy = ref_hex_comp.y_center - Hex.side;
