@@ -4,17 +4,18 @@ import {DialogData} from '../../game/game.component';
 import {GameService} from '../../game.service';
 
 @Component({
-  selector: 'app-half-resources-dialog',
-  templateUrl: './half-resources-dialog.component.html',
-  styleUrls: ['./half-resources-dialog.component.css']
+  selector: 'app-choose-gold-dialog',
+  templateUrl: './choose-gold-dialog.component.html',
+  styleUrls: ['./choose-gold-dialog.component.css']
 })
-export class HalfResourcesDialogComponent {
-  leftToDump: any;
+export class ChooseGoldDialogComponent {
+
+  wishes: number;
 
   constructor(private gameService: GameService,
-              public dialogRef: MatDialogRef<HalfResourcesDialogComponent>,
+              public dialogRef: MatDialogRef<ChooseGoldDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    this.getLeftToDump();
+    this.leftToWish();
   }
 
   less(res: number): void {
@@ -26,7 +27,7 @@ export class HalfResourcesDialogComponent {
         break;
       }
       case 1: {
-        if (this.data.lumber > 0){
+        if (this.data.lumber > 0) {
           this.data.lumber -= 1;
         }
         break;
@@ -44,13 +45,13 @@ export class HalfResourcesDialogComponent {
         break;
       }
       case 4: {
-        if (this.data.ore > 0){
+        if (this.data.ore > 0) {
           this.data.ore -= 1;
         }
         break;
       }
     }
-    this.getLeftToDump();
+    this.leftToWish();
   }
 
   more(res: number): void {
@@ -76,15 +77,15 @@ export class HalfResourcesDialogComponent {
         break;
       }
     }
-    this.getLeftToDump();
+    this.leftToWish();
   }
 
-  private getLeftToDump(): void {
-    const cur_res = (this.gameService.playerObject.resources.brick +
-      this.gameService.playerObject.resources.lumber +
-      this.gameService.playerObject.resources.wool +
-      this.gameService.playerObject.resources.grain +
-      this.gameService.playerObject.resources.ore);
-    this.leftToDump = Math.floor(cur_res / 2) - (this.data.brick + this.data.lumber + this.data.wool + this.data.grain + this.data.ore);
+  private leftToWish(): void {
+    this.wishes = this.gameService.gameObject.goldReceive.filter(value => value === this.gameService.playerObject.meta.PID).length;
+    this.wishes -= this.data.brick;
+    this.wishes -= this.data.lumber;
+    this.wishes -= this.data.wool;
+    this.wishes -= this.data.grain;
+    this.wishes -= this.data.ore;
   }
 }

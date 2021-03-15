@@ -78,7 +78,6 @@ export class EdgeComponent implements OnInit {
     } catch (e) {
       rightHex = null;
     }
-    // TODO why can this be undefined?
     if (leftHex !== null && leftHex !== undefined) {
       this.hex_cx = leftHex.x_center;
       this.hex_cy = leftHex.y_center;
@@ -141,7 +140,6 @@ export class EdgeComponent implements OnInit {
                               ${this.x11 + this.cx}, ${this.y11 + this.cy}`;
           break;
       }
-      // TODO why can this be undefined?
     } else if (rightHex !== null && rightHex !== undefined) {
       this.cx = rightHex.x_center;
       this.cy = rightHex.y_center;

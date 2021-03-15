@@ -21,7 +21,7 @@ export class VertexComponent implements OnInit{
   cx = 0;
   gameService: GameService;
   color = `rgb(0, 0, 0)`;
-  r = 2;
+  r = Hex.side / 2;
 
   x1 = -10 / 25 * Hex.side;
   y1 = 0 / 25 * Hex.side;
@@ -53,6 +53,7 @@ export class VertexComponent implements OnInit{
 
   settlement = false;
   city = false;
+  gold = `rgb(255, 215, 0)`;
 
   constructor(gameService: GameService, public ref: ChangeDetectorRef) {
     this.gameService = gameService;

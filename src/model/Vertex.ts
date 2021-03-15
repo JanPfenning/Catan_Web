@@ -3,8 +3,9 @@ import { Structure } from '../model/Structure';
 export class Vertex{
   x: number;
   y: number;
-  building: null|Structure.Settlement|Structure.City
-  owner_id: null|string
+  building: null|Structure.Settlement|Structure.City;
+  owner_id: null|string;
+  additionalPoint = false;
 
   constructor(x: number, y: number) {
     this.x = x;

@@ -246,6 +246,15 @@ export function vertexToAdjVertices(v: Vertex): [west: [x: number, y: number],
 export function vertexToAdjEdges(v: Vertex): [west: [x: number, y: number],
                                               east: [x: number, y: number],
                                               vertical: [x: number, y: number]] {
-  // TODO implement vertex to adj edges
-  return null;
+  if (v.y % 2 === 0){
+    return [
+      [2 * v.x - 1, v.y    ],
+      [2 * v.x + 1, v.y    ],
+      [2 * v.x    , v.y - 1]];
+  }else{
+    return [
+      [2 * v.x - 1, v.y - 1],
+      [2 * v.x + 1, v.y - 1],
+      [2 * v.x    , v.y    ]];
+  }
 }

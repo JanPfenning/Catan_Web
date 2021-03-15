@@ -27,6 +27,8 @@ import {Resource} from '../../../model/Resource';
 import {TradeRequestDialogComponent} from '../dialog/trade-request-dialog/trade-request-dialog.component';
 import {YearOfPlentyDialogComponent} from '../dialog/year-of-plenty-dialog/year-of-plenty-dialog.component';
 import {HalfResourcesDialogComponent} from '../dialog/half-resources-dialog/half-resources-dialog.component';
+import {ChooseGoldDialogComponent} from '../dialog/choose-gold-dialog/choose-gold-dialog.component';
+import {MonopolyDialogComponent} from '../dialog/monopoly-dialog/monopoly-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -150,7 +152,7 @@ export class GameComponent implements OnInit {
   interact($event: MouseEvent): void{
     this.getSettlements();
     this.getStreets();
-    if (this.gameService.gameObject.state === Gamestate.PLACE_ROBBER){
+    if (this.gameService.gameObject.state === Gamestate.PLACE_ROBBER && !this.gameService.cur_hex_comp.hex.knight ){
       if (this.gameService.knight_blueprint !== null){
         this.gameService.knight_blueprint.knight = false;
         this.gameService.knight_blueprint = null;
@@ -270,31 +272,59 @@ export class GameComponent implements OnInit {
     const dummy_vert = new Vertex(cood[0], cood[1]);
     let applicable = true;
     const adj_vert = vertexToAdjVertices(dummy_vert);
-    // TODO only deny if settlement on settlement
     if (this.gameService.vert_comps[cood[0]][cood[1]].vertex.owner_id !== null){
       applicable = false;
     }
-    // TODO if adj vert does not exist it counts as owner_id null
-    if (this.gameService.vert_comps[adj_vert[0][0]][adj_vert[0][1]].vertex.owner_id !== null ||
-      this.gameService.vert_comps[adj_vert[1][0]][adj_vert[1][1]].vertex.owner_id !== null ||
-      this.gameService.vert_comps[adj_vert[2][0]][adj_vert[2][1]].vertex.owner_id !== null){
+    let vert1;
+    try{
+      vert1 = this.gameService.vert_comps[adj_vert[0][0]][adj_vert[0][1]].vertex.owner_id;
+    }catch (ex){ vert1 = null; }
+    let vert2;
+    try{
+      vert2 = this.gameService.vert_comps[adj_vert[1][0]][adj_vert[1][1]].vertex.owner_id;
+    }catch (ex){ vert2 = null; }
+    let vert3;
+    try{
+      vert3 = this.gameService.vert_comps[adj_vert[2][0]][adj_vert[2][1]].vertex.owner_id;
+    }catch (ex){ vert3 = null; }
+    if (vert1 !== null || vert2 !== null || vert3 !== null){
       applicable = false;
       console.log(`You cant place a building that close to another building`);
     }
     const adj_hexes = vertexToAdjHexes(dummy_vert);
-    // TODO if adj hex does not exist it counts as water
-    if (this.gameService.hex_comps[adj_hexes[0][0]][adj_hexes[0][1]].hex.type === HexType.Water &&
-      this.gameService.hex_comps[adj_hexes[1][0]][adj_hexes[1][1]].hex.type === HexType.Water &&
-      this.gameService.hex_comps[adj_hexes[2][0]][adj_hexes[2][1]].hex.type === HexType.Water){
+    let hex1;
+    try{
+      hex1 = this.gameService.hex_comps[adj_hexes[0][0]][adj_hexes[0][1]].hex.type;
+    }catch (ex){ hex1 = HexType.Water; }
+    let hex2;
+    try{
+      hex2 = this.gameService.hex_comps[adj_hexes[1][0]][adj_hexes[1][1]].hex.type;
+    }catch (ex){ hex2 = HexType.Water; }
+    let hex3;
+    try{
+      hex3 = this.gameService.hex_comps[adj_hexes[2][0]][adj_hexes[2][1]].hex.type;
+    }catch (ex){ hex3 = HexType.Water; }
+    if (hex1 === HexType.Water && hex2 === HexType.Water && hex3 === HexType.Water){
       applicable = false;
       console.log(`You cant place a building inside the ocean`);
     }
     if (!initialPut){
       const adj_edges = vertexToAdjEdges(dummy_vert);
-      // TODO if adj edge does not exist it counts as not connected
-      if (this.gameService.edge_comps[adj_edges[0][0]][adj_edges[0][1]].edge.owner_id !== this.gameService.playerObject.meta.PID &&
-        this.gameService.edge_comps[adj_edges[1][0]][adj_edges[1][1]].edge.owner_id !== this.gameService.playerObject.meta.PID &&
-        this.gameService.edge_comps[adj_edges[2][0]][adj_edges[2][1]].edge.owner_id !== this.gameService.playerObject.meta.PID){
+      let edge1;
+      try{
+        edge1 = this.gameService.edge_comps[adj_edges[0][0]][adj_edges[0][1]].edge.owner_id;
+      }catch (e) {edge1 = null; }
+      let edge2;
+      try{
+        edge2 = this.gameService.edge_comps[adj_edges[1][0]][adj_edges[1][1]].edge.owner_id;
+      }catch (e) {edge2 = null; }
+      let edge3;
+      try{
+        edge3 = this.gameService.edge_comps[adj_edges[2][0]][adj_edges[2][1]].edge.owner_id;
+      }catch (e) {edge3 = null; }
+      if (edge1 !== this.gameService.playerObject.meta.PID &&
+        edge2 !== this.gameService.playerObject.meta.PID &&
+        edge3 !== this.gameService.playerObject.meta.PID){
         applicable = false;
         console.log(`You cant place a building without it being connected to a street or ship`);
       }
@@ -424,15 +454,70 @@ export class GameComponent implements OnInit {
     const clockwiseEdge2 = this.gameService.edge_comps[adj_edge[1][0]][adj_edge[1][1]];
     const clockwiseEdge3 = this.gameService.edge_comps[adj_edge[2][0]][adj_edge[2][1]];
     const clockwiseEdge4 = this.gameService.edge_comps[adj_edge[3][0]][adj_edge[3][1]];
-    const edge1 = this.checkEdge(clockwiseEdge1, upper, myMeta, initialPut, prohibitChange);
-    const edge2 = this.checkEdge(clockwiseEdge2, upper, myMeta, initialPut, prohibitChange);
-    const edge3 = this.checkEdge(clockwiseEdge3, lower, myMeta, initialPut, prohibitChange);
-    const edge4 = this.checkEdge(clockwiseEdge4, lower, myMeta, initialPut, prohibitChange);
 
-    if (!(edge1 || edge2 || edge3 || edge4)){
-      applicable = false;
-      console.log(`Building must be connected to another Road or at least the Building`);
+    if (initialPut){
+      if (clockwiseEdge1.edge.owner_id ===  myMeta.PID ||
+          clockwiseEdge2.edge.owner_id ===  myMeta.PID ||
+          clockwiseEdge3.edge.owner_id ===  myMeta.PID ||
+          clockwiseEdge4.edge.owner_id ===  myMeta.PID){
+        if (upper.vertex.owner_id === myMeta.PID){
+          const vertexEdges = vertexToAdjEdges(upper.vertex);
+          let count = 0;
+          try{
+            if (this.gameService.edge_comps[vertexEdges[0][0]][vertexEdges[0][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          try{
+            if (this.gameService.edge_comps[vertexEdges[1][0]][vertexEdges[1][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          try{
+            if (this.gameService.edge_comps[vertexEdges[2][0]][vertexEdges[2][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          if (count > 0){
+            applicable = false;
+          }
+        }else if (lower.vertex.owner_id === myMeta.PID){
+          const vertexEdges = vertexToAdjEdges(lower.vertex);
+          let count = 0;
+          try{
+            if (this.gameService.edge_comps[vertexEdges[0][0]][vertexEdges[0][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          try{
+            if (this.gameService.edge_comps[vertexEdges[1][0]][vertexEdges[1][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          try{
+            if (this.gameService.edge_comps[vertexEdges[2][0]][vertexEdges[2][1]].edge.owner_id === myMeta.PID){
+              count++;
+            }
+          }catch (e) {}
+          if (count > 0){
+            applicable = false;
+          }
+        }
+      }
+      if (upper.vertex.owner_id !== myMeta.PID && lower.vertex.owner_id !== myMeta.PID){
+        applicable = false;
+      }
+    }else{
+      const edge1 = this.checkEdge(clockwiseEdge1, upper, myMeta, initialPut, prohibitChange);
+      const edge2 = this.checkEdge(clockwiseEdge2, upper, myMeta, initialPut, prohibitChange);
+      const edge3 = this.checkEdge(clockwiseEdge3, lower, myMeta, initialPut, prohibitChange);
+      const edge4 = this.checkEdge(clockwiseEdge4, lower, myMeta, initialPut, prohibitChange);
+      if (!(edge1 || edge2 || edge3 || edge4)){
+        applicable = false;
+        console.log(`Building must be connected to another Road or at least the Building`);
+      }
     }
+
     return applicable;
   }
 
@@ -573,9 +658,20 @@ export class GameComponent implements OnInit {
   }
 
   private useMonopoly(): void {
-    this.gameService.dev_monopoly(Resource.Lumber).subscribe();
+    const dialogRef = this.dialog.open(MonopolyDialogComponent, {
+      data: {
+        res: 0,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.gameService.dev_monopoly(+result.res).subscribe();
+      }
+    });
   }
 
+  // TODO think of a way to use Roadbuilding developmentcard
   private useRoadbuilding(): void {
     const structure1 = new Edge(5, 2);
     structure1.building = Structure.Ship;
@@ -626,6 +722,42 @@ export class GameComponent implements OnInit {
         this.gameService.halfResources(result).subscribe();
       }
     });
+  }
+
+  chooseGold(): void {
+    const dialogRef = this.dialog.open(ChooseGoldDialogComponent, {
+      data: {
+        brick: 0,
+        lumber: 0,
+        wool: 0,
+        grain: 0,
+        ore: 0,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.gameService.chooseGold({brick: +result.brick,
+          lumber: +result.lumber,
+          wool: +result.wool,
+          grain: +result.grain,
+          ore: +result.ore}).subscribe();
+      }
+    });
+  }
+
+  cancelAcceptTrade(): void{
+    this.gameService.cancel_acceptance().subscribe();
+  }
+
+  cards(pid: number): number {
+    let ret = 0;
+    this.gameService.gameObject.players.forEach(value => {
+      if (value.PID === pid){
+        ret = value.resourceAmount;
+      }
+    });
+    return ret;
   }
 }
 

@@ -13,10 +13,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
 import { HalfResourcesDialogComponent } from './dialog/half-resources-dialog/half-resources-dialog.component';
+import { ChooseGoldDialogComponent } from './dialog/choose-gold-dialog/choose-gold-dialog.component';
+import { MonopolyDialogComponent } from './dialog/monopoly-dialog/monopoly-dialog.component';
 
 @NgModule({
   declarations: [GameComponent, SpectateComponent, MetaInfoComponent, OwnCardsComponent,
-                  YearOfPlentyDialogComponent, TradeRequestDialogComponent, HalfResourcesDialogComponent],
+                  YearOfPlentyDialogComponent, TradeRequestDialogComponent, HalfResourcesDialogComponent, ChooseGoldDialogComponent, MonopolyDialogComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -1,6 +1,22 @@
 <!-- Status / Instruction bar -->
 <p *ngIf="this.gameService.gameObject.state !== 1">It's {{this.gameService.gameObject.whos_turn.name}}'s turn</p>
 <p *ngIf="this.gameService.gameObject.state === 1">Determine Turn Order</p>
+<p *ngIf="this.gameService.gameObject.state === 2">Roll the dice</p>
+<p *ngIf="this.gameService.gameObject.state === 3">Do your Turn</p>
+<p *ngIf="this.gameService.gameObject.state === 4">Wait for people to accept trade, choose from possible partners</p>
+<p *ngIf="this.gameService.gameObject.state === 5">Place your first Settlement and street or ship</p>
+<p *ngIf="this.gameService.gameObject.state === 6">Place your second Settlement and street or ship</p>
+<p *ngIf="this.gameService.gameObject.state === 7 &&
+         this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) !== -1">Give up half of your resoruces</p>
+<p *ngIf="this.gameService.gameObject.state === 7 &&
+         this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) === -1">Wait for all players to half resources</p>
+<p *ngIf="this.gameService.gameObject.state === 8">Select a new place for the knight or knights-ship</p>
+<p *ngIf="this.gameService.gameObject.state === 9">Choose a victim to steal a resource from</p>
+<p *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
+         this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) !== -1">Select your gold resources</p>
+<p *ngIf="this.gameService.gameObject.state === 10 &&
+         this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) === -1">Wait for all players to select theire gold resources</p>
+
 <app-bar-chart [height]="100" [width]="100" [data]="this.barChartData" [labels]="this.barChartLabels"></app-bar-chart>
 <!-- Bank and Player Overview -->
 <div>
@@ -63,8 +79,7 @@
 <div *ngIf="this.gameService.gameObject.state === 9 &&
             this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
   <div *ngFor="let pid of this.gameService.gameObject.possible_victims">
-    <p (click)="this.gameService.chooseVictim(pid).subscribe()">{{username(pid)}}</p>
-    <!-- TODO show how many cards they have-->
+    <p (click)="this.gameService.chooseVictim(pid).subscribe()">{{username(pid)}} (Cards: {{cards(pid)}})</p>
   </div>
 </div>
 <!-- Trading -->
@@ -106,7 +121,8 @@
     <button (click)="cancelTrade()">Cancel</button>
   </div>
   <div *ngIf="this.gameService.gameObject.tradeOffer.issuer !== this.gameService.playerObject.meta.PID">
-    <button (click)="this.acceptTradeRequest()">Accept Trade Request</button>
+    <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) === -1" (click)="this.acceptTradeRequest()">Accept Trade Request</button>
+    <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) !== -1" (click)="this.cancelAcceptTrade()">Unaccept Trade Request</button>
     <p *ngIf="+this.gameService.gameObject.tradeOffer.brick !== 0">
       <span *ngIf="+this.gameService.gameObject.tradeOffer.brick < 0">Receive: </span>
       <span *ngIf="+this.gameService.gameObject.tradeOffer.brick > 0">Give: </span>
@@ -164,5 +180,10 @@
                  this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) !== -1"
           (click)="this.dumpResources()">
     Choose resources to dump
+  </button>
+  <button *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
+                 this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) !== -1"
+          (click)="this.chooseGold()">
+    Choose resources for your gold
   </button>
 </div>

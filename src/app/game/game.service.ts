@@ -106,22 +106,28 @@ export class GameService {
   interpretGame(json_str: string): void{
     const json = JSON.parse(json_str);
     this.gameObject = {};
-    const {GID, state, bank_res, max_res, cur_dev, max_dev, players,
-           pointsToWin, roll_history, turn, whos_turn, tradeOffer, taxEvaders, possible_victims} = json;
+    const {GID, state, bank_res, max_res, cur_dev, max_dev, players, winner, largestArmyOwner, longestRoadOwner, devPlayed,
+           shipReplaced, goldReceive, pointsToWin, roll_history, turn, whos_turn, tradeOffer, taxEvaders, possible_victims} = json;
     this.gameObject.GID = GID;
     this.gameObject.state = state;
     this.gameObject.players = players;
+    this.gameObject.winner = winner;
+    this.gameObject.longesRoadOwner = longestRoadOwner;
+    this.gameObject.largestArmyOwner = largestArmyOwner;
     this.gameObject.max_res = max_res;
     this.gameObject.cur_res = bank_res;
     this.gameObject.cur_dev = cur_dev;
     this.gameObject.max_dev = max_dev;
     this.gameObject.pointsToWin = pointsToWin;
+    this.gameObject.devPlayed = devPlayed;
     this.gameObject.rollHistory = roll_history;
     this.gameObject.turn = turn;
     this.gameObject.whos_turn = whos_turn;
+    this.gameObject.shipReplaced = shipReplaced;
     this.gameObject.tradeOffer = tradeOffer;
     this.gameObject.taxEvaders = taxEvaders;
     this.gameObject.possible_victims = possible_victims;
+    this.gameObject.goldReceive = goldReceive;
     // console.log(json);
     console.log('Game:');
     console.log(this.gameObject);
@@ -153,6 +159,10 @@ export class GameService {
 
   accept_trade(): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/trade_accept`, null);
+  }
+
+  cancel_acceptance(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/cancel_acceptance`, null);
   }
 
   cancel_trade(): Observable<any>{
@@ -193,5 +203,9 @@ export class GameService {
 
   halfResources({brick, lumber, wool, grain, ore}): Observable<any>{
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/halfResources`, {brick, lumber, wool, grain, ore});
+  }
+
+  chooseGold({brick, lumber, wool, grain, ore}): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/requestGold`, {brick, lumber, wool, grain, ore});
   }
 }

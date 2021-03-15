@@ -20,11 +20,15 @@ Ore: [{{this.info.cur_res.ore}}/{{this.info.max_res.ore}}]
 
 <div *ngFor="let p of this.info.players">
   <span (mouseenter)="p.detail = true" (mouseleave)="p.detail = false" [style.backgroundColor]="p.colour" [style.color]="getHighContrast(p.colour)">{{p.name}}: {{p.points}}</span>
-  <div *ngIf="p.detail" style="position: absolute;">
+  <div *ngIf="p.detail" class="overlay">
     <p>Structures left to use</p>
     <p>Settlements: {{p.structures_left.settlement}}</p>
     <p>Cities: {{p.structures_left.city}}</p>
     <p>Roads: {{p.structures_left.road}}</p>
     <p>Ships: {{p.structures_left.ship}}</p>
+    <p>Resources: {{p.resourceAmount}}</p>
+    <p>Development Cards: {{p.devAmount}}</p>
+    <p>Current Road: {{p.ownRoad}}</p>
+    <p>Current Army: {{p.ownArmy}}</p>
   </div>
 </div>

@@ -20,6 +20,25 @@ export class Meta {
    */
   private points: number;
 
+  /**
+   * @param longestRoad length of own road
+   */
+  ownRoad = 0;
+
+  /**
+   * @param largestArmy size of own army
+   */
+  ownArmy = 0;
+
+  /**
+   * @param resourceAmount number of resources
+   */
+  resourceAmount = 0;
+  /**
+   * @param devAmount number of development cards
+   */
+  devAmount = 0;
+
   constructor(name: string, colour: string) {
     this.name = name;
     this.colour = colour;

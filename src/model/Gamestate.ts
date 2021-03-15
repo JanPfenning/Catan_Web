@@ -10,4 +10,6 @@ export enum Gamestate{
   PLACE_ROBBER,
   CHOOSE_ROBBED,
   AWAIT_GOLD_SELECTION,
+  OVER,
+  AWAIT_GOLD_ON_PLACE,
 }

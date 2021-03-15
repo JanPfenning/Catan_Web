@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Trade</h1>
+<div mat-dialog-content>
+  <div>
+    <mat-radio-group aria-label="1. Free Resource" [(ngModel)]="data.res">
+      <mat-radio-button value="0" (select)="data.res = 0">Brick</mat-radio-button>
+      <mat-radio-button value="1" (select)="data.res = 1">Lumber</mat-radio-button>
+      <mat-radio-button value="2" (select)="data.res = 2">Wool</mat-radio-button>
+      <mat-radio-button value="3" (select)="data.res = 3">Grain</mat-radio-button>
+      <mat-radio-button value="4" (select)="data.res = 4">Ore</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>
+<button mat-dialog-close [mat-dialog-close]="false">Cancel</button>
+<button mat-dialog-close [mat-dialog-close]="data">Submit</button>
