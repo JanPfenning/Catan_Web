@@ -1,36 +1,30 @@
-<div class="grid">
-  <div>
-    Max amount of each resource
+<div id="rules">
+  <div id="left">
+    <label for="max_res">Max amount of each resource</label>
+    <input id="max_res" type="number" (change)="updateMaxRes($event)" value="{{this.creationService.max_res}}">
+    <label for="pointsToWin">Necessary Victorypoints to win</label>
+    <input id="pointsToWin" type="number" (change)="updatePointsToWin($event)" [attr.value]="this.creationService.pointsToWin">
   </div>
-  <input type="number" (change)="updateMaxRes($event)" value="{{this.creationService.max_res}}">
-  <div>
-    Amount of Knight-cards
+  <div id="right">
+    <span id="dev_header">Development cards</span>
+    <div id="dev_cards">
+      <label for="knight">Amount of Knight-cards</label>
+      <input id="knight" type="number" (change)="updateKnights($event)" value="{{this.creationService.max_dev.knight}}">
+      <label for="monopoly">Amount of Monopoly-cards</label>
+      <input id="monopoly" type="number" (change)="updateMonopoly($event)" [attr.value]="this.creationService.max_dev.monopoly">
+      <label for="roadbuilding">Amount of Roadbuilding-cards</label>
+      <input id="roadbuilding" type="number" (change)="updateRoadbuilding($event)" value="{{this.creationService.max_dev.roadbuilding}}">
+      <label for="victorypoint">Amount of Victorypoint-cards</label>
+      <input id="victorypoint" type="number" (change)="updateVictorypoint($event)" value="{{this.creationService.max_dev.victorypoint}}">
+      <label for="yop">Amount of Year-of-pleanty-cards</label>
+      <input id="yop" type="number" (change)="updateYop($event)" value="{{this.creationService.max_dev.yop}}">
+    </div>
   </div>
-  <input type="number" (change)="updateKnights($event)" value="{{this.creationService.max_dev.knight}}">
-  <div>
-    Amount of Monopoly-cards
-  </div>
-  <input type="number" (change)="updateMonopoly($event)" [attr.value]="this.creationService.max_dev.monopoly">
-  <div>
-    Amount of Roadbuilding-cards
-  </div>
-  <input type="number" (change)="updateRoadbuilding($event)" value="{{this.creationService.max_dev.roadbuilding}}">
-  <div>
-    Amount of Victorypoint-cards
-  </div>
-  <input type="number" (change)="updateVictorypoint($event)" value="{{this.creationService.max_dev.victorypoint}}">
-  <div>
-    Amount of Year-of-pleanty-cards
-  </div>
-  <input type="number" (change)="updateYop($event)" value="{{this.creationService.max_dev.yop}}">
-  <div>
-    Necessary Victorypoints to win
-  </div>
-  <input type="number" (change)="updatePointsToWin($event)" [attr.value]="this.creationService.pointsToWin">
 </div>
-<div class="nav-but" (click)="back()">
+<div id="back" class="nav-but" (click)="back()">
   back
 </div>
-<div class="nav-but" (click)="continue()">
+<div id="continue" class="nav-but" (click)="continue()">
   Continue
 </div>
+

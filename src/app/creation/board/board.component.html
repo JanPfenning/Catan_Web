@@ -1,5 +1,5 @@
-<div class="grid-container">
-  <div class="header">
+<div id="grid-container">
+  <div id="size">
     <div>
       Boardheight
     </div>
@@ -15,7 +15,7 @@
       <button (click)="randomBoardToggle()">{{randomBoard ? 'Random board' : 'Custom board'}}</button>
     </div>
   </div>
-  <div class="left">
+  <div id="topology">
     <div *ngIf="randomBoard">
       <div>To be implemented</div>
       <!--
@@ -152,9 +152,11 @@
       <p>Click the desired position in the right representation to place</p>
     </div>
   </div>
-  <div class="right">
+  <div id="charts">
     <app-bar-chart [width]="100" [height]="100" [data]="placedNumbers" [labels]="numberLabels"></app-bar-chart>
     <app-bar-chart [width]="100" [height]="100" [data]="placedTypes" [labels]="typeLabels"></app-bar-chart>
+  </div>
+  <div id="preview">
     <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes"></app-hex-svg>
   </div>
   <div class="footer">

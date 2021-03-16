@@ -1,0 +1,8 @@
+#table{
+  background: url("src/assets/wooden_planks.jpg") no-repeat center center;
+  font-family: Roboto, Arial, sans-serif;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

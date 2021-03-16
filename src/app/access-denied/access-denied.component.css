@@ -1,0 +1,8 @@
+.container{
+  margin-left: 40%;
+  width: 20%;
+  padding: 5%;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-style: double;
+  border-width: thick;
+}

@@ -29,7 +29,7 @@
   Determine Order
 </button>
 <!-- Actual board -->
-<div>
+<div id="table">
   <ng-template [ngIf]="this.gameService.board">
     <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)"
                  [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"

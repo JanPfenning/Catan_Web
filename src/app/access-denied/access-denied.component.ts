@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-access-denied',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccessDeniedComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) {
+    this.authService.loginWithRedirect();
+  }
 
   ngOnInit(): void {
   }

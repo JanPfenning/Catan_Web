@@ -1,17 +1,20 @@
-<div class="navContainer" (click)="create()">
-  Create Game
-</div>
-<label>
-  Id for joining or spectating
-  <input type="number" (change)="changeId($event)" value="{{this.gameId}}">
-</label>
-<label>
-  Passcode for joining or spectating
-  <input type="password" (change)="changePass($event)" value="{{this.passcode}}">
-</label>
-<div class="navContainer" (click)="join()">
-  Join Game
-</div>
-<div class="navContainer" (click)="spectate()">
-  Spectate Game
+<div id="grid-container">
+  <div id="create-container" class="nav-container">
+    <div class="button" (click)="create()">Create Game</div>
+  </div>
+  <div id="join-container" class="nav-container">
+    <label for="join_id">Id:</label>
+    <input id="join_id" type="number" (change)="changeId($event)" value="{{this.gameId}}">
+    <label for="join_pass">Passcode:</label>
+    <input id="join_pass" type="password" (change)="changePass($event)" value="{{this.passcode}}">
+    <div class="button" (click)="join()">Join Game</div>
+  </div>
+  <div id="spectate-container" class="nav-container">
+    <label for="spec_id">Id:</label>
+    <input id="spec_id" type="number" (change)="changeId($event)" value="{{this.gameId}}">
+    <div class="button" (click)="spectate()">Spectate Game</div>
+  </div>
+  <div id="right">
+    <object id="logo" data="assets/catan_logo.svg" type="image/svg+xml"></object>
+  </div>
 </div>

@@ -1,0 +1,6 @@
+input :read-only{
+  background-color: darkgray;
+}
+input[type='color']{
+  vertical-align: middle;
+}

@@ -673,6 +673,7 @@ export class GameComponent implements OnInit {
 
   // TODO think of a way to use Roadbuilding developmentcard
   private useRoadbuilding(): void {
+    // TODO make a gamestate turn -> Roadbuilding1 -> Roadbuilding2 -> turn
     const structure1 = new Edge(5, 2);
     structure1.building = Structure.Ship;
     const structure2 = new Edge(4, 3);

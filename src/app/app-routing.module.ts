@@ -24,9 +24,9 @@ const routes: Routes = [
     canActivate: [LoginActivate]
   },
   { path: 'join', component: LobbyComponent, canActivate: [LoginActivate] },
-  { path: 'game', component: GameComponent/*, canActivate: [LoginActivate]*/ },
+  { path: 'game', component: GameComponent, canActivate: [LoginActivate] },
   { path: 'spectate', component: SpectateComponent },
-  { path: 'accessDenied', component: AccessDeniedComponent },
+  { path: 'accessDenied', component: AccessDeniedComponent},
   { path: '**', component: PageNotFoundComponent },
 ];
 

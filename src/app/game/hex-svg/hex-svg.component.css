@@ -1,0 +1,6 @@
+#board{
+  filter: drop-shadow(0px 0px 20px black);
+}
+#table{
+  background: url("src/assets/wooden_planks.jpg") no-repeat center center;
+}

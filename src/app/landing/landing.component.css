@@ -1,16 +1,63 @@
-.navContainer{
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  margin: 10px;
+.nav-container{
+  margin: 0 20%;
+  padding: 5%;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-style: double;
+  border-width: thick;
 }
-.navContainer:hover{
-  transform: translate(-1px,-1px);
+.button{
+  transition: all .3s ease-out;
+  color: black;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1/3;
 }
-.navContainer:active{
-  transform: translate(1px,1px);
+.button:hover{
+  transform: scale(1.05, 1.05);
 }
-input :read-only{
-  background-color: darkgray;
+.button:active{
+  transform: scale(0.95, 0.95);
 }
-input[type='color']{
-  vertical-align: middle;
+#grid-container{
+  display: grid;
+  margin: 5% 0 0 0;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 40% 40% 40%;
+  gap: 5% 0px;
+  grid-template-areas:
+    "create-con right right"
+    "join-con right right"
+    "spectate-con right right";
+}
+#create-container{
+  grid-area: create-con;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+#join-container{
+  grid-area: join-con;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+#right{
+  grid-area: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#spectate-container{
+  grid-area: spectate-con;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+#logo{
+  width: 50%;
+}
+input{
+  margin: 10% 0;
+}
+label{
+  align-self: center;
 }

@@ -1,4 +1,36 @@
-.grid{
+#rules{
+  margin: 5% 5% 5% 5%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0;
+  grid-template-columns: 50% 50%;
+}
+#left{
+  margin: 0 0;
+  padding: 5%;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-style: double;
+  border-width: thick;
+  display: grid;
+}
+#right{
+  padding: 5%;
+  margin: 0 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-style: double;
+  border-width: thick;
+}
+#dev_cards{
+  padding: 5%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+#dev_header{
+  padding: 5%;
+  grid-column: 1/3;
+}
+#back{
+  text-align: left;
+}
+#continue{
+  text-align: right;
 }
