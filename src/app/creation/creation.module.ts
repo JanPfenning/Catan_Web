@@ -4,6 +4,7 @@ import { RulesComponent } from './rules/rules.component';
 import { BoardComponent } from './board/board.component';
 import {SharedModule} from '../shared/shared.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ]
 })
 export class CreationModule { }

@@ -1,32 +1,32 @@
-<div id="rules">
-  <div id="left">
+<div id="grid-container">
+  <mat-card class="rules-container" id="meta">
     <label for="max_res">Max amount of each resource</label>
     <input id="max_res" type="number" (change)="updateMaxRes($event)" value="{{this.creationService.max_res}}">
     <label for="pointsToWin">Necessary Victorypoints to win</label>
     <input id="pointsToWin" type="number" (change)="updatePointsToWin($event)" [attr.value]="this.creationService.pointsToWin">
-  </div>
-  <div id="right">
-    <span id="dev_header">Development cards</span>
-    <div id="dev_cards">
-      <label for="knight">Amount of Knight-cards</label>
-      <input id="knight" type="number" (change)="updateKnights($event)" value="{{this.creationService.max_dev.knight}}">
-      <label for="monopoly">Amount of Monopoly-cards</label>
-      <input id="monopoly" type="number" (change)="updateMonopoly($event)" [attr.value]="this.creationService.max_dev.monopoly">
-      <label for="roadbuilding">Amount of Roadbuilding-cards</label>
-      <input id="roadbuilding" type="number" (change)="updateRoadbuilding($event)" value="{{this.creationService.max_dev.roadbuilding}}">
-      <label for="victorypoint">Amount of Victorypoint-cards</label>
-      <input id="victorypoint" type="number" (change)="updateVictorypoint($event)" value="{{this.creationService.max_dev.victorypoint}}">
-      <label for="yop">Amount of Year-of-pleanty-cards</label>
-      <input id="yop" type="number" (change)="updateYop($event)" value="{{this.creationService.max_dev.yop}}">
-    </div>
-  </div>
-</div>
-<div id="footer">
-  <div id="back" class="nav-but" (click)="back()">
-    back
-  </div>
-  <div id="continue" class="nav-but" (click)="continue()">
-    Continue
-  </div>
+  </mat-card>
+  <mat-card class="rules-container" id="dev">
+    <span id="dev_header">Amount of Development cards</span>
+    <label for="knight">Knight</label>
+    <input id="knight" type="number" (change)="updateKnights($event)" value="{{this.creationService.max_dev.knight}}">
+    <label for="monopoly">Monopoly</label>
+    <input id="monopoly" type="number" (change)="updateMonopoly($event)" [attr.value]="this.creationService.max_dev.monopoly">
+    <label for="roadbuilding">Roadbuilding</label>
+    <input id="roadbuilding" type="number" (change)="updateRoadbuilding($event)" value="{{this.creationService.max_dev.roadbuilding}}">
+    <label for="victorypoint">Victorypoint</label>
+    <input id="victorypoint" type="number" (change)="updateVictorypoint($event)" value="{{this.creationService.max_dev.victorypoint}}">
+    <label for="yop">Year of pleanty</label>
+    <input id="yop" type="number" (change)="updateYop($event)" value="{{this.creationService.max_dev.yop}}">
+  </mat-card>
+  <mat-card id="back-container" class="button-container">
+    <button id="back" class="nav-but" (click)="back()">
+      back
+    </button>
+  </mat-card>
+  <mat-card id="continue-container" class="button-container">
+    <button id="continue" class="nav-but" (click)="continue()">
+      Continue
+    </button>
+  </mat-card>
 </div>
 

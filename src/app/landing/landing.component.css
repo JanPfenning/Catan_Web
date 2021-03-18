@@ -1,63 +1,75 @@
-.nav-container{
-  margin: 0 20%;
-  padding: 5%;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-style: double;
-  border-width: thick;
+@media screen and (max-width: 600px) {
+  #grid-container{
+    display: grid;
+    margin: 5% 0 0 0;
+    grid-template-rows: 30% 20% 40% 30%;
+    gap: 5% 0;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "logo"
+      "create"
+      "join"
+      "spectate";
+  }
+  #logo{
+    height: 100%;
+  }
 }
-.button{
-  transition: all .3s ease-out;
-  color: black;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-column: 1/3;
-}
-.button:hover{
-  transform: scale(1.05, 1.05);
-}
-.button:active{
-  transform: scale(0.95, 0.95);
-}
-#grid-container{
-  display: grid;
-  margin: 5% 0 0 0;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 40% 40% 40%;
-  gap: 5% 0px;
-  grid-template-areas:
-    "create-con right right"
-    "join-con right right"
-    "spectate-con right right";
+@media screen and (min-width: 600px){
+  #grid-container{
+    display: grid;
+    margin: 5% 0 0 0;
+    grid-template-rows: 20% 40% 30% auto;
+    gap: 5% 0;
+    grid-template-columns: 50% 50%;
+    grid-template-areas:
+      "create logo"
+      "join logo"
+      "spectate logo";
+  }
+  #logo{
+    width: 100%;
+  }
 }
 #create-container{
-  grid-area: create-con;
+  grid-area: create;
   display: grid;
   grid-template-columns: 50% 50%;
 }
 #join-container{
-  grid-area: join-con;
+  grid-area: join;
   display: grid;
   grid-template-columns: 50% 50%;
-}
-#right{
-  grid-area: right;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 #spectate-container{
-  grid-area: spectate-con;
+  grid-area: spectate;
   display: grid;
   grid-template-columns: 50% 50%;
 }
-#logo{
-  width: 50%;
+#logo-container {
+  grid-area: logo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 input{
-  margin: 10% 0;
+  align-self: center;
+  height: 1.5rem;
 }
 label{
   align-self: center;
 }
+.nav-container{
+  margin: 0 auto;
+  width: 75%;
+}
+.button{
+  font-size: larger;
+  font-weight: bold;
+  background-color: white;
+  color: black;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1/3;
+}
+

@@ -1,5 +1,8 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-html, body {margin: 0; height: 100%; overflow: hidden}
+div[ng-view], html, body{
+  height: 100%;
+  width: 100%;
+}
 body {
   margin: 0;
   background: url("assets/mountains_background.jpg") no-repeat center center fixed;
@@ -14,4 +17,7 @@ body {
   width: 3rem;
   background-color: white;
   border-radius: 100%;
+}
+.mat-card{
+  background-color: rgba(66,66,66,0.80) !important;
 }

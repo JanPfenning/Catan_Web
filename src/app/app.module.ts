@@ -24,7 +24,9 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 import {GameComponent} from './game/game/game.component';
 import {TradeRequestDialogComponent} from './game/dialog/trade-request-dialog/trade-request-dialog.component';
 
@@ -45,6 +47,8 @@ import {TradeRequestDialogComponent} from './game/dialog/trade-request-dialog/tr
         BrowserAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
+        MatButtonModule,
+        MatCardModule,
         SharedModule,
         HttpClientModule,
         MatDialogModule,

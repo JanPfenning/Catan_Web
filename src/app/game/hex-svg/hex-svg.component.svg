@@ -1,4 +1,4 @@
-<svg id="table" [attr.width]="width * 2 * hex.length" [attr.height]="width * 2 * hex[0].length">
+<svg id="table" [attr.width]="width" [attr.height]="height" (window:resize)="ngOnInit()">
   <g id="board">
     <g *ngFor="let line of hex">
       <g *ngFor="let hex of line">

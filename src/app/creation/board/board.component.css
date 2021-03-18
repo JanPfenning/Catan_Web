@@ -1,84 +1,63 @@
 #grid-container {
-  margin: 2.5% 0 0 0;
   display: grid;
-  grid-template-columns: 33% 66%;
-  grid-template-rows: 25% 25% 25%;
-  gap: 0 0;
 }
+
+/* only on small screen */
+@media screen and (max-width: 600px) {
+  #grid-container {
+    grid-template-areas:
+    "size size"
+    "ui-selection ui-selection"
+    "ui ui"
+    "preview preview"
+    "charts charts"
+    "back publish";
+    gap: 0 0;
+  }
+}
+
+/* only on big screen */
+@media screen and (min-width: 600px) {
+  #grid-container {
+    grid-template-areas:
+    "left right";
+    gap: 0 0;
+  }
+}
+
 #size{
-  grid-column: 1/2;
-  grid-row: 1/2;
+  grid-area: size;
   display: grid;
   grid-template-columns: 33% 66%;
 }
 #size p{
   grid-column: 1/3;
 }
-#size input{
-  height: 2rem;
-  align-self: center;
+#ui-selection{
+  grid-area: ui-selection;
 }
-#size label{
-  align-self: center;
-}
-#topology{
-  grid-column: 1/2;
-  grid-row: 2/4;
+#ui{
+  grid-area: ui;
   display: grid;
-  grid-template-rows: 3rem 4rem auto;
-}
-#topology p{
-  grid-row: 1/2;
-}
-#topology_selection{
-  grid-row: 2/3;
-  display: grid;
-  grid-template-columns: 60% 40%;
-}
-#topology div{
-  grid-row: 3/4;
 }
 #preview{
-  grid-column: 2/3;
-  grid-row: 1/3;
+  grid-area: preview;
 }
 #charts{
-  padding: 0;
-  grid-column: 2/3;
-  grid-row: 3/4;
+  grid-area: charts;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
-.group-container{
-  margin: 0 20%;
-  padding: 2.5% 0 2.5% 2.5%;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-style: double;
-  border-width: thick;
-}
-.chart{
-  margin: 5%;
-}
 #back{
-  max-width: 4rem;
-  margin-left: 5%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-style: double;
-  border-width: thick;
+  grid-area: back;
 }
 #publish{
-  max-width: 7rem;
-  margin-right: 5%;
-  float: right;
-  justify-self: flex-end;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-style: double;
-  border-width: thick;
+  grid-area: publish;
 }
-#footer{
-  display: grid;
-  grid-template-columns: 50% 50%;
+#left{
+  grid-area: left;
+}
+#right{
+  grid-area: right;
 }

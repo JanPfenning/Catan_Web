@@ -20,9 +20,24 @@ export class HexSvgComponent implements OnInit{
   vertices: Vertex[][];
   @Input()
   edges;
+  @Input()
+  fullscreen;
   width: number;
+  height: any;
 
   ngOnInit(): void {
-    this.width = Hex.side;
+    if (document.getElementsByTagName('body')[0].clientWidth <= document.getElementsByTagName('body')[0].clientHeight){
+      Hex.setSide(document.getElementsByTagName('body')[0].clientWidth / 22);
+    }else{
+      Hex.setSide(document.getElementsByTagName('body')[0].clientHeight / 22);
+    }
+    if (this.fullscreen){
+      this.width = document.getElementsByTagName('body')[0].clientWidth;
+      this.height = document.getElementsByTagName('body')[0].clientHeight;
+    }else{
+      this.height = Hex.side  * 2 * (this.hex[0].length - 2);
+      this.width = Hex.side * 2 * (this.hex.length);
+    }
+    this.hex = JSON.parse(JSON.stringify(this.hex));
   }
 }

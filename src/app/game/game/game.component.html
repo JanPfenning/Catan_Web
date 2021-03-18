@@ -1,3 +1,11 @@
+<!-- Actual board -->
+<div id="table">
+  <ng-template [ngIf]="this.gameService.board">
+    <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [fullscreen]="true"
+                 [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"
+                 [harbours]="this.gameService.board.harbours" [edges]="this.gameService.board.edges"></app-hex-svg>
+  </ng-template>
+</div>
 <!-- Status / Instruction bar -->
 <p *ngIf="this.gameService.gameObject.state !== 1">It's {{this.gameService.gameObject.whos_turn.name}}'s turn</p>
 <p *ngIf="this.gameService.gameObject.state === 1">Determine Turn Order</p>
@@ -28,14 +36,6 @@
         (click)="this.gameService.determineOrder().subscribe()">
   Determine Order
 </button>
-<!-- Actual board -->
-<div id="table">
-  <ng-template [ngIf]="this.gameService.board">
-    <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)"
-                 [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"
-                 [harbours]="this.gameService.board.harbours" [edges]="this.gameService.board.edges"></app-hex-svg>
-  </ng-template>
-</div>
 <!-- Me -->
 <div>
   <ng-template [ngIf]="this.gameService.playerObject">
