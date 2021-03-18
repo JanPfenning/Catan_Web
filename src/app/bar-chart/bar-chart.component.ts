@@ -18,6 +18,7 @@ export class BarChartComponent implements OnChanges {
 
   barWidth: number;
   heights: number[] = [];
+  color = `rgba(255, 255, 255, 1)`;
 
   constructor() {}
 

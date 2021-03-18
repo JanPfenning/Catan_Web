@@ -21,7 +21,6 @@ export class BoardComponent implements OnInit {
   harbourChoose: FormGroup;
   ui: 'resources'|'harbours'|'numbers' = 'resources';
   onHexClick = this.getHexPosition;
-  randomBoard = false;
   balancedFields = true;
   creationService: CreationService;
   // hexes: Hex[][] = [];
@@ -136,10 +135,6 @@ export class BoardComponent implements OnInit {
       hex.nr = numberSet.pop();
     });
     this.updateNumbers();
-  }
-
-  randomBoardToggle(): void {
-    this.randomBoard = !this.randomBoard;
   }
 
   // Higher order function to be provided in hex svg

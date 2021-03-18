@@ -1,28 +1,28 @@
 <svg [attr.height]="height" [attr.width]="width">
-  <rect [attr.x]="2 * barWidth" [attr.y]="height - heights[0]" [attr.width]="barWidth" [attr.height]="heights[0]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="2 * barWidth" [attr.y]="height-5">{{this.labels[0]}}</text>
-  <rect [attr.x]="4 * barWidth" [attr.y]="height - heights[1]" [attr.width]="barWidth" [attr.height]="heights[1]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="4 * barWidth" [attr.y]="height-5">{{this.labels[1]}}</text>
-  <rect [attr.x]="6 * barWidth" [attr.y]="height - heights[2]" [attr.width]="barWidth" [attr.height]="heights[2]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="6 * barWidth" [attr.y]="height-5">{{this.labels[2]}}</text>
-  <rect [attr.x]="8 * barWidth" [attr.y]="height - heights[3]" [attr.width]="barWidth" [attr.height]="heights[3]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="8 * barWidth" [attr.y]="height-5">{{this.labels[3]}}</text>
-  <rect [attr.x]="10 * barWidth" [attr.y]="height - heights[4]" [attr.width]="barWidth" [attr.height]="heights[4]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="10 * barWidth" [attr.y]="height-5">{{this.labels[4]}}</text>
-  <rect [attr.x]="12 * barWidth" [attr.y]="height - heights[5]" [attr.width]="barWidth" [attr.height]="heights[5]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="12 * barWidth" [attr.y]="height-5">{{this.labels[5]}}</text>
-  <rect [attr.x]="14 * barWidth" [attr.y]="height - heights[6]" [attr.width]="barWidth" [attr.height]="heights[6]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="14 * barWidth" [attr.y]="height-5">{{this.labels[6]}}</text>
-  <rect [attr.x]="16 * barWidth" [attr.y]="height - heights[7]" [attr.width]="barWidth" [attr.height]="heights[7]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="16 * barWidth" [attr.y]="height-5">{{this.labels[7]}}</text>
-  <rect [attr.x]="18 * barWidth" [attr.y]="height - heights[8]" [attr.width]="barWidth" [attr.height]="heights[8]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="18 * barWidth" [attr.y]="height-5">{{this.labels[8]}}</text>
-  <rect [attr.x]="20 * barWidth" [attr.y]="height - heights[9]" [attr.width]="barWidth" [attr.height]="heights[9]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="20 * barWidth" [attr.y]="height-5">{{this.labels[9]}}</text>
-  <rect [attr.x]="22 * barWidth" [attr.y]="height - heights[10]" [attr.width]="barWidth" [attr.height]="heights[10]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="22 * barWidth" [attr.y]="height-5">{{this.labels[10]}}</text>
-  <rect [attr.x]="24 * barWidth" [attr.y]="height - heights[11]" [attr.width]="barWidth" [attr.height]="heights[11]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="24 * barWidth" [attr.y]="height-5">{{this.labels[11]}}</text>
-  <rect [attr.x]="26 * barWidth" [attr.y]="height - heights[12]" [attr.width]="barWidth" [attr.height]="heights[12]-10" fill="blue"></rect>
-  <text [attr.font-size]="barWidth*2" [attr.x]="26 * barWidth" [attr.y]="height-5">{{this.labels[12]}}</text>
+  <rect [attr.x]="2 * barWidth" [attr.y]="height - heights[0]" [attr.width]="barWidth" [attr.height]="heights[0]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="2 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[0]}}</text>
+  <rect [attr.x]="4 * barWidth" [attr.y]="height - heights[1]" [attr.width]="barWidth" [attr.height]="heights[1]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="4 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[1]}}</text>
+  <rect [attr.x]="6 * barWidth" [attr.y]="height - heights[2]" [attr.width]="barWidth" [attr.height]="heights[2]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="6 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[2]}}</text>
+  <rect [attr.x]="8 * barWidth" [attr.y]="height - heights[3]" [attr.width]="barWidth" [attr.height]="heights[3]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="8 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[3]}}</text>
+  <rect [attr.x]="10 * barWidth" [attr.y]="height - heights[4]" [attr.width]="barWidth" [attr.height]="heights[4]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="10 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[4]}}</text>
+  <rect [attr.x]="12 * barWidth" [attr.y]="height - heights[5]" [attr.width]="barWidth" [attr.height]="heights[5]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="12 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[5]}}</text>
+  <rect [attr.x]="14 * barWidth" [attr.y]="height - heights[6]" [attr.width]="barWidth" [attr.height]="heights[6]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="14 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[6]}}</text>
+  <rect [attr.x]="16 * barWidth" [attr.y]="height - heights[7]" [attr.width]="barWidth" [attr.height]="heights[7]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="16 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[7]}}</text>
+  <rect [attr.x]="18 * barWidth" [attr.y]="height - heights[8]" [attr.width]="barWidth" [attr.height]="heights[8]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="18 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[8]}}</text>
+  <rect [attr.x]="20 * barWidth" [attr.y]="height - heights[9]" [attr.width]="barWidth" [attr.height]="heights[9]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="20 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[9]}}</text>
+  <rect [attr.x]="22 * barWidth" [attr.y]="height - heights[10]" [attr.width]="barWidth" [attr.height]="heights[10]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="22 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[10]}}</text>
+  <rect [attr.x]="24 * barWidth" [attr.y]="height - heights[11]" [attr.width]="barWidth" [attr.height]="heights[11]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="24 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[11]}}</text>
+  <rect [attr.x]="26 * barWidth" [attr.y]="height - heights[12]" [attr.width]="barWidth" [attr.height]="heights[12]-10" [attr.fill]=color></rect>
+  <text [attr.font-size]="barWidth*2" [attr.x]="26 * barWidth" [attr.y]="height-5" [attr.fill]=color>{{this.labels[12]}}</text>
 </svg>

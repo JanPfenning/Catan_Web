@@ -1,5 +1,5 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
+html, body {margin: 0; height: 100%; overflow: hidden}
 body {
   margin: 0;
   background: url("assets/mountains_background.jpg") no-repeat center center fixed;
@@ -9,4 +9,9 @@ body {
   -o-background-size: cover;
   background-size: cover;
   color: white;
+}
+.resource_logo{
+  width: 3rem;
+  background-color: white;
+  border-radius: 100%;
 }
