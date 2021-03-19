@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit {
   uiChoose: FormGroup;
   harbourChoose: FormGroup;
   ui: 'resources'|'harbours'|'numbers' = 'resources';
-  onHexClick = this.getHexPosition;
+  onHexClick = this.changeType;
   balancedFields = true;
   creationService: CreationService;
   // hexes: Hex[][] = [];
@@ -225,6 +225,7 @@ export class BoardComponent implements OnInit {
     });
   }
 
+  // TODO on adjust height recalculate height of svg
   updateWidth($event: any): void {
     const dif = $event.target.value - this.creationService.boardWidth;
     if (dif > 0){
@@ -234,6 +235,7 @@ export class BoardComponent implements OnInit {
     }
     this.creationService.boardWidth = +$event.target.value;
     console.log(`new width: ${this.creationService.boardWidth}`);
+    // this.creationService.hexes = JSON.parse(JSON.stringify(this.creationService.hexes));
   }
 
   updateHeight($event: any): void {
@@ -244,10 +246,10 @@ export class BoardComponent implements OnInit {
       this.shrinkH(dif);
     }
     this.creationService.boardHeight = +$event.target.value;
-    console.log(`new height: ${this.creationService.boardHeight}`);
+    // console.log(`new height: ${this.creationService.boardHeight}`);
   }
 
-  // TODO auto re-render
+  // TODO actively destroy the svg hexes that are lost
   shrinkW(dif: number): void{
     console.log(`${dif} columns -> shrink`);
     for (let x = this.creationService.boardWidth + dif; x > this.creationService.boardWidth ; x--) {
@@ -267,7 +269,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  // TODO auto re-render
+  // TODO actively destroy the svg hexes that are lost
   shrinkH(dif: number): void{
     console.log(`${dif} rows -> shrink`);
     for (let x = 0; x < this.creationService.boardWidth ; x++) {
@@ -331,6 +333,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  // TODO !DEBUG first interaction has no impact until random place resources has been pressed once
   interact($event: MouseEvent): void {
     this.updateNumbers();
     this.updateTypes();
@@ -356,6 +359,7 @@ export class BoardComponent implements OnInit {
     const hexes = [];
     this.creationService.hexes.forEach(line => {
       line.forEach(hex => {
+        console.log(hex);
         if (+hex.type !== +HexType.Water){
           hexes.push(hex);
         }
@@ -376,9 +380,7 @@ export class BoardComponent implements OnInit {
       hex.type = resourcesSet.pop();
       console.log(hex);
     });
-    // TODO REDRAW THE MAP
-    const temp = this.creationService.hexes;
-    this.creationService.hexes = temp;
+    this.creationService.hexes = JSON.parse(JSON.stringify(this.creationService.hexes));
     this.updateTypes();
   }
 }
