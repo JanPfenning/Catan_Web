@@ -27,8 +27,8 @@ export class HexComponent implements OnInit {
 
   gameService: GameService;
   creationService: CreationService;
-  x_center = 50;
-  y_center = 50;
+  x_center = 2 * Hex.side;
+  y_center = 2 * Hex.side;
   // points = '300,150 225,280 75,280 0,150 75,20 225,20';
   points = '';
   points2 = '';

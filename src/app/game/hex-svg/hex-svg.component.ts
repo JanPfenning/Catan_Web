@@ -35,7 +35,7 @@ export class HexSvgComponent implements OnInit{
       this.width = document.getElementsByTagName('body')[0].clientWidth;
       this.height = document.getElementsByTagName('body')[0].clientHeight;
     }else{
-      this.height = Hex.side  * 2 * (this.hex[0].length - 2);
+      this.height = Hex.side  * 2 * (this.hex[0].length - 1);
       this.width = Hex.side * 2 * (this.hex.length);
     }
     this.hex = JSON.parse(JSON.stringify(this.hex));

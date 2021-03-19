@@ -1,126 +1,122 @@
 <div id="grid-container">
-  <div id="left">
-    <mat-card class="group-container" id="size">
-      <p>Adjust Size</p>
-      <label for="height">Height</label>
-      <input id="height" type="number" (change)="updateHeight($event)" value="{{this.creationService.boardHeight}}">
-      <label for="width">Width</label>
-      <input id="width" type="number" (change)="updateWidth($event)"  value="{{this.creationService.boardWidth}}">
-    </mat-card>
-    <mat-card class="group-container" id="ui-selection">
-      <p>Select what you want to place:</p>
-      <form id="topology_selection" (change)="toggleUI()" [formGroup]="uiChoose">
-        <label for="radio_resources">
-          <span>Resources</span>
-        </label>
-        <input id="radio_resources" type="radio" value="resources" formControlName="ui">
-        <label for="radio_harbours">
-          <span>Harbours</span>
-        </label>
-        <input id="radio_harbours" type="radio" value="harbours" formControlName="ui">
-        <label for="radio_numbers">
-          <span>Numbers</span>
-        </label>
-        <input id="radio_numbers" type="radio" value="numbers" formControlName="ui">
-      </form>
-    </mat-card>
-    <mat-card class="group-container" id="ui">
-      <div>
-        <div id="resource_selection" *ngIf="ui == 'resources'">
-          <div>
-            <form (change)="updateHexType()" [formGroup]="hexTypeChoose">
-              <label for="res_brick">
-                <object class="resource_logo" data="assets/brick_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_brick" type="radio" value="{{brick}}" formControlName="hextype">
-              <label for="res_lumber">
-                <object class="resource_logo" data="assets/lumber_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_lumber" type="radio" value="{{lumber}}" formControlName="hextype">
-              <label for="res_wool">
-                <object class="resource_logo" data="assets/sheep_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_wool" type="radio" value="{{wool}}" formControlName="hextype">
-              <label for="res_grain">
-                <object class="resource_logo" data="assets/grain_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_grain" type="radio" value="{{grain}}" formControlName="hextype">
-              <label for="res_ore">
-                <object class="resource_logo" data="assets/ore_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_ore" type="radio" value="{{ore}}" formControlName="hextype">
-              <label for="res_gold">
-                <object class="resource_logo" data="assets/gold_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_gold" type="radio" value="{{gold}}" formControlName="hextype">
-              <label for="res_water">
-                <object class="resource_logo" data="assets/water_logo.svg" type="image/svg+xml"></object>
-              </label>
-              <input id="res_water" type="radio" value="{{water}}" formControlName="hextype">
-            </form>
-          </div>
-          <button (click)="randomPlaceResources()">Distribute Resources randomly</button>
-        </div>
-        <div *ngIf="ui == 'harbours'">
-          <form (change)="updateHarbour()" [formGroup]="harbourChoose">
-            <label>
-              <input type="radio" value="{{TTO}}" formControlName="harbourtype">
-              <span>3-1</span>
+  <mat-card class="group-container" id="size">
+    <p>Adjust Size</p>
+    <label for="height">Height</label>
+    <input id="height" type="number" (change)="updateHeight($event)" value="{{this.creationService.boardHeight}}">
+    <label for="width">Width</label>
+    <input id="width" type="number" (change)="updateWidth($event)"  value="{{this.creationService.boardWidth}}">
+  </mat-card>
+  <mat-card class="group-container" id="ui-selection">
+    <p>Select what you want to place:</p>
+    <form id="topology_selection" (change)="toggleUI()" [formGroup]="uiChoose">
+      <label for="radio_resources">
+        <span>Resources</span>
+      </label>
+      <input id="radio_resources" type="radio" value="resources" formControlName="ui">
+      <label for="radio_harbours">
+        <span>Harbours</span>
+      </label>
+      <input id="radio_harbours" type="radio" value="harbours" formControlName="ui">
+      <label for="radio_numbers">
+        <span>Numbers</span>
+      </label>
+      <input id="radio_numbers" type="radio" value="numbers" formControlName="ui">
+    </form>
+  </mat-card>
+  <mat-card class="group-container" id="ui">
+    <div>
+      <div id="resource_selection" *ngIf="ui == 'resources'">
+        <div>
+          <form (change)="updateHexType()" [formGroup]="hexTypeChoose">
+            <label for="res_brick">
+              <object class="resource_logo" data="assets/brick_logo.svg" type="image/svg+xml"></object>
             </label>
-            <label>
-              <input type="radio" value="{{brick_harbour}}" formControlName="harbourtype">
-              <span>Brick</span>
+            <input id="res_brick" type="radio" value="{{brick}}" formControlName="hextype">
+            <label for="res_lumber">
+              <object class="resource_logo" data="assets/lumber_logo.svg" type="image/svg+xml"></object>
             </label>
-            <label>
-              <input type="radio" value="{{lumber_harbour}}" formControlName="harbourtype">
-              <span>Lumber</span>
+            <input id="res_lumber" type="radio" value="{{lumber}}" formControlName="hextype">
+            <label for="res_wool">
+              <object class="resource_logo" data="assets/sheep_logo.svg" type="image/svg+xml"></object>
             </label>
-            <label>
-              <input type="radio" value="{{wool_harbour}}" formControlName="harbourtype">
-              <span>Wool</span>
+            <input id="res_wool" type="radio" value="{{wool}}" formControlName="hextype">
+            <label for="res_grain">
+              <object class="resource_logo" data="assets/grain_logo.svg" type="image/svg+xml"></object>
             </label>
-            <label>
-              <input type="radio" value="{{grain_harbour}}" formControlName="harbourtype">
-              <span>Grain</span>
+            <input id="res_grain" type="radio" value="{{grain}}" formControlName="hextype">
+            <label for="res_ore">
+              <object class="resource_logo" data="assets/ore_logo.svg" type="image/svg+xml"></object>
             </label>
-            <label>
-              <input type="radio" value="{{ore_harbour}}" formControlName="harbourtype">
-              <span>Ore</span>
+            <input id="res_ore" type="radio" value="{{ore}}" formControlName="hextype">
+            <label for="res_gold">
+              <object class="resource_logo" data="assets/gold_logo.svg" type="image/svg+xml"></object>
             </label>
+            <input id="res_gold" type="radio" value="{{gold}}" formControlName="hextype">
+            <label for="res_water">
+              <object class="resource_logo" data="assets/water_logo.svg" type="image/svg+xml"></object>
+            </label>
+            <input id="res_water" type="radio" value="{{water}}" formControlName="hextype">
           </form>
         </div>
-        <div *ngIf="ui == 'numbers'">
-          <div>
-            <label>
-              <input (change)="updateNumber($event)" type="number" value="{{this.creationService.choosenNumber}}">
-              <span>Number</span>
-            </label>
-          </div>
-          <button (click)="randomPlaceNumbers()">Distribute numbers randomly</button>
-        </div>
+        <button (click)="randomPlaceResources()">Distribute Resources randomly</button>
       </div>
-    </mat-card>
-    <mat-card class="button-container">
-      <button id="back" class="nav-but" (click)="back()">
-        back
-      </button>
-    </mat-card>
-  </div>
-  <div id="right">
-    <mat-card class="group-container" id="charts">
-      <app-bar-chart class="chart" id="numbers" [width]="100" [height]="100" [data]="placedNumbers" [labels]="numberLabels"></app-bar-chart>
-      <app-bar-chart class="chart" id="types" [width]="100" [height]="100" [data]="placedTypes" [labels]="typeLabels"></app-bar-chart>
-    </mat-card>
-    <mat-card class="group-container" id="preview">
-      <p>Click the desired position in the right representation to place</p>
-      <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes" [fullscreen]="false"></app-hex-svg>
-    </mat-card>
-    <mat-card id="publish-container" class="button-container">
-      <button id="publish" class="nav-but" (click)="publishGame()">
-        Publish game
-      </button>
-    </mat-card>
-  </div>
+      <div *ngIf="ui == 'harbours'">
+        <form (change)="updateHarbour()" [formGroup]="harbourChoose">
+          <label>
+            <input type="radio" value="{{TTO}}" formControlName="harbourtype">
+            <span>3-1</span>
+          </label>
+          <label>
+            <input type="radio" value="{{brick_harbour}}" formControlName="harbourtype">
+            <span>Brick</span>
+          </label>
+          <label>
+            <input type="radio" value="{{lumber_harbour}}" formControlName="harbourtype">
+            <span>Lumber</span>
+          </label>
+          <label>
+            <input type="radio" value="{{wool_harbour}}" formControlName="harbourtype">
+            <span>Wool</span>
+          </label>
+          <label>
+            <input type="radio" value="{{grain_harbour}}" formControlName="harbourtype">
+            <span>Grain</span>
+          </label>
+          <label>
+            <input type="radio" value="{{ore_harbour}}" formControlName="harbourtype">
+            <span>Ore</span>
+          </label>
+        </form>
+      </div>
+      <div *ngIf="ui == 'numbers'">
+        <div>
+          <label>
+            <input (change)="updateNumber($event)" type="number" value="{{this.creationService.choosenNumber}}">
+            <span>Number</span>
+          </label>
+        </div>
+        <button (click)="randomPlaceNumbers()">Distribute numbers randomly</button>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card class="button-container">
+    <button id="back" class="nav-but" (click)="back()">
+      back
+    </button>
+  </mat-card>
+  <mat-card class="group-container" id="charts">
+    <app-bar-chart class="chart" id="numbers" [width]="100" [height]="100" [data]="placedNumbers" [labels]="numberLabels"></app-bar-chart>
+    <app-bar-chart class="chart" id="types" [width]="100" [height]="100" [data]="placedTypes" [labels]="typeLabels"></app-bar-chart>
+  </mat-card>
+  <mat-card class="group-container" id="preview">
+    <p>Click the desired position in the right representation to place</p>
+    <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes" [fullscreen]="false"></app-hex-svg>
+  </mat-card>
+  <mat-card id="publish-container" class="button-container">
+    <button id="publish" class="nav-but" (click)="publishGame()">
+      Publish game
+    </button>
+  </mat-card>
 </div>
 
 
