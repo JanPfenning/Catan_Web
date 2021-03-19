@@ -1,6 +1,48 @@
-input :read-only{
-  background-color: darkgray;
+.mat-card{
+  margin: 5%;
 }
-input[type='color']{
-  vertical-align: middle;
+input, .player .color{
+  height: 1.5rem;
+  justify-self: center;
+}
+.player .color, input[type='color']{
+  justify-self: flex-start;
+  padding: 1px 2px;
+  align-self: center;
+}
+#pass{
+  width: min-content;
+}
+#playerlist{
+  justify-self: center;
+  align-self: center;
+}
+.player{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
+.player p{
+  justify-self: flex-end;
+  margin: 0;
+}
+.player .color{
+  width: 2rem;
+}
+.title{
+  border-bottom: 1px solid gray;
+  text-align: center;
+  font-size: 1.5rem;
+}
+#gameinfo{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+button{
+  width: 100%;
+  font-weight: bold;
+}
+.label, .value{
+  font-weight: bold;
+  font-size: 1.2rem;
 }

@@ -1,20 +1,26 @@
-<!-- TODO visual refactor -->
-<div>Gameid: {{lobbyService.id}}</div>
-<div (mouseover)="showPass=true" (mouseout)="showPass=false">
-  <span *ngIf="!showPass">*****</span>
-  <span *ngIf="showPass">{{this.lobbyPass}}</span>
-</div><div>
-  <p>You</p>
-  <input (change)="onChangeName($event)" type="text" value="{{lobbyService.me.name}}">
-  <input (change)="onChangeColor($event)" type="color" value="{{lobbyService.me.color}}">
-</div>
-
-<div>
-  Playerlist
-  <div *ngFor="let p of this.lobbyService.player">
-    <input readonly type="text" value="{{p.name}}">
-    <input disabled type="color" value="{{p.color}}">
+<mat-card id="gameinfo">
+  <span class="label">Gameid:</span>
+  <span class="value">{{lobbyService.id}}</span>
+  <span class="label">Password:</span>
+  <span id="pass" (mouseover)="showPass=true" (mouseout)="showPass=false">
+    <span class="value" *ngIf="!showPass">&lowast;&lowast;&lowast;&lowast;&lowast;</span>
+    <span class="value" *ngIf="showPass">{{this.lobbyPass}}</span>
+  </span>
+</mat-card>
+<mat-card id="you">
+  <p class="title">You</p>
+  <div class="player">
+    <input (change)="onChangeName($event)" type="text" value="{{lobbyService.me.name}}">
+    <input (change)="onChangeColor($event)" type="color" value="{{lobbyService.me.color}}">
   </div>
-</div>
-
-<button (click)="startGame()">Start Game</button>
+</mat-card>
+<mat-card id="list">
+  <p class="title">Playerlist</p>
+  <div class="player" *ngFor="let p of this.lobbyService.player">
+    <p>{{p.name}}</p>
+    <div class="color" [style.background]="p.color"></div>
+  </div>
+</mat-card>
+<mat-card>
+  <button (click)="startGame()">Start Game</button>
+</mat-card>

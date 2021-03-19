@@ -67,6 +67,7 @@
   width: auto;
   justify-content: center;
   display: flex;
+  height: 2rem;
 }
 #dev_header{
   justify-self: center;
