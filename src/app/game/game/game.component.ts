@@ -29,6 +29,7 @@ import {YearOfPlentyDialogComponent} from '../dialog/year-of-plenty-dialog/year-
 import {HalfResourcesDialogComponent} from '../dialog/half-resources-dialog/half-resources-dialog.component';
 import {ChooseGoldDialogComponent} from '../dialog/choose-gold-dialog/choose-gold-dialog.component';
 import {MonopolyDialogComponent} from '../dialog/monopoly-dialog/monopoly-dialog.component';
+import {getHighContrast} from '../../translator';
 
 @Component({
   selector: 'app-game',
@@ -39,11 +40,14 @@ export class GameComponent implements OnInit {
 
   gameService: GameService;
   onHexClick = this.getHexPosition;
+  getHighContrast = getHighContrast;
   structureChoose: FormGroup;
   settlement = Structure.Settlement;
   city = Structure.City;
   road = Structure.Road;
   ship = Structure.Ship;
+  dev_detail = false;
+  hideMenus = false;
 
   barChartLabels: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   barChartData: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -671,14 +675,8 @@ export class GameComponent implements OnInit {
     });
   }
 
-  // TODO think of a way to use Roadbuilding developmentcard
   private useRoadbuilding(): void {
-    // TODO make a gamestate turn -> Roadbuilding1 -> Roadbuilding2 -> turn
-    const structure1 = new Edge(5, 2);
-    structure1.building = Structure.Ship;
-    const structure2 = new Edge(4, 3);
-    structure2.building = Structure.Road;
-    this.gameService.dev_road(structure1, structure2).subscribe();
+    this.gameService.dev_road().subscribe();
   }
 
   private useYOP(): void {

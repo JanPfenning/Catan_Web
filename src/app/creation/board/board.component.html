@@ -7,20 +7,26 @@
     <input id="width" type="number" (change)="updateWidth($event)"  value="{{this.creationService.boardWidth}}">
   </mat-card>
   <mat-card class="group-container" id="ui-selection">
-    <p>Select what you want to place:</p>
+    <p>Interface Selection</p>
     <form id="topology_selection" (change)="toggleUI()" [formGroup]="uiChoose">
-      <label for="radio_resources">
-        <span>Resources</span>
-      </label>
-      <input id="radio_resources" type="radio" value="resources" formControlName="ui">
-      <label for="radio_harbours">
-        <span>Harbours</span>
-      </label>
-      <input id="radio_harbours" type="radio" value="harbours" formControlName="ui">
-      <label for="radio_numbers">
-        <span>Numbers</span>
-      </label>
-      <input id="radio_numbers" type="radio" value="numbers" formControlName="ui">
+      <div>
+        <label for="radio_resources">
+          <span>Resources</span>
+        </label>
+        <input id="radio_resources" type="radio" value="resources" formControlName="ui">
+      </div>
+      <div>
+        <label for="radio_harbours">
+          <span>Harbours</span>
+        </label>
+        <input id="radio_harbours" type="radio" value="harbours" formControlName="ui">
+      </div>
+      <div>
+        <label for="radio_numbers">
+          <span>Numbers</span>
+        </label>
+        <input id="radio_numbers" type="radio" value="numbers" formControlName="ui">
+      </div>
     </form>
   </mat-card>
   <mat-card class="group-container" id="ui">
@@ -62,30 +68,42 @@
       </div>
       <div *ngIf="ui == 'harbours'">
         <form (change)="updateHarbour()" [formGroup]="harbourChoose">
-          <label>
-            <input type="radio" value="{{TTO}}" formControlName="harbourtype">
-            <span>3-1</span>
-          </label>
-          <label>
-            <input type="radio" value="{{brick_harbour}}" formControlName="harbourtype">
-            <span>Brick</span>
-          </label>
-          <label>
-            <input type="radio" value="{{lumber_harbour}}" formControlName="harbourtype">
-            <span>Lumber</span>
-          </label>
-          <label>
-            <input type="radio" value="{{wool_harbour}}" formControlName="harbourtype">
-            <span>Wool</span>
-          </label>
-          <label>
-            <input type="radio" value="{{grain_harbour}}" formControlName="harbourtype">
-            <span>Grain</span>
-          </label>
-          <label>
-            <input type="radio" value="{{ore_harbour}}" formControlName="harbourtype">
-            <span>Ore</span>
-          </label>
+          <div>
+            <label for="3-1">
+              <span>3-1</span>
+            </label>
+            <input id="3-1" type="radio" value="{{TTO}}" formControlName="harbourtype">
+          </div>
+          <div>
+            <label for="harb_brick">
+              <span>Brick</span>
+            </label>
+            <input id="harb_brick" type="radio" value="{{brick_harbour}}" formControlName="harbourtype">
+          </div>
+          <div>
+            <label for="harb_lumber">
+              <span>Lumber</span>
+            </label>
+            <input id="harb_lumber" type="radio" value="{{lumber_harbour}}" formControlName="harbourtype">
+          </div>
+          <div>
+            <label for="harb_wool">
+              <span>Wool</span>
+            </label>
+            <input id="harb_wool" type="radio" value="{{wool_harbour}}" formControlName="harbourtype">
+          </div>
+          <div>
+            <label for="harb_grain">
+              <span>Grain</span>
+            </label>
+            <input id="harb_grain" type="radio" value="{{grain_harbour}}" formControlName="harbourtype">
+          </div>
+          <div>
+            <label for="harb_ore">
+              <span>Ore</span>
+            </label>
+            <input id="harb_ore" type="radio" value="{{ore_harbour}}" formControlName="harbourtype">
+          </div>
         </form>
       </div>
       <div *ngIf="ui == 'numbers'">
@@ -109,7 +127,7 @@
     <app-bar-chart class="chart" id="types" [width]="100" [height]="100" [data]="placedTypes" [labels]="typeLabels"></app-bar-chart>
   </mat-card>
   <mat-card class="group-container" id="preview">
-    <p>Click the desired position in the right representation to place</p>
+    <p>Interactive Preview</p>
     <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [hex]="this.creationService.hexes" [fullscreen]="false"></app-hex-svg>
   </mat-card>
   <mat-card id="publish-container" class="button-container">

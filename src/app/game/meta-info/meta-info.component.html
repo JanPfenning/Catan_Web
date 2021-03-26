@@ -1,34 +1,3 @@
-Brick: [{{this.info.cur_res.brick}}/{{this.info.max_res.brick}}]
-Lumber: [{{this.info.cur_res.lumber}}/{{this.info.max_res.lumber}}]
-Wool: [{{this.info.cur_res.wool}}/{{this.info.max_res.wool}}]
-Grain: [{{this.info.cur_res.grain}}/{{this.info.max_res.grain}}]
-Ore: [{{this.info.cur_res.ore}}/{{this.info.max_res.ore}}]
-<span (mouseenter)="detail = true" (mouseleave)="detail = false">
-      Development Cards: [{{+this.info.cur_dev}}/{{(+this.info.max_dev.knight) +
-                                                    (+this.info.max_dev.victorypoint) +
-                                                    (+this.info.max_dev.monopoly) +
-                                                  (+this.info.max_dev.yop) +
-                                                 (+this.info.max_dev.roadbuilding)}}]
-</span>
-<div *ngIf="detail" style="position: absolute;">
-  <span>Knights: {{this.info.max_dev.knight}}</span>
-  <span>VictoryPoint: {{this.info.max_dev.victorypoint}}</span>
-  <span>Monopoly: {{this.info.max_dev.monopoly}}</span>
-  <span>YearOfPlenty: {{this.info.max_dev.yop}}</span>
-  <span>Roadbuilding: {{this.info.max_dev.roadbuilding}}</span>
-</div>
 
-<div *ngFor="let p of this.info.players">
-  <span (mouseenter)="p.detail = true" (mouseleave)="p.detail = false" [style.backgroundColor]="p.colour" [style.color]="getHighContrast(p.colour)">{{p.name}}: {{p.points}}</span>
-  <div *ngIf="p.detail" class="overlay">
-    <p>Structures left to use</p>
-    <p>Settlements: {{p.structures_left.settlement}}</p>
-    <p>Cities: {{p.structures_left.city}}</p>
-    <p>Roads: {{p.structures_left.road}}</p>
-    <p>Ships: {{p.structures_left.ship}}</p>
-    <p>Resources: {{p.resourceAmount}}</p>
-    <p>Development Cards: {{p.devAmount}}</p>
-    <p>Current Road: {{p.ownRoad}}</p>
-    <p>Current Army: {{p.ownArmy}}</p>
-  </div>
-</div>
+
+

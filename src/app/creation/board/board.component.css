@@ -15,43 +15,45 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
-  #size{
-    grid-area: size;
-  }
-  #ui-selection{
-    grid-area: ui-selection;
-  }
-  #ui{
-    grid-area: ui;
-  }
-  #preview{
-    grid-area: preview;
-  }
-
-  #charts{
-    grid-area: charts;
-  }
-  #back{
-    grid-area: back;
-  }
-  #publish{
-    grid-area: publish;
-  }
 }
 
 /* only on big screen */
 @media screen and (min-width: 600px) {
   #grid-container {
     grid-template-areas:
-    "left right";
-    gap: 1rem;
+      "size preview"
+      "ui-selection preview"
+      "ui preview"
+      "charts preview"
+      "back publish";
+    gap: 0 1rem;
+    margin: 0 1rem 0 1rem;
   }
-  #size, #ui-selection, #ui, #back{
-    grid-area: left;
-  }
-  #preview, #charts{
-    grid-area: right;
-  }
+}
+.group-container, .button-container{
+  margin-top: 1rem;
+}
+#size{
+  grid-area: size;
+}
+#ui-selection{
+  grid-area: ui-selection;
+}
+#ui{
+  grid-area: ui;
+}
+#preview{
+  grid-area: preview;
+}
+
+#charts{
+  grid-area: charts;
+}
+#back{
+  grid-area: back;
+}
+#publish{
+  grid-area: publish;
 }
 
 #size{
@@ -74,8 +76,10 @@
   max-height: 100%;
   overflow: scroll;
 }
+
 input{
   height: 1.5rem;
+  align-self: center;
 }
 .nav-but {
   width: 100%;
@@ -86,4 +90,8 @@ input{
 label{
   align-self: center;
   font-size: 1rem;
+}
+form div{
+  align-content: center;
+  display: flex;
 }

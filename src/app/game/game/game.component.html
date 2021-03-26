@@ -1,190 +1,256 @@
-<!-- TODO visual refactor -->
-<!-- Actual board -->
-<div id="table">
-  <ng-template [ngIf]="this.gameService.board">
-    <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [fullscreen]="true"
-                 [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"
-                 [harbours]="this.gameService.board.harbours" [edges]="this.gameService.board.edges"></app-hex-svg>
-  </ng-template>
-</div>
-<!-- Status / Instruction bar -->
-<p *ngIf="this.gameService.gameObject.state !== 1">It's {{this.gameService.gameObject.whos_turn.name}}'s turn</p>
-<p *ngIf="this.gameService.gameObject.state === 1">Determine Turn Order</p>
-<p *ngIf="this.gameService.gameObject.state === 2">Roll the dice</p>
-<p *ngIf="this.gameService.gameObject.state === 3">Do your Turn</p>
-<p *ngIf="this.gameService.gameObject.state === 4">Wait for people to accept trade, choose from possible partners</p>
-<p *ngIf="this.gameService.gameObject.state === 5">Place your first Settlement and street or ship</p>
-<p *ngIf="this.gameService.gameObject.state === 6">Place your second Settlement and street or ship</p>
-<p *ngIf="this.gameService.gameObject.state === 7 &&
+<div id="game">
+  <!-- TODO visual refactor -->
+  <div *ngIf="!hideMenus" id="menus">
+    <div id="top-menu">
+      <!-- Bank and Player Overview -->
+      <div>
+        <ng-template [ngIf]="this.gameService.gameObject">
+          <div id="bank_info">
+            Brick: [{{gameService.gameObject.cur_res.brick}}/{{gameService.gameObject.max_res.brick}}]
+            Lumber: [{{gameService.gameObject.cur_res.lumber}}/{{gameService.gameObject.max_res.lumber}}]
+            Wool: [{{gameService.gameObject.cur_res.wool}}/{{gameService.gameObject.max_res.wool}}]
+            Grain: [{{gameService.gameObject.cur_res.grain}}/{{gameService.gameObject.max_res.grain}}]
+            Ore: [{{gameService.gameObject.cur_res.ore}}/{{gameService.gameObject.max_res.ore}}]
+            <span id="bank_dev_cards_info" (mouseenter)="dev_detail = true" (mouseleave)="dev_detail = false">
+              Development Cards: [{{+gameService.gameObject.cur_dev}}/{{(+gameService.gameObject.max_dev.knight) +
+              (+gameService.gameObject.max_dev.victorypoint) +
+              (+gameService.gameObject.max_dev.monopoly) +
+              (+gameService.gameObject.max_dev.yop) +
+              (+gameService.gameObject.max_dev.roadbuilding)}}]
+            </span>
+            <div *ngIf="dev_detail" style="position: absolute;">
+              <span>Knights: {{gameService.gameObject.max_dev.knight}}</span>
+              <span>VictoryPoint: {{gameService.gameObject.max_dev.victorypoint}}</span>
+              <span>Monopoly: {{gameService.gameObject.max_dev.monopoly}}</span>
+              <span>YearOfPlenty: {{gameService.gameObject.max_dev.yop}}</span>
+              <span>Roadbuilding: {{gameService.gameObject.max_dev.roadbuilding}}</span>
+            </div>
+          </div>
+          <div id="player_infos">
+            <div *ngFor="let p of gameService.gameObject.players">
+              <span id="player_short" (mouseenter)="p.detail = true" (mouseleave)="p.detail = false" [style.backgroundColor]="p.colour" [style.color]="getHighContrast(p.colour)">{{p.name}}: {{p.points}}</span>
+              <div *ngIf="p.detail" class="overlay">
+                <p>Structures left to use</p>
+                <p>Settlements: {{p.structures_left.settlement}}</p>
+                <p>Cities: {{p.structures_left.city}}</p>
+                <p>Roads: {{p.structures_left.road}}</p>
+                <p>Ships: {{p.structures_left.ship}}</p>
+                <p>Resources: {{p.resourceAmount}}</p>
+                <p>Development Cards: {{p.devAmount}}</p>
+                <p>Current Road: {{p.ownRoad}}</p>
+                <p>Current Army: {{p.ownArmy}}</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div id="right-menu">
+      <!-- Status / Instruction bar -->
+      <p *ngIf="this.gameService.gameObject.state !== 1">It's {{this.gameService.gameObject.whos_turn.name}}'s turn</p>
+      <p *ngIf="this.gameService.gameObject.state === 1">Determine Turn Order</p>
+      <p *ngIf="this.gameService.gameObject.state === 2">Roll the dice</p>
+      <p *ngIf="this.gameService.gameObject.state === 3">Do your Turn</p>
+      <p *ngIf="this.gameService.gameObject.state === 4">Wait for people to accept trade, choose from possible partners</p>
+      <p *ngIf="this.gameService.gameObject.state === 5">Place your first Settlement and street or ship</p>
+      <p *ngIf="this.gameService.gameObject.state === 6">Place your second Settlement and street or ship</p>
+      <p *ngIf="this.gameService.gameObject.state === 7 &&
          this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) !== -1">Give up half of your resoruces</p>
-<p *ngIf="this.gameService.gameObject.state === 7 &&
+      <p *ngIf="this.gameService.gameObject.state === 7 &&
          this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) === -1">Wait for all players to half resources</p>
-<p *ngIf="this.gameService.gameObject.state === 8">Select a new place for the knight or knights-ship</p>
-<p *ngIf="this.gameService.gameObject.state === 9">Choose a victim to steal a resource from</p>
-<p *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
+      <p *ngIf="this.gameService.gameObject.state === 8">Select a new place for the knight or knights-ship</p>
+      <p *ngIf="this.gameService.gameObject.state === 9">Choose a victim to steal a resource from</p>
+      <p *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
          this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) !== -1">Select your gold resources</p>
-<p *ngIf="this.gameService.gameObject.state === 10 &&
+      <p *ngIf="this.gameService.gameObject.state === 10 &&
          this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) === -1">Wait for all players to select theire gold resources</p>
-
-<app-bar-chart [height]="100" [width]="100" [data]="this.barChartData" [labels]="this.barChartLabels"></app-bar-chart>
-<!-- Bank and Player Overview -->
-<div>
-  <ng-template [ngIf]="this.gameService.gameObject">
-    <app-meta-info [info]="this.gameService.gameObject"></app-meta-info>
-  </ng-template>
-</div>
-<button *ngIf="this.gameService.gameObject.state === 1"
-        (click)="this.gameService.determineOrder().subscribe()">
-  Determine Order
-</button>
-<!-- Me -->
-<div>
-  <ng-template [ngIf]="this.gameService.playerObject">
-    <app-own-cards [player]="this.gameService.playerObject"></app-own-cards>
-  </ng-template>
-</div>
-<!-- Interaction Menu -->
-<!-- Building -->
-<div *ngIf="this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
-  <form *ngIf="(this.gameService.gameObject.state === 5 ||
+      <p *ngIf="this.gameService.gameObject.state === 13">Place first free ship / street</p>
+      <p *ngIf="this.gameService.gameObject.state === 14">Place second free ship / street</p>
+      <!-- Building -->
+      <div *ngIf="this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
+        <form *ngIf="(this.gameService.gameObject.state === 5 ||
               this.gameService.gameObject.state === 6 ||
-              this.gameService.gameObject.state === 3)"
-        (change)="updateStructure()" [formGroup]="structureChoose">
-    <label>
-      <input type="radio" value="{{settlement}}" formControlName="structure">
-      <span>Settlement</span>
-    </label>
-    <label>
-      <input type="radio" value="{{city}}" formControlName="structure">
-      <span>City</span>
-    </label>
-    <label>
-      <input type="radio" value="{{road}}" formControlName="structure">
-      <span>Road</span>
-    </label>
-    <label>
-      <input type="radio" value="{{ship}}" formControlName="structure">
-      <span>Ship</span>
-    </label>
-  </form>
-  <button *ngIf="this.gameService.gameObject.state === 3" (click)="buyDev()">Buy Dev</button>
-</div>
-<div *ngIf="(this.gameService.gameObject.state === 3 ||
+              this.gameService.gameObject.state === 3 ||
+              this.gameService.gameObject.state === 13 ||
+              this.gameService.gameObject.state === 14)"
+              (change)="updateStructure()" [formGroup]="structureChoose">
+          <div *ngIf="!(this.gameService.gameObject.state === 13 ||
+                      this.gameService.gameObject.state === 14)">
+            <label for="build_settle">
+              <span>Settlement</span>
+            </label>
+            <input id="build_settle" type="radio" value="{{settlement}}" formControlName="structure">
+          </div>
+          <div *ngIf="!(this.gameService.gameObject.state === 13 ||
+                      this.gameService.gameObject.state === 14)">
+            <label for="build_city">
+              <span>City</span>
+            </label>
+            <input id="build_city" type="radio" value="{{city}}" formControlName="structure">
+          </div>
+          <div>
+            <label for="build_road">
+              <span>Road</span>
+            </label>
+            <input id="build_road" type="radio" value="{{road}}" formControlName="structure">
+          </div>
+          <div>
+            <label for="build_ship">
+              <span>Ship</span>
+            </label>
+            <input id="build_ship" type="radio" value="{{ship}}" formControlName="structure">
+          </div>
+        </form>
+        <button *ngIf="this.gameService.gameObject.state === 3" (click)="buyDev()">Buy Dev</button>
+      </div>
+      <div *ngIf="(this.gameService.gameObject.state === 3 ||
              this.gameService.gameObject.state === 5 ||
+             this.gameService.gameObject.state === 13 ||
+             this.gameService.gameObject.state === 14 ||
              this.gameService.gameObject.state === 6) &&
             (this.gameService.vert_blueprint || this.gameService.edge_blueprint)">
-  <button (click)="this.submitBuilding()">Submit Blueprint</button>
-  <button (click)="this.cancelBuilding()">Cancel Building</button>
-</div>
-<!-- choose knight victim -->
-<div *ngIf="this.gameService.gameObject.state === 9 &&
+        <button (click)="this.submitBuilding()">Submit Blueprint</button>
+        <button (click)="this.cancelBuilding()">Cancel Building</button>
+      </div>
+      <!-- Trading -->
+      <div id="submit_request" *ngIf="this.gameService.gameObject.state === 3 &&
             this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
-  <div *ngFor="let pid of this.gameService.gameObject.possible_victims">
-    <p (click)="this.gameService.chooseVictim(pid).subscribe()">{{username(pid)}} (Cards: {{cards(pid)}})</p>
-  </div>
-</div>
-<!-- Trading -->
-<div *ngIf="this.gameService.gameObject.state === 3 &&
+        <button (click)="this.submitTradeRequest()">Submit Trade Request</button>
+      </div>
+      <div id="trade_issuer_view" *ngIf="this.gameService.gameObject.state === 4">
+        <div id="possible_partners" *ngIf="this.gameService.gameObject.tradeOffer.issuer === this.gameService.playerObject.meta.PID">
+          <div>
+            <span>Possible Trading Partners (click to choose): </span>
+            <p (click)="executeTrade(partner)" *ngFor="let partner of this.gameService.gameObject.tradeOffer.possiblePartners">{{PIDtoName(partner)}}</p>
+          </div>
+          <div id="trade_offer_details">
+            <p *ngIf="+this.gameService.gameObject.tradeOffer.brick !== 0">
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.brick < 0">Give: </span>
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.brick > 0">Receive: </span>
+              <span>{{abs(gameService.gameObject.tradeOffer.brick)}} Brick</span>
+            </p>
+            <p *ngIf="+this.gameService.gameObject.tradeOffer.lumber !== 0">
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber < 0">Give: </span>
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber > 0">Receive: </span>
+              <span>{{abs(gameService.gameObject.tradeOffer.lumber)}} Lumber</span>
+            </p>
+            <p *ngIf="+this.gameService.gameObject.tradeOffer.wool !== 0">
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.wool < 0">Give: </span>
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.wool > 0">Receive: </span>
+              <span>{{abs(gameService.gameObject.tradeOffer.wool)}} Wool</span>
+            </p>
+            <p *ngIf="+this.gameService.gameObject.tradeOffer.grain !== 0">
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.grain < 0">Give: </span>
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.grain > 0">Receive: </span>
+              <span>{{abs(gameService.gameObject.tradeOffer.grain)}} Grain</span>
+            </p>
+            <p *ngIf="+this.gameService.gameObject.tradeOffer.ore !== 0">
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.ore < 0">Give: </span>
+              <span *ngIf="+this.gameService.gameObject.tradeOffer.ore > 0">Receive: </span>
+              <span>{{abs(gameService.gameObject.tradeOffer.ore)}} Ore</span>
+            </p>
+          </div>
+          <button (click)="cancelTrade()">Cancel</button>
+        </div>
+        <div id="trade_partner_view" *ngIf="this.gameService.gameObject.tradeOffer.issuer !== this.gameService.playerObject.meta.PID">
+          <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) === -1" (click)="this.acceptTradeRequest()">Accept Trade Request</button>
+          <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) !== -1" (click)="this.cancelAcceptTrade()">Unaccept Trade Request</button>
+          <p *ngIf="+this.gameService.gameObject.tradeOffer.brick !== 0">
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.brick < 0">Receive: </span>
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.brick > 0">Give: </span>
+            <span>{{abs(gameService.gameObject.tradeOffer.brick)}} Brick</span>
+          </p>
+          <p *ngIf="+this.gameService.gameObject.tradeOffer.lumber !== 0">
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber < 0">Receive: </span>
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber > 0">Give: </span>
+            <span>{{abs(gameService.gameObject.tradeOffer.lumber)}} Lumber</span>
+          </p>
+          <p *ngIf="+this.gameService.gameObject.tradeOffer.wool !== 0">
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.wool < 0">Receive: </span>
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.wool > 0">Give: </span>
+            <span>{{abs(gameService.gameObject.tradeOffer.wool)}} Wool</span>
+          </p>
+          <p *ngIf="+this.gameService.gameObject.tradeOffer.grain !== 0">
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.grain < 0">Receive: </span>
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.grain > 0">Give: </span>
+            <span>{{abs(gameService.gameObject.tradeOffer.grain)}} Grain</span>
+          </p>
+          <p *ngIf="+this.gameService.gameObject.tradeOffer.ore !== 0">
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.ore < 0">Receive: </span>
+            <span *ngIf="+this.gameService.gameObject.tradeOffer.ore > 0">Give: </span>
+            <span>{{abs(gameService.gameObject.tradeOffer.ore)}} Ore</span>
+          </p>
+        </div>
+      </div>
+      <!-- choose knight victim -->
+      <div id="knight_victim" *ngIf="this.gameService.gameObject.state === 9 &&
             this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID">
-  <button (click)="this.submitTradeRequest()">Submit Trade Request</button>
-</div>
-<div *ngIf="this.gameService.gameObject.state === 4">
-  <div *ngIf="this.gameService.gameObject.tradeOffer.issuer === this.gameService.playerObject.meta.PID">
-    <div>
-      <span>Possible Trading Partners (click to choose): </span>
-      <p (click)="executeTrade(partner)" *ngFor="let partner of this.gameService.gameObject.tradeOffer.possiblePartners">{{PIDtoName(partner)}}</p>
+        <div *ngFor="let pid of this.gameService.gameObject.possible_victims">
+          <p (click)="this.gameService.chooseVictim(pid).subscribe()">{{username(pid)}} (Cards: {{cards(pid)}})</p>
+        </div>
+      </div>
+      <!-- Charts -->
+      <app-bar-chart [height]="100" [width]="100" [data]="this.barChartData" [labels]="this.barChartLabels"></app-bar-chart>
     </div>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.brick !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.brick < 0">Give: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.brick > 0">Receive: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.brick)}} Brick</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.lumber !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber < 0">Give: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber > 0">Receive: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.lumber)}} Lumber</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.wool !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.wool < 0">Give: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.wool > 0">Receive: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.wool)}} Wool</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.grain !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.grain < 0">Give: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.grain > 0">Receive: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.grain)}} Grain</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.ore !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.ore < 0">Give: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.ore > 0">Receive: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.ore)}} Ore</span>
-    </p>
-    <button (click)="cancelTrade()">Cancel</button>
-  </div>
-  <div *ngIf="this.gameService.gameObject.tradeOffer.issuer !== this.gameService.playerObject.meta.PID">
-    <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) === -1" (click)="this.acceptTradeRequest()">Accept Trade Request</button>
-    <button *ngIf="this.gameService.gameObject.tradeOffer.possiblePartners.indexOf(this.gameService.playerObject.meta.PID) !== -1" (click)="this.cancelAcceptTrade()">Unaccept Trade Request</button>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.brick !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.brick < 0">Receive: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.brick > 0">Give: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.brick)}} Brick</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.lumber !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber < 0">Receive: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.lumber > 0">Give: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.lumber)}} Lumber</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.wool !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.wool < 0">Receive: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.wool > 0">Give: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.wool)}} Wool</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.grain !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.grain < 0">Receive: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.grain > 0">Give: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.grain)}} Grain</span>
-    </p>
-    <p *ngIf="+this.gameService.gameObject.tradeOffer.ore !== 0">
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.ore < 0">Receive: </span>
-      <span *ngIf="+this.gameService.gameObject.tradeOffer.ore > 0">Give: </span>
-      <span>{{abs(gameService.gameObject.tradeOffer.ore)}} Ore</span>
-    </p>
-  </div>
-</div>
-<!-- Development Cards -->
-<div>
-  <div *ngFor="let card of this.gameService.playerObject.development_cards">
-    <p (click)="useDev(card)" [style.background-color]="card.used ? 'red' : this.gameService.gameObject.turn < card.bought + 1 ? 'yellow' : 'green' ">{{name(card.type)}}</p>
-  </div>
-</div>
-<!-- Turn -->
-<div>
-  <button *ngIf="this.gameService.gameObject.state === 2 &&
+    <div id="bot-menu">
+      <!-- Me -->
+      <div>
+        <ng-template [ngIf]="this.gameService.playerObject">
+          <app-own-cards [player]="this.gameService.playerObject"></app-own-cards>
+        </ng-template>
+      </div>
+      <!-- Development Cards -->
+      <div id="my_devcards">
+        <div class="dev_card" *ngFor="let card of this.gameService.playerObject.development_cards">
+          <p class="clickable" (click)="useDev(card)" [style.background-color]="card.used ? 'red' : this.gameService.gameObject.turn < card.bought + 1 ? 'yellow' : 'green' ">{{name(card.type)}}</p>
+        </div>
+      </div>
+      <!-- Turn -->
+      <div>
+        <button *ngIf="this.gameService.gameObject.state === 1"
+                (click)="this.gameService.determineOrder().subscribe()">
+          Determine Order
+        </button>
+        <button *ngIf="this.gameService.gameObject.state === 2 &&
                  this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID"
-          (click)="this.gameService.dice().subscribe()">
-    Roll Dice
-  </button>
-  <button *ngIf="(this.gameService.gameObject.state === 3 ||
+                (click)="this.gameService.dice().subscribe()">
+          Roll Dice
+        </button>
+        <button *ngIf="(this.gameService.gameObject.state === 3 ||
                   this.gameService.gameObject.state === 5 ||
                   this.gameService.gameObject.state === 6 ) &&
                   this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID"
-          (click)="this.nextTurn()">
-    Next Turn
-  </button>
-  <button *ngIf="this.gameService.gameObject.state === 8 &&
+                (click)="this.nextTurn()">
+          Next Turn
+        </button>
+        <button *ngIf="this.gameService.gameObject.state === 8 &&
                  this.gameService.gameObject.whos_turn.PID === this.gameService.playerObject.meta.PID &&
                  this.gameService.knight_blueprint !== null"
-          (click)="this.submitKnight()">
-    Submit Knight
-  </button>
-  <button *ngIf="this.gameService.gameObject.state === 7 &&
+                (click)="this.submitKnight()">
+          Submit Knight
+        </button>
+        <button *ngIf="this.gameService.gameObject.state === 7 &&
                  this.gameService.gameObject.taxEvaders.indexOf(this.gameService.playerObject.meta.PID) !== -1"
-          (click)="this.dumpResources()">
-    Choose resources to dump
-  </button>
-  <button *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
+                (click)="this.dumpResources()">
+          Choose resources to dump
+        </button>
+        <button *ngIf="(this.gameService.gameObject.state === 10 || this.gameService.gameObject.state === 12) &&
                  this.gameService.gameObject.goldReceive.indexOf(this.gameService.playerObject.meta.PID) !== -1"
-          (click)="this.chooseGold()">
-    Choose resources for your gold
-  </button>
+                (click)="this.chooseGold()">
+          Choose resources for your gold
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <button id="toggle_menu" (click)="hideMenus = !hideMenus">Toggle Menu</button>
+  <!-- Actual board -->
+  <div id="table_div">
+    <ng-template [ngIf]="this.gameService.board">
+      <app-hex-svg [onHexClickFun]="onHexClick" (click)="interact($event)" [fullscreen]="true"
+                   [hex]="this.gameService.board.hexes" [vertices]="this.gameService.board.vertices"
+                   [harbours]="this.gameService.board.harbours" [edges]="this.gameService.board.edges"></app-hex-svg>
+    </ng-template>
+  </div>
 </div>
+

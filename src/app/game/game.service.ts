@@ -177,8 +177,8 @@ export class GameService {
     return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/buy_dev`, null);
   }
 
-  dev_road(structure1: Edge, structure2: Edge): Observable<any>{
-    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_road`, {structure1, structure2});
+  dev_road(): Observable<any>{
+    return this.httpClient.post<any>(`${environment.NEST_HOST}/play/${this.GID}/dev_road`, null);
   }
 
   dev_yop(resource1: Resource, resource2: Resource): Observable<any>{

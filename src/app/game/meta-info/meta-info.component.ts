@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {getHighContrast} from '../../translator';
 import {Meta} from '../../../model/Player';
 
 @Component({
@@ -12,7 +11,6 @@ export class MetaInfoComponent implements OnInit {
   @Input()
   info;
 
-  getHighContrast = getHighContrast;
   detail: boolean;
 
   constructor() { }
